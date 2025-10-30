@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="overflow-x-clip" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
@@ -14,13 +14,15 @@
             background-color: oklch(0.145 0 0);
         }
     </style>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     <title>Preact + Laravel</title>
     @vite('resources/js/app.jsx')
 </head>
 
-<body>
-    <div id="app"></div>
+<body class="overflow-x-clip">
+    <div id="app" class="min-h-screen"></div>
 </body>
 
 </html>

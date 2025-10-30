@@ -33,25 +33,14 @@ const buttonVariants = cva(
 );
 
 type ButtonProps = JSX.IntrinsicElements["button"] &
-    VariantProps<typeof buttonVariants> & {
-        asChild?: boolean;
-    };
+    VariantProps<typeof buttonVariants>;
 
 /**
- * Preact version of the ShadCN-style Button component.
- * `asChild` allows you to render an anchor or another element instead of `<button>`.
+ * Simplified Preact Button (no asChild).
  */
-const Button = ({
-    class: className,
-    variant,
-    size,
-    asChild = false,
-    ...props
-}: ButtonProps) => {
-    const Comp = (asChild ? "a" : "button") as keyof JSX.IntrinsicElements;
-
+const Button = ({ class: className, variant, size, ...props }: ButtonProps) => {
     return (
-        <Comp
+        <button
             data-slot="button"
             class={cn(buttonVariants({ variant, size, className }))}
             {...props}

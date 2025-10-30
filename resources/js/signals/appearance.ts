@@ -4,7 +4,7 @@ export const appearance = signal(
     localStorage.getItem("appearance") || "system",
 );
 
-const prefersDark = () =>
+export const prefersDark = () =>
     window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 const applyTheme = (mode: string) => {
