@@ -18,7 +18,7 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     <title>Preact + Laravel</title>
-    @vite('resources/js/app.jsx')
+    @vite('resources/js/app.tsx')
 </head>
 
 <body class="overflow-x-clip">
