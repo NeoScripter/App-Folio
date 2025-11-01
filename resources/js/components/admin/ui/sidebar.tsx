@@ -33,7 +33,7 @@ function Sidebar({ children }: { children: ComponentChildren }) {
         >
             <aside
                 class={cn(
-                    'bg-sidebar inset-y-0 top-[56px] left-0 flex h-full w-full max-w-72 flex-col p-2 transition-transform md:fixed md:max-w-62',
+                    'bg-sidebar inset-y-0 top-[56px] left-0 flex [min-height:calc(100svh-56px)] w-full max-w-72 flex-col p-2 transition-transform md:fixed md:max-w-62',
                     {
                         '-translate-x-full ease-in duration-300': !showSidebar.value,
                         'translate-x-0 ease-out duration-500': showSidebar.value,
