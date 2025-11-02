@@ -9,11 +9,16 @@ const updateSidebar = (e: MediaQueryListEvent | MediaQueryList) => {
 };
 
 effect(() => {
-    if (showSidebar.value) {
-        document.documentElement.style.overflowY = 'clip';
-    } else {
-        document.documentElement.style.overflowY = 'auto';
-    }
+    document.documentElement.style.overflowY = showSidebar.value ? 'clip' : 'auto';
+});
+
+effect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+        if (e.key !== 'Escape' || window.innerWidth > 768) return;
+
+        showSidebar.value = false;
+    };
+    window.addEventListener('keydown', handleKeyPress);
 });
 
 updateSidebar(mq);
