@@ -1,18 +1,36 @@
 import Sidebar from '@/components/admin/ui/sidebar';
 import { Toaster } from '@/components/shared/ui/sonner';
+import { MD } from '@/lib/constants/breakpoints';
+import { expand, hide, isHidden, isMini, minify } from '@/signals/sidebar-state';
+import { PanelLeftIcon } from 'lucide-preact';
 import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
 
-const AdminLayout: FC<{ children: ComponentChildren }> = ({ children }) => {
+const AdminLayout: FC<{ children: ComponentChildren; title: string }> = ({ children, title }) => {
+    const handleHeaderClick = () => {
+        if (window.innerWidth >= MD) {
+            isMini.value ? expand() : minify();
+        } else {
+            isHidden.value ? expand() : hide();
+        }
+    };
     return (
-        <main class="text-sidebar-foreground h-full bg-sidebar [min-height:calc(100svh-56px)] text-sm md:flex md:items-start md:p-2">
+        <main class="text-sidebar-foreground bg-sidebar h-full [min-height:calc(100svh-56px)] text-sm md:flex md:items-start md:p-2">
             <Sidebar>
                 <Sidebar.Header />
                 <Sidebar.Nav />
                 <Sidebar.Footer />
             </Sidebar>
 
-            <div class="bg-background h-2000 border-muted w-full border shadow-sm md:rounded-lg">{children}</div>
+            <div class="bg-background border-muted w-full border shadow-sm md:rounded-lg">
+                <header class={'border-muted flex items-center gap-3 border-b px-4 py-4'}>
+                    <button onClick={handleHeaderClick} class="hover:bg-accent rounded-sm p-1.5 transition-colors duration-200">
+                        <PanelLeftIcon class="size-4" />
+                    </button>
+                    <span>{title}</span>
+                </header>
+                {children}
+            </div>
             <Toaster position="top-center" />
         </main>
     );

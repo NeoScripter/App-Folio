@@ -9,7 +9,7 @@ const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name
         <div
             id={id}
             class={cn(
-                'bg-background border-muted divide-muted absolute bottom-13 left-0 z-10 w-full origin-bottom-right divide-y-1 border shadow-sm transition-[opacity,scale] md:rounded-lg',
+                'bg-background border-muted divide-muted absolute bottom-13 left-0 z-10 [width:max(100%,14rem)] origin-bottom-right divide-y-1 border shadow-sm transition-[opacity,scale] md:rounded-lg',
                 {
                     'pointer-events-none scale-90 opacity-0': !show,
                     'scale-100': show,
@@ -25,8 +25,8 @@ const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name
                     </div>
                 </li>
 
-                <SidebarLink url="/settings" icon={Settings} label="Settings" />
-                <SidebarLink url="/dashboard" icon={LogOut} label="Log out" />
+                <SidebarLink url="/settings" icon={Settings} label="Settings" collapses={false} />
+                <SidebarLink url="/dashboard" icon={LogOut} label="Log out" collapses={false} />
             </ul>
         </div>
     );
