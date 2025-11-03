@@ -31,15 +31,6 @@ function App() {
 
     return (
         <LocationProvider>
-            <nav class="p-4 bg-sidebar text-sidebar-foreground flex gap-4">
-                <a href="/">Home</a>
-                <a href="/about">About</a>
-                <a href="/login">Login</a>
-                <a href="/dashboard">Dashboard</a>
-                <a href="/settings/appearance">Theme</a>
-                <a href="/settings/profile">Profile</a>
-            </nav>
-
             <ErrorBoundary>
                 <Router>
                     <Route path="/" component={Home} />

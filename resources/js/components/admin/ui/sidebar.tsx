@@ -24,15 +24,15 @@ function Sidebar({ children }: { children: ComponentChildren }) {
         <div
             id={id}
             onClick={handleClick}
-            class={cn('md:bg-sidebar fixed inset-0 top-[56px] z-20 bg-black/75 transition-all md:static md:w-full md:shrink-0 md:self-stretch', {
+            class={cn('md:bg-sidebar fixed inset-0 z-20 bg-black/75 transition-all md:static md:w-full md:shrink-0 md:self-stretch', {
                 'pointer-events-none bg-transparent': isHidden.value,
                 'transition-colors md:max-w-62': isWide.value,
-                'md:max-w-16': isMini.value,
+                'md:max-w-14': isMini.value,
             })}
         >
             <aside
                 class={cn(
-                    'bg-sidebar inset-y-0 top-[56px] left-0 flex [min-height:calc(100svh-56px)] w-full max-w-72 flex-col px-3 py-2 transition-all md:fixed md:max-w-62',
+                    'bg-sidebar inset-y-0 left-0 flex min-h-full w-full max-w-72 flex-col px-3 py-2 transition-all md:fixed md:max-w-62',
                     {
                         '-translate-x-full': isHidden.value,
                         'translate-x-0 md:max-w-62': isWide.value,
@@ -51,8 +51,8 @@ export default Sidebar;
 const SidebarHeader = () => {
     return (
         <header
-            class={cn('flex items-center gap-4', {
-                'm-2': !isMini.value,
+            class={cn('flex items-center', {
+                'm-2 gap-4': !isMini.value,
                 'mx-auto my-2': isMini.value,
             })}
         >

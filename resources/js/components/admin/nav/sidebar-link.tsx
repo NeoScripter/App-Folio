@@ -21,11 +21,11 @@ const SidebarLink: FC<{ icon: LucideIcon; label: string; url: string; className?
                 onClick={onClick}
                 href={url}
                 class={cn(
-                    'active:bg-sidebar-accent hover:bg-sidebar-accent ease my-0.5 flex items-center gap-2 rounded-sm transition-colors duration-200',
+                    'active:bg-sidebar-accent hover:bg-sidebar-accent ease my-0.5 flex items-center rounded-sm transition-colors duration-200',
                     active && 'bg-sidebar-accent',
                     {
                         'mx-auto w-fit items-center justify-center p-2': isMini.value && collapses,
-                        'mx-1 px-3 py-2': !isMini.value || !collapses,
+                        'mx-1 px-3 py-2 gap-2': !isMini.value || !collapses,
                     },
                     className,
                 )}

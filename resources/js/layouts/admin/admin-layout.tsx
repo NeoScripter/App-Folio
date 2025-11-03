@@ -15,7 +15,7 @@ const AdminLayout: FC<{ children: ComponentChildren; title: string }> = ({ child
         }
     };
     return (
-        <main class="text-sidebar-foreground bg-sidebar h-full [min-height:calc(100svh-56px)] text-sm md:flex md:items-start md:p-2">
+        <main class="text-sidebar-foreground bg-sidebar h-full [min-height:100svh] text-sm md:flex md:items-start md:p-2">
             <Sidebar>
                 <Sidebar.Header />
                 <Sidebar.Nav />
