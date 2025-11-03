@@ -32,7 +32,11 @@ const updateSidebar = (e: MediaQueryListEvent | MediaQueryList) => {
 };
 
 effect(() => {
-    document.documentElement.style.overflowY = isHidden.value ? 'clip' : 'auto';
+    document.documentElement.style.overflowY = isHidden.value ? 'auto' : 'clip';
+
+    return () => {
+        document.documentElement.style.overflowY = 'auto';
+    };
 });
 
 effect(() => {

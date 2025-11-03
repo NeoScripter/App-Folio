@@ -59,7 +59,14 @@ const SidebarHeader = () => {
             <div class={cn('bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-sm')}>
                 <AppLogo />
             </div>
-            {!isMini.value && <div class="ease font-medium whitespace-nowrap transition-[max-width] duration-500">Laravel Starter Kit</div>}
+            <div
+                class={cn(
+                    'ease overflow-x-clip font-medium whitespace-nowrap transition-[max-width] duration-300',
+                    !isMini.value ? 'max-w-64' : 'max-w-0',
+                )}
+            >
+                Admin Panel
+            </div>
         </header>
     );
 };

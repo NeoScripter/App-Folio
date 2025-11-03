@@ -31,7 +31,14 @@ const SidebarLink: FC<{ icon: LucideIcon; label: string; url: string; className?
                 )}
             >
                 <Icon class="size-4 shrink-0" />
-                {(!isMini.value || !collapses) && <span>{label}</span>}
+                <span
+                    class={cn(
+                        'ease overflow-x-clip whitespace-nowrap transition-[max-width] duration-300',
+                        !isMini.value || !collapses ? 'max-w-64' : 'max-w-0',
+                    )}
+                >
+                    {label}
+                </span>
             </a>
         </li>
     );
