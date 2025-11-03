@@ -152,7 +152,11 @@
 
 @layer base {
     * {
-        @apply border-border;
+        @apply border-border transition-colors duration-300 ease-in-out;
+    }
+
+    html {
+        @apply transition-colors duration-1300 ease-in-out;
     }
 
     body {

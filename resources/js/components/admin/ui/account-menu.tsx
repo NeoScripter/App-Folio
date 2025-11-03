@@ -3,6 +3,7 @@ import { cn } from '@/utils/cn';
 import { LogOut, Settings } from 'lucide-preact';
 import { FC } from 'preact/compat';
 import Monogram from './monogram';
+import { hide } from '@/signals/sidebar-state';
 
 const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name, show }) => {
     return (
@@ -25,7 +26,7 @@ const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name
                     </div>
                 </li>
 
-                <SidebarLink url="/settings" icon={Settings} label="Settings" collapses={false} />
+                <SidebarLink onClick={hide} url="/settings/profile" icon={Settings} label="Settings" collapses={false} />
                 <SidebarLink url="/dashboard" icon={LogOut} label="Log out" collapses={false} />
             </ul>
         </div>

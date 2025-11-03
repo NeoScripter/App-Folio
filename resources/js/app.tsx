@@ -14,6 +14,9 @@ const About = lazy(() => import("./pages/user/about"));
 const Login = lazy(() => import("./pages/auth/login"));
 const Home = lazy(() => import("./pages/user/home"));
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
+const Appearance = lazy(() => import("./pages/admin/appearance"));
+const Profile = lazy(() => import("./pages/admin/profile"));
+const Password = lazy(() => import("./pages/admin/password"));
 const NotFound = lazy(() => import("./pages/shared/404"));
 
 function App() {
@@ -33,6 +36,8 @@ function App() {
                 <a href="/about">About</a>
                 <a href="/login">Login</a>
                 <a href="/dashboard">Dashboard</a>
+                <a href="/settings/appearance">Theme</a>
+                <a href="/settings/profile">Profile</a>
             </nav>
 
             <ErrorBoundary>
@@ -41,6 +46,9 @@ function App() {
                     <Route path="/about" component={About} />
                     <Route path="/login" component={Login} />
                     <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/settings/appearance" component={Appearance} />
+                    <Route path="/settings/profile" component={Profile} />
+                    <Route path="/settings/password" component={Password} />
                     <Route path="*" component={NotFound} />
                 </Router>
             </ErrorBoundary>

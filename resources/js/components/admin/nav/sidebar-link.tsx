@@ -1,15 +1,16 @@
-import { isMini, isWide } from '@/signals/sidebar-state';
+import { isMini } from '@/signals/sidebar-state';
 import { cn } from '@/utils/cn';
 import { LucideIcon } from 'lucide-preact';
 import { useLocation } from 'preact-iso/router';
 import { FC } from 'preact/compat';
 
-const SidebarLink: FC<{ icon: LucideIcon; label: string; url: string; className?: string; collapses?: boolean }> = ({
+const SidebarLink: FC<{ icon: LucideIcon; label: string; url: string; className?: string; collapses?: boolean; onClick?: () => void }> = ({
     icon: Icon,
     label,
     url,
     className,
     collapses = true,
+    onClick,
 }) => {
     const { path } = useLocation();
     // const active = path.startsWith(url);
@@ -17,6 +18,7 @@ const SidebarLink: FC<{ icon: LucideIcon; label: string; url: string; className?
     return (
         <li>
             <a
+                onClick={onClick}
                 href={url}
                 class={cn(
                     'active:bg-sidebar-accent hover:bg-sidebar-accent ease my-0.5 flex items-center gap-2 rounded-sm transition-colors duration-200',
