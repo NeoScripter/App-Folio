@@ -14,6 +14,7 @@ interface FetchOptions {
 interface State {
     data: any;
     loading: boolean;
+    resentlySuccessful: boolean;
     errors: ValidationErrors | null;
 }
 
@@ -21,11 +22,13 @@ type Action =
     | { type: 'FETCH_START' }
     | { type: 'FETCH_SUCCESS'; payload: any }
     | { type: 'FETCH_ERROR'; payload: ValidationErrors | null }
+    | { type: 'RESET_SUCCESS' }
     | { type: 'RESET' };
 
 const initialState: State = {
     data: null,
     loading: false,
+    resentlySuccessful: false,
     errors: null,
 };
 
@@ -34,9 +37,16 @@ function reducer(state: State, action: Action): State {
         case 'FETCH_START':
             return { ...state, loading: true, errors: null };
         case 'FETCH_SUCCESS':
-            return { ...state, loading: false, data: action.payload };
+            return {
+                ...state,
+                loading: false,
+                resentlySuccessful: true,
+                data: action.payload,
+            };
         case 'FETCH_ERROR':
             return { ...state, loading: false, errors: action.payload };
+        case 'RESET_SUCCESS':
+            return { ...state, resentlySuccessful: false };
         case 'RESET':
             return initialState;
         default:
@@ -89,6 +99,7 @@ export function useFetch() {
 
             dispatch({ type: 'FETCH_SUCCESS', payload: data });
             onSuccess?.(data);
+            setTimeout(() => dispatch({ type: 'RESET_SUCCESS' }), 2000);
         } catch (err) {
             console.error(err);
             dispatch({ type: 'FETCH_ERROR', payload: null });

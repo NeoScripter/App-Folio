@@ -39,7 +39,7 @@ function reducer(state: State, action: Action): State {
 export default function Profile({ status }: { status?: string }) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { fetchData, loading, errors } = useFetch();
+    const { fetchData, resentlySuccessful, loading, errors } = useFetch();
 
     async function submit(e: JSX.TargetedEvent<HTMLFormElement, Event>) {
         e.preventDefault();
@@ -120,7 +120,7 @@ export default function Profile({ status }: { status?: string }) {
                         <div className="flex items-center gap-4">
                             <Button disabled={loading}>Save</Button>
 
-                            {false && (
+                            {resentlySuccessful && (
                                 <p className="text-sm text-neutral-600">
                                     Saved
                                 </p>

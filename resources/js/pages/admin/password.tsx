@@ -3,6 +3,7 @@ import { Button } from '@/components/auth/form/button';
 import Input from '@/components/auth/form/input';
 import InputError from '@/components/auth/form/input-error';
 import Label from '@/components/auth/form/label';
+import PasswordInput from '@/components/auth/form/password-input';
 import { useFetch } from '@/hooks/use-fetch';
 import AdminLayout from '@/layouts/admin/admin-layout';
 import SettingsLayout from '@/layouts/admin/settings-layout';
@@ -46,7 +47,7 @@ function reducer(state: State, action: Action): State {
 export default function Password() {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const { fetchData, loading, errors, reset } = useFetch();
+    const { fetchData, loading, resentlySuccessful, errors, reset } = useFetch();
 
     const updatePassword = async (
         e: JSX.TargetedEvent<HTMLFormElement, Event>,
@@ -83,7 +84,7 @@ export default function Password() {
                                 Current password
                             </Label>
 
-                            <Input
+                            <PasswordInput
                                 id="current_password"
                                 value={state.current_password}
                                 onInput={(e) =>
@@ -92,7 +93,6 @@ export default function Password() {
                                         payload: e.currentTarget.value,
                                     })
                                 }
-                                type="password"
                                 class="mt-1 block w-full"
                                 autoComplete="current-password"
                                 placeholder="Current password"
@@ -106,7 +106,7 @@ export default function Password() {
                         <div className="grid gap-2">
                             <Label htmlFor="password">New password</Label>
 
-                            <Input
+                            <PasswordInput
                                 id="password"
                                 type="password"
                                 value={state.password}
@@ -126,7 +126,7 @@ export default function Password() {
                             <Label htmlFor="password_confirmation">
                                 Confirm password
                             </Label>
-                            <Input
+                            <PasswordInput
                                 id="password_confirmation"
                                 type="password"
                                 value={state.password_confirmation}
@@ -147,7 +147,7 @@ export default function Password() {
                         <div className="flex items-center gap-4">
                             <Button disabled={loading}>Save password</Button>
 
-                            {!loading && (
+                            {resentlySuccessful && (
                                 <p className="text-sm text-neutral-600">
                                     Saved
                                 </p>
