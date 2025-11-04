@@ -17,20 +17,13 @@ class AuthController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        try {
-            $request->authenticate();
-            $request->session()->regenerate();
+        $request->authenticate();
+        $request->session()->regenerate();
 
-            return response()->json([
-                'message' => 'Logged in successfully',
-                'user' => $request->user(),
-            ], 200);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'message' => 'Invalid credentials',
-                'errors' => $e->errors(),
-            ], 422);
-        }
+        return response()->json([
+            'message' => 'Logged in successfully',
+            'user' => $request->user(),
+        ], 200);
     }
 
     /**
