@@ -1,21 +1,37 @@
-import { Button } from "@/components/auth/form/button";
-import Checkbox from "@/components/auth/form/checkbox";
-import Input from "@/components/auth/form/input";
-import InputError from "@/components/auth/form/input-error";
-import Label from "@/components/auth/form/label";
-import TextLink from "@/components/auth/form/text-link";
-import AuthLayout from "@/layouts/auth/auth-layout";
-import { LoaderCircle } from "lucide-preact";
-import { JSX } from "preact/jsx-runtime";
+import { initCsrf } from '@/api/auth';
+import { Button } from '@/components/auth/form/button';
+import Checkbox from '@/components/auth/form/checkbox';
+import Input from '@/components/auth/form/input';
+import InputError from '@/components/auth/form/input-error';
+import Label from '@/components/auth/form/label';
+import { useFetch } from '@/hooks/use-fetch';
+import AuthLayout from '@/layouts/auth/auth-layout';
+import { LoaderCircle } from 'lucide-preact';
+import { useLocation } from 'preact-iso';
+import { useState } from 'preact/hooks';
+import { JSX } from 'preact/jsx-runtime';
 
 const Login = () => {
-    let processing = false;
-    const submit = (e: JSX.TargetedEvent<HTMLFormElement, Event>) => {
+    const { route } = useLocation();
+    const [email, setEmail] = useState('test@example.com');
+    const [password, setPassword] = useState('password');
+    const [remember, setRemember] = useState(false);
+
+    const { fetchData, loading, errors } = useFetch();
+
+    async function submit(e: JSX.TargetedEvent<HTMLFormElement, Event>) {
         e.preventDefault();
-        // post(route("login"), {
-        //     onFinish: () => reset("password"),
-        // });
-    };
+
+        // await initCsrf();
+
+        await fetchData({
+            url: '/login',
+            method: 'POST',
+            payload: { email, password, remember },
+            onSuccess: () => route('/dashboard'),
+            onError: () => alert('Login failed'),
+        });
+    }
 
     return (
         <AuthLayout
@@ -25,6 +41,7 @@ const Login = () => {
             <form class="flex flex-col gap-6" onSubmit={submit}>
                 <div class="grid gap-6">
                     {/* Email */}
+
                     <div class="grid gap-2">
                         <Label htmlFor="email">Email address</Label>
                         <Input
@@ -34,24 +51,20 @@ const Login = () => {
                             autoFocus
                             tabIndex={1}
                             autoComplete="email"
-                            value={""}
-                            onInput={(e) => {}}
+                            value={email}
+                            onInput={(e) =>
+                                setEmail((e.target as HTMLInputElement).value)
+                            }
                             placeholder="email@example.com"
                         />
-                        <InputError message={""} />
+                        <InputError message={errors?.email[0] || ''} />
                     </div>
 
                     {/* Password */}
+
                     <div class="grid gap-2">
                         <div class="flex items-center">
                             <Label htmlFor="password">Password</Label>
-                            <TextLink
-                                href="/login"
-                                class="ml-auto text-sm"
-                                tabIndex={5}
-                            >
-                                Forgot password?
-                            </TextLink>
                         </div>
                         <Input
                             id="password"
@@ -59,11 +72,15 @@ const Login = () => {
                             required
                             tabIndex={2}
                             autoComplete="current-password"
-                            value={""}
-                            onInput={(e) => {}}
+                            value={password}
+                            onInput={(e) =>
+                                setPassword(
+                                    (e.target as HTMLInputElement).value,
+                                )
+                            }
                             placeholder="Password"
                         />
-                        <InputError message={""} />
+                        <InputError message={errors?.password[0] || ''} />
                     </div>
 
                     {/* Remember me */}
@@ -71,8 +88,8 @@ const Login = () => {
                         <Checkbox
                             id="remember"
                             name="remember"
-                            checked={true}
-                            onClick={() => {}}
+                            checked={remember}
+                            onClick={() => setRemember(!remember)}
                             tabIndex={3}
                         />
                         <Label htmlFor="remember">Remember me</Label>
@@ -83,9 +100,9 @@ const Login = () => {
                         type="submit"
                         class="mt-4 w-full"
                         tabIndex={4}
-                        disabled={processing}
+                        disabled={loading}
                     >
-                        {processing && (
+                        {loading && (
                             <LoaderCircle class="h-4 w-4 animate-spin" />
                         )}
                         Log in

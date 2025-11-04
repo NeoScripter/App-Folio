@@ -13,6 +13,7 @@ export default function Home() {
     return (
         <main class="text-blue-500">
             <h1>{msg}</h1>
+            <a href="/dashboard">Admin</a>
         </main>
     );
 }

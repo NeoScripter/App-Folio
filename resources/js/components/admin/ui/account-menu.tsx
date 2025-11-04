@@ -1,11 +1,19 @@
 import SidebarLink from '@/components/admin/nav/sidebar-link';
+import { hide } from '@/signals/sidebar-state';
 import { cn } from '@/utils/cn';
 import { LogOut, Settings } from 'lucide-preact';
 import { FC } from 'preact/compat';
 import Monogram from './monogram';
-import { hide } from '@/signals/sidebar-state';
+import { useLogout } from '@/hooks/use-logout';
 
 const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name, show }) => {
+    const { logout } = useLogout();
+
+    const handleLogOut = async (e: Event) => {
+        e.preventDefault();
+        logout();
+    };
+
     return (
         <div
             id={id}
@@ -27,7 +35,7 @@ const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name
                 </li>
 
                 <SidebarLink onClick={hide} url="/settings/profile" icon={Settings} label="Settings" collapses={false} />
-                <SidebarLink url="/dashboard" icon={LogOut} label="Log out" collapses={false} />
+                <SidebarLink onClick={handleLogOut} url="/logout" icon={LogOut} label="Log out" collapses={false} />
             </ul>
         </div>
     );
