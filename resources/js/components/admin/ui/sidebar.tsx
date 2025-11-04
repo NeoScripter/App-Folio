@@ -2,6 +2,7 @@ import SidebarLink from '@/components/admin/nav/sidebar-link';
 import AppLogo from '@/components/admin/ui/app-logo';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
+import { currentUser } from '@/signals/auth';
 import { hide, isHidden, isMini, isWide } from '@/signals/sidebar-state';
 import { cn } from '@/utils/cn';
 import { ChevronsUpDown, LayoutGrid } from 'lucide-preact';
@@ -24,11 +25,14 @@ function Sidebar({ children }: { children: ComponentChildren }) {
         <div
             id={id}
             onClick={handleClick}
-            class={cn('md:bg-sidebar fixed inset-0 z-20 bg-black/75 transition-all md:static md:w-full md:shrink-0 md:self-stretch', {
-                'pointer-events-none bg-transparent': isHidden.value,
-                'transition-colors md:max-w-62': isWide.value,
-                'md:max-w-14': isMini.value,
-            })}
+            class={cn(
+                'md:bg-sidebar fixed inset-0 z-20 bg-black/75 transition-all md:static md:w-full md:shrink-0 md:self-stretch',
+                {
+                    'pointer-events-none bg-transparent': isHidden.value,
+                    'transition-colors md:max-w-62': isWide.value,
+                    'md:max-w-14': isMini.value,
+                },
+            )}
         >
             <aside
                 class={cn(
@@ -56,7 +60,11 @@ const SidebarHeader = () => {
                 'mx-auto my-2': isMini.value,
             })}
         >
-            <div class={cn('bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-sm')}>
+            <div
+                class={cn(
+                    'bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-sm',
+                )}
+            >
                 <AppLogo />
             </div>
             <div
@@ -74,10 +82,18 @@ const SidebarHeader = () => {
 const SidebarNav = () => {
     return (
         <div>
-            {!isMini.value && <div class="text-sidebar-foreground/70 mx-2 pt-4 pb-1.5 text-xs">Platform</div>}
+            {!isMini.value && (
+                <div class="text-sidebar-foreground/70 mx-2 pt-4 pb-1.5 text-xs">
+                    Platform
+                </div>
+            )}
 
             <ul class="text-sidebar-accent-foreground/70">
-                <SidebarLink url="/dashboard" icon={LayoutGrid} label="Dashboard" />
+                <SidebarLink
+                    url="/dashboard"
+                    icon={LayoutGrid}
+                    label="Dashboard"
+                />
                 <SidebarLink url="/dashboard" icon={LayoutGrid} label="Home" />
             </ul>
         </div>
@@ -98,7 +114,11 @@ const SidebarFooter = () => {
 
     return (
         <footer class="relative mt-auto mb-2">
-            <AccountMenu id={menuId} name="Ilya" show={show} />
+            <AccountMenu
+                id={menuId}
+                name={currentUser.value?.name || ''}
+                show={show}
+            />
 
             <button
                 id={btnId}
@@ -111,11 +131,11 @@ const SidebarFooter = () => {
                     },
                 )}
             >
-                <Monogram firstName="Ilya" />
+                <Monogram firstName={currentUser.value?.name || ''} />
 
                 {isWide.value && (
                     <>
-                        <span>Ilya</span>
+                        <span>{currentUser.value?.name || ''}</span>
                         <ChevronsUpDown class="ml-auto size-4" />
                     </>
                 )}
