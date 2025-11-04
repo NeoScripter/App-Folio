@@ -5,14 +5,13 @@ export function useAuth() {
     const { fetchData, loading, errors } = useFetch();
 
     async function loadUser() {
-        if (currentUser.value) return;
-
         await fetchData({
             url: '/user',
             method: 'GET',
             onSuccess: (userData) => {
                 currentUser.value = userData;
             },
+            onError: () => (currentUser.value = null),
         });
     }
 

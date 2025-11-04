@@ -5,6 +5,7 @@ import { LogOut, Settings } from 'lucide-preact';
 import { FC } from 'preact/compat';
 import Monogram from './monogram';
 import { useLogout } from '@/hooks/use-logout';
+import { currentUser } from '@/signals/auth';
 
 const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name, show }) => {
     const { logout } = useLogout();
@@ -30,7 +31,7 @@ const AccountMenu: FC<{ id: string; name: string; show: boolean }> = ({ id, name
                     <Monogram firstName={name} />
                     <div>
                         <div class="text-sm font-bold">{name}</div>
-                        <div class="text-muted-foreground text-xs">example@gmail.com</div>
+                        <div class="text-muted-foreground text-xs">{currentUser.value?.email}</div>
                     </div>
                 </li>
 

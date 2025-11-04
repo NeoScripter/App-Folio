@@ -22,7 +22,7 @@ export default function ProtectedRoute({
         })();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading && !currentUser.value) return <div>Loading...</div>;
 
     return currentUser.value ? <>{children}</> : null;
 }

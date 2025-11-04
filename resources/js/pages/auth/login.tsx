@@ -1,4 +1,3 @@
-import { initCsrf } from '@/api/auth';
 import { Button } from '@/components/auth/form/button';
 import Checkbox from '@/components/auth/form/checkbox';
 import Input from '@/components/auth/form/input';
@@ -8,28 +7,56 @@ import { useFetch } from '@/hooks/use-fetch';
 import AuthLayout from '@/layouts/auth/auth-layout';
 import { LoaderCircle } from 'lucide-preact';
 import { useLocation } from 'preact-iso';
-import { useState } from 'preact/hooks';
+import { useReducer } from 'preact/hooks';
 import { JSX } from 'preact/jsx-runtime';
+import { toast } from 'sonner';
+
+interface State {
+    email: string;
+    password: string;
+    remember: boolean;
+}
+
+type Action =
+    | { type: 'SET_PASSWORD'; payload: string }
+    | { type: 'SET_EMAIL'; payload: string }
+    | { type: 'TOGGLE_REMEMBER' };
+
+const initialState: State = {
+    email: 'test@gmail.com',
+    password: 'password',
+    remember: false,
+};
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case 'SET_EMAIL':
+            return { ...state, email: action.payload };
+        case 'SET_PASSWORD':
+            return { ...state, password: action.payload };
+        case 'TOGGLE_REMEMBER':
+            return { ...state, remember: !state.remember };
+        default:
+            throw new Error('Unexpected action type');
+    }
+}
 
 const Login = () => {
     const { route } = useLocation();
-    const [email, setEmail] = useState('test@example.com');
-    const [password, setPassword] = useState('password');
-    const [remember, setRemember] = useState(false);
+
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     const { fetchData, loading, errors } = useFetch();
 
     async function submit(e: JSX.TargetedEvent<HTMLFormElement, Event>) {
         e.preventDefault();
 
-        // await initCsrf();
-
         await fetchData({
             url: '/login',
             method: 'POST',
-            payload: { email, password, remember },
+            payload: state,
             onSuccess: () => route('/dashboard'),
-            onError: () => alert('Login failed'),
+            onError: () => toast.error('Login failed'),
         });
     }
 
@@ -51,13 +78,17 @@ const Login = () => {
                             autoFocus
                             tabIndex={1}
                             autoComplete="email"
-                            value={email}
+                            value={state.email}
                             onInput={(e) =>
-                                setEmail((e.target as HTMLInputElement).value)
+                                dispatch({
+                                    type: 'SET_EMAIL',
+                                    payload: (e.target as HTMLInputElement)
+                                        .value,
+                                })
                             }
                             placeholder="email@example.com"
                         />
-                        <InputError message={errors?.email[0] || ''} />
+                        <InputError message={errors?.email?.[0] || ''} />
                     </div>
 
                     {/* Password */}
@@ -72,15 +103,17 @@ const Login = () => {
                             required
                             tabIndex={2}
                             autoComplete="current-password"
-                            value={password}
+                            value={state.password}
                             onInput={(e) =>
-                                setPassword(
-                                    (e.target as HTMLInputElement).value,
-                                )
+                                dispatch({
+                                    type: 'SET_PASSWORD',
+                                    payload: (e.target as HTMLInputElement)
+                                        .value,
+                                })
                             }
                             placeholder="Password"
                         />
-                        <InputError message={errors?.password[0] || ''} />
+                        <InputError message={errors?.password?.[0] || ''} />
                     </div>
 
                     {/* Remember me */}
@@ -88,8 +121,10 @@ const Login = () => {
                         <Checkbox
                             id="remember"
                             name="remember"
-                            checked={remember}
-                            onClick={() => setRemember(!remember)}
+                            checked={state.remember}
+                            onClick={() =>
+                                dispatch({ type: 'TOGGLE_REMEMBER' })
+                            }
                             tabIndex={3}
                         />
                         <Label htmlFor="remember">Remember me</Label>
