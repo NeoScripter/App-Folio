@@ -136,3 +136,19 @@
         @apply cursor-pointer;
     }
 }
+
+.burger {
+    transform-origin: center;
+}
+
+.burger-open {
+    transition:
+        translate 250ms ease-in,
+        rotate 300ms ease-in 150ms;
+}
+
+.burger-close {
+    transition:
+        translate 250ms ease-in 150ms,
+        rotate 300ms ease-in;
+}

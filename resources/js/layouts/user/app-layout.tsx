@@ -1,3 +1,4 @@
+import BurgerMenu from '@/components/user/ui/burger-menu';
 import LogoRus from '@/components/user/ui/logo-rus';
 import { cn } from '@/utils/cn';
 import { ComponentChildren } from 'preact';
@@ -13,6 +14,10 @@ const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
                 <div class="w-36">
                     <LogoRus />
                 </div>
+
+                <BurgerMenu />
+
+                <span class="absolute bottom-0 inset-x-5 h-0.5 bg-gray-300/50"></span>
             </header>
 
             {children}
