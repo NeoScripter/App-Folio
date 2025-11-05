@@ -3,6 +3,7 @@ import Checkbox from '@/components/auth/form/checkbox';
 import Input from '@/components/auth/form/input';
 import InputError from '@/components/auth/form/input-error';
 import Label from '@/components/auth/form/label';
+import PasswordInput from '@/components/auth/form/password-input';
 import { useFetch } from '@/hooks/use-fetch';
 import AuthLayout from '@/layouts/auth/auth-layout';
 import { LoaderCircle } from 'lucide-preact';
@@ -97,9 +98,8 @@ const Login = () => {
                         <div class="flex items-center">
                             <Label htmlFor="password">Password</Label>
                         </div>
-                        <Input
+                        <PasswordInput
                             id="password"
-                            type="password"
                             required
                             tabIndex={2}
                             autoComplete="current-password"

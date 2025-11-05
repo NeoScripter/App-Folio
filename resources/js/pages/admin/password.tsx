@@ -108,7 +108,6 @@ export default function Password() {
 
                             <PasswordInput
                                 id="password"
-                                type="password"
                                 value={state.password}
                                 onInput={(e) =>
                                     dispatch({
@@ -128,7 +127,6 @@ export default function Password() {
                             </Label>
                             <PasswordInput
                                 id="password_confirmation"
-                                type="password"
                                 value={state.password_confirmation}
                                 onInput={(e) =>
                                     dispatch({
