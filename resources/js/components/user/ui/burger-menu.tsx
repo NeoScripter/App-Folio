@@ -1,15 +1,23 @@
 import { cn } from '@/utils/cn';
-import { FC, useState } from 'preact/compat';
+import { FC } from 'preact/compat';
 
-const BurgerMenu: FC<{ className?: string }> = ({ className }) => {
-    const [show, setShow] = useState(false);
-
-    const toggleMenu = () => {
-        setShow((p) => !p);
-    };
-
+const BurgerMenu: FC<{
+    className?: string;
+    onClick: () => void;
+    show: boolean;
+}> = ({ className, onClick, show }) => {
     return (
-        <button onClick={toggleMenu} class={cn('', className)}>
+        <button
+            onClick={onClick}
+            class={cn(
+                '',
+                {
+                    'text-black': show,
+                    'text-white': !show,
+                },
+                className,
+            )}
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="36"
@@ -28,8 +36,8 @@ const BurgerMenu: FC<{ className?: string }> = ({ className }) => {
                     class={cn(
                         'burger',
                         show
-                            ? 'rotate-45 burger-open'
-                            : '-translate-y-[9px] burger-close',
+                            ? 'burger-open rotate-45'
+                            : 'burger-close -translate-y-[9px]',
                     )}
                     d="M0 18h36"
                 />
@@ -45,7 +53,7 @@ const BurgerMenu: FC<{ className?: string }> = ({ className }) => {
                         'burger',
                         show
                             ? 'burger-open -rotate-45'
-                            : 'translate-y-[9px] burger-close',
+                            : 'burger-close translate-y-[9px]',
                     )}
                     d="M0 18h36"
                 />

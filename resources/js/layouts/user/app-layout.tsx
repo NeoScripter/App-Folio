@@ -1,3 +1,4 @@
+import AppHeader from '@/components/user/ui/app-header';
 import BurgerMenu from '@/components/user/ui/burger-menu';
 import LogoRus from '@/components/user/ui/logo-rus';
 import { cn } from '@/utils/cn';
@@ -10,15 +11,8 @@ const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
 }) => {
     return (
         <main class={cn('md:px-4 md:pt-4 xl:px-24', className)}>
-            <header class="fixed inset-x-0 top-0 z-10 flex items-center justify-between px-7 py-8 text-white backdrop-blur-md">
-                <div class="w-36">
-                    <LogoRus />
-                </div>
 
-                <BurgerMenu />
-
-                <span class="absolute bottom-0 inset-x-5 h-0.5 bg-gray-300/50"></span>
-            </header>
+            <AppHeader />
 
             {children}
         </main>
