@@ -30,7 +30,7 @@ export default function HeroBackground({
         <div
             aria-hidden="true"
             className={cn(
-                'pointer-events-none absolute inset-0 z-5 overflow-clip select-none',
+                'pointer-events-none absolute inset-0 -z-5 overflow-clip select-none',
                 className,
             )}
         >

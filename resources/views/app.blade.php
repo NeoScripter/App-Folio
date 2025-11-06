@@ -59,6 +59,7 @@
 
 <body class="overflow-x-clip">
     <div id="app" class="min-h-screen"></div>
+    <div id="portals"></div>
 </body>
 
 </html>

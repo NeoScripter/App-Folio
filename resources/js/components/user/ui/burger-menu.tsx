@@ -10,18 +10,18 @@ const BurgerMenu: FC<{
         <button
             onClick={onClick}
             class={cn(
-                '',
+                'transition-transform duration-300 size-9 ease-in',
                 {
-                    'text-black': show,
-                    'text-white': !show,
+                    'text-gray-400 scale-50 sm:-translate-y-3 sm:translate-x-8': show,
+                    'text-white scale-100': !show,
                 },
                 className,
             )}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="36"
-                height="36"
+                width="100%"
+                height="100%"
                 viewBox="0 0 36 36"
                 fill="none"
                 stroke="currentColor"

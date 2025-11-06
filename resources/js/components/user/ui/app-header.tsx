@@ -1,5 +1,6 @@
+import Bg from '@/assets/images/shared/menu-bg.webp';
 import { cn } from '@/utils/cn';
-import { FC, useState } from 'preact/compat';
+import { createPortal, FC, useState } from 'preact/compat';
 import BurgerMenu from './burger-menu';
 import LogoRus from './logo-rus';
 
@@ -23,19 +24,39 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
 
             <BurgerMenu show={showMenu} onClick={toggleMenu} className="z-5" />
 
-            <nav class={cn("fixed top-0 right-0 z-0 h-150 w-80 max-w-full bg-white transition-transform duration-300 ease-in", !showMenu && "translate-x-full")}>
+            {createPortal(
+                <div
+                    aria-hidden="true"
+                    class={cn(
+                        'size-screen fixed inset-0 backdrop-blur-sm transition-opacity duration-300 ease-in-out',
+                        {
+                            'opacity-100': showMenu,
+                            'pointer-events-none opacity-0': !showMenu,
+                        },
+                    )}
+                />,
+                document.getElementById('portals')!,
+            )}
+
+            <div
+                class={cn(
+                    'bg-background rounded-bl-[2rem] fixed top-0 right-0 z-0 h-150 w-80 max-w-full overflow-y-auto bg-cover bg-top-left bg-no-repeat px-8 py-7 transition-transform duration-300 ease-in',
+                    !showMenu && 'translate-x-full',
+                )}
+                style={{ backgroundImage: `url(${Bg})` }}
+            >
                 <header>
                     <div>
-                        <div class="w-36 text-black">
-                            <LogoRus />
+                        <div class="text-foreground mt-3 mb-8 w-36">
+                            <LogoRus className="w-32" />
                         </div>
                     </div>
                     <span
                         aria-hidden="true"
-                        class="h-0.5 w-4/5 bg-gray-300/50"
+                        class="bg-muted-foreground/40 -mx-3 block h-0.5"
                     ></span>
                 </header>
-            </nav>
+            </div>
 
             <span
                 aria-hidden="true"
