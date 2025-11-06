@@ -1,6 +1,6 @@
-import Bg from '@/assets/images/shared/menu-bg.webp';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useState } from 'preact/compat';
+import NavDrawer from '../nav/nav-drawer';
 import BurgerMenu from './burger-menu';
 import LogoRus from './logo-rus';
 
@@ -22,48 +22,47 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                 <LogoRus />
             </div>
 
-            <BurgerMenu show={showMenu} onClick={toggleMenu} className="z-5" />
+            <Overlay show={showMenu} />
 
-            {createPortal(
-                <div
-                    aria-hidden="true"
-                    class={cn(
-                        'size-screen fixed inset-0 backdrop-blur-sm transition-opacity duration-300 ease-in-out',
-                        {
-                            'opacity-100': showMenu,
-                            'pointer-events-none opacity-0': !showMenu,
-                        },
-                    )}
-                />,
-                document.getElementById('portals')!,
-            )}
+            <BurgerMenu
+                show={showMenu}
+                onClick={toggleMenu}
+                className="z-5"
+                aria-label={showMenu ? 'Закрыть меню' : 'Открыть меню'}
+                aria-expanded={showMenu}
+                aria-controls="nav-drawer"
+            />
 
-            <div
-                class={cn(
-                    'bg-background rounded-bl-[2rem] fixed top-0 right-0 z-0 h-150 w-80 max-w-full overflow-y-auto bg-cover bg-top-left bg-no-repeat px-8 py-7 transition-transform duration-300 ease-in',
-                    !showMenu && 'translate-x-full',
-                )}
-                style={{ backgroundImage: `url(${Bg})` }}
-            >
-                <header>
-                    <div>
-                        <div class="text-foreground mt-3 mb-8 w-36">
-                            <LogoRus className="w-32" />
-                        </div>
-                    </div>
-                    <span
-                        aria-hidden="true"
-                        class="bg-muted-foreground/40 -mx-3 block h-0.5"
-                    ></span>
-                </header>
-            </div>
+            <NavDrawer show={showMenu} />
 
-            <span
-                aria-hidden="true"
-                class="absolute inset-x-5 bottom-0 -z-5 h-0.5 bg-gray-300/50"
-            ></span>
+            <Separator />
         </header>
     );
 };
 
 export default AppHeader;
+
+const Overlay: FC<{ show: boolean }> = ({ show }) => {
+    return createPortal(
+        <div
+            aria-hidden="true"
+            class={cn(
+                'size-screen fixed inset-0 backdrop-blur-sm transition-opacity duration-300 ease-in-out',
+                {
+                    'opacity-100': show,
+                    'pointer-events-none opacity-0': !show,
+                },
+            )}
+        />,
+        document.getElementById('portals')!,
+    );
+};
+
+const Separator = () => {
+    return (
+        <span
+            aria-hidden="true"
+            class="absolute inset-x-5 bottom-0 -z-5 h-0.5 bg-gray-300/50"
+        ></span>
+    );
+};
