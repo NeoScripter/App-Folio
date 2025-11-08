@@ -9,11 +9,13 @@ const BurgerMenu: FC<{
     return (
         <button
             onClick={onClick}
+            id="burger-menu"
             class={cn(
-                'transition-transform duration-300 size-9 ease-in',
+                'size-9 transition-transform duration-300 ease-in',
                 {
-                    'text-gray-400 scale-50 sm:-translate-y-3 sm:translate-x-8': show,
-                    'text-white scale-100': !show,
+                    'scale-50 text-gray-400 sm:translate-x-8 sm:-translate-y-3':
+                        show,
+                    'scale-100 text-white': !show,
                 },
                 className,
             )}

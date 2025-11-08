@@ -48,12 +48,12 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
     );
 };
 
-const Nav = () => {
+export const Nav = () => {
     return (
         <nav class="text-foreground" aria-label="Основная навигация">
-            <ul class="my-17 space-y-13">
+            <ul class="my-17 space-y-13 md:my-0 md:flex md:items-center md:gap-8 md:space-y-0 md:text-white lg:gap-11">
                 {navLinks.map((navLink, idx) => (
-                    <NavLink key={navLink.id} link={navLink} />
+                    <NavLink key={navLink.id} active={idx === 0} link={navLink} />
                 ))}
             </ul>
         </nav>

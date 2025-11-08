@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 
-export const useClickOutside = (selectors: string[]) => {
-    const [show, setShow] = useState(false);
+export const useClickOutside = (selectors: string[], initialState = false) => {
+    const [show, setShow] = useState(initialState);
 
     useEffect(() => {
         const onClick = (e: MouseEvent) => {

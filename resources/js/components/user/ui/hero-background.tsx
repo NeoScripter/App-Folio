@@ -37,7 +37,7 @@ export default function HeroBackground({
             {/* Main high-quality images */}
             <picture
                 className={cn(
-                    'block size-full w-full object-cover object-bottom-right transition-all duration-500 ease-in-out',
+                    'block size-full object-cover object-bottom-right transition-all duration-500 ease-in-out',
                     isLoading && 'opacity-0',
                 )}
             >

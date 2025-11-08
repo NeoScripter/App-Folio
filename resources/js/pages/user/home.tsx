@@ -10,9 +10,9 @@ import TabletBg from '@/assets/images/home/hero-tablet.webp';
 export default function Home() {
     return (
         <AppLayout>
-            <section class="relative isolate min-h-210 sm:min-h-291 md:min-h-212">
+            <section class="relative isolate min-h-210 overflow-clip rounded-xl sm:min-h-291 md:min-h-212">
                 <HeroBackground
-                    className='bg-home-hero-bg'
+                    className="bg-home-hero-bg"
                     desktopImg={DesktopBg}
                     tinyDesktopImg={TinyTabletBg}
                     tabletImg={TabletBg}
@@ -20,6 +20,12 @@ export default function Home() {
                     mobileImg={MobileBg}
                     tinyMobileImg={TinyMobileBg}
                 />
+
+                <span
+                    aria-hidden="true"
+                    class="absolute inset-0 z-5 bg-black/40"
+                ></span>
+
             </section>
         </AppLayout>
     );
