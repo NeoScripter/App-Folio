@@ -7,6 +7,7 @@ import NavDrawer, { Nav } from '../nav/nav-drawer';
 import BurgerMenu from './burger-menu';
 import LogoRus from './logo-rus';
 import ThemeToggle from './theme-toggle';
+import LangToggle from './lang-toggle';
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
     const { show: showMenu, setShow: setShowMenu } = useClickOutside([
@@ -62,6 +63,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
 
             {!showDrawer && (
                 <div class="flex gap-11 items-center">
+                    <LangToggle className='mr-2' />
                     <Nav />
                     <ThemeToggle />
                 </div>

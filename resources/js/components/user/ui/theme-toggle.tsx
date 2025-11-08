@@ -11,17 +11,34 @@ const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
         }
     };
 
+    const isDark = appearance.value === 'dark';
+
     return (
-        <div class={cn('theme-switch flex items-center gap-3 relative', className)}>
+        <div
+            class={cn(
+                'theme-switch relative flex items-center gap-3',
+                className,
+            )}
+        >
             <input
                 id="switch"
                 type="checkbox"
-                checked={appearance.value === 'dark'}
+                checked={isDark}
                 onChange={handleChange}
+                aria-label="Переключить тему"
+                aria-checked={isDark}
+                role="switch"
             />
-            <label htmlFor="switch" class="border-foreground/20 lg:border-white/20 w-15 border-2"/>
-            <span class="text-xs lg:absolute lg:-top-6 lg:-right-5 whitespace-nowrap">
-                {appearance.value === 'dark' ? 'Темная ' : 'Светлая '} тема
+            <label
+                htmlFor="switch"
+                class="border-foreground/20 w-15 border-2 lg:border-white/20"
+                aria-hidden="true"
+            />
+            <span
+                class="text-xs whitespace-nowrap lg:absolute lg:-top-6 lg:-right-5"
+                aria-live="polite"
+            >
+                {isDark ? 'Темная ' : 'Светлая '} тема
             </span>
         </div>
     );
