@@ -45,8 +45,10 @@ export default function Home() {
                         aria-label="Основные действия"
                     >
                         <Button variant="hero">Нанять меня</Button>
+
                         <a href="/" class="group relative ml-5">
                             Узнать больше
+
                             <AnimatedUnderline
                                 className={cn('z-10 bg-white')}
                             />

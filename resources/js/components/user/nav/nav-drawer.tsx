@@ -1,9 +1,12 @@
-import Bg from '@/assets/images/shared/menu-bg.webp';
+import BgLight from '@/assets/images/shared/menu-bg.webp';
+import BgDark from '@/assets/images/shared/menu-bg-dark.webp';
 import { navLinks } from '@/lib/constants/nav-links';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 import LogoRus from '../ui/logo-rus';
 import NavLink from './nav-link';
+import ThemeToggle from '../ui/theme-toggle';
+import { appearance } from '@/signals/appearance';
 
 type NavDrawerProps = { show: boolean };
 
@@ -18,7 +21,7 @@ export default function NavDrawer({ show }: NavDrawerProps) {
                 'bg-background fixed top-0 right-0 z-0 w-80 max-w-full overflow-y-auto rounded-bl-[2rem] bg-cover bg-top-left bg-no-repeat px-8 py-7 transition-transform duration-300 ease-in',
                 !show && 'translate-x-full',
             )}
-            style={{ backgroundImage: `url(${Bg})` }}
+            style={{ backgroundImage: `url(${appearance.value === 'dark' ? BgDark : BgLight})` }}
         >
             <Header show={show} />
             <Nav />
@@ -51,7 +54,7 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
 export const Nav = () => {
     return (
         <nav class="text-foreground" aria-label="Основная навигация">
-            <ul class="my-17 space-y-13 md:my-0 md:flex md:items-center md:gap-8 md:space-y-0 md:text-white lg:gap-11">
+            <ul class="my-17 space-y-13 lg:my-0 lg:flex lg:items-center lg:space-y-0 lg:text-white lg:gap-11">
                 {navLinks.map((navLink, idx) => (
                     <NavLink key={navLink.id} active={idx === 0} link={navLink} />
                 ))}
@@ -63,10 +66,14 @@ export const Nav = () => {
 const Footer = () => {
     return (
         <footer>
-            <div class="text-foreground flex items-center font-bold">
+            <div class="text-foreground flex items-center justify-between font-bold">
                 <div class="divide-foreground flex items-center divide-x-2">
                     <button class="px-2">RU</button>
                     <button class="px-2">EN</button>
+                </div>
+
+                <div>
+                    <ThemeToggle />
                 </div>
             </div>
         </footer>

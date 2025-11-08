@@ -1,20 +1,22 @@
 import { useClickOutside } from '@/hooks/use-click-outside';
-import { MD } from '@/lib/constants/breakpoints';
+import { useEscapeKey } from '@/hooks/use-escape-key';
+import { LG, MD } from '@/lib/constants/breakpoints';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useEffect, useState } from 'preact/compat';
 import NavDrawer, { Nav } from '../nav/nav-drawer';
 import BurgerMenu from './burger-menu';
 import LogoRus from './logo-rus';
-import { useEscapeKey } from '@/hooks/use-escape-key';
+import ThemeToggle from './theme-toggle';
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
-    const { show: showMenu, setShow: setShowMenu } = useClickOutside(
-        ['#nav-drawer', '#burger-menu'],
-    );
+    const { show: showMenu, setShow: setShowMenu } = useClickOutside([
+        '#nav-drawer',
+        '#burger-menu',
+    ]);
 
     useEscapeKey(() => setShowMenu(false));
 
-    const mq = window.matchMedia(`(max-width: ${MD}px)`);
+    const mq = window.matchMedia(`(max-width: ${LG}px)`);
 
     const [showDrawer, setShowDrawer] = useState(mq.matches);
 
@@ -58,7 +60,12 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                 </>
             )}
 
-            {!showDrawer && <Nav />}
+            {!showDrawer && (
+                <div class="flex gap-11 items-center">
+                    <Nav />
+                    <ThemeToggle />
+                </div>
+            )}
 
             <Separator />
         </header>
