@@ -1,6 +1,7 @@
 import { NavLinkType } from '@/lib/constants/nav-links';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
+import AnimatedUnderline from '../ui/animated-underline';
 
 const NavLink: FC<{
     className?: string;
@@ -27,15 +28,11 @@ const NavLink: FC<{
                 />
                 <span>{link.label}</span>
 
-                <span
-                    aria-hidden="true"
-                    class={cn(
-                        'bg-foreground absolute -bottom-1 left-0 hidden w-[0%] rounded-[10rem] transition-[width] duration-300 group-hover:w-[100%] md:block md:bg-white',
-                        {
-                            'h-0.5 w-full': active,
-                            'h-px': !active,
-                        },
-                    )}
+                <AnimatedUnderline
+                    className={cn('hidden md:block md:bg-white', {
+                        'h-0.5 w-full': active,
+                        'h-px': !active,
+                    })}
                 />
             </a>
         </li>

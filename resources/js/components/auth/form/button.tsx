@@ -35,9 +35,6 @@ const buttonVariants = cva(
 type ButtonProps = JSX.IntrinsicElements["button"] &
     VariantProps<typeof buttonVariants>;
 
-/**
- * Simplified Preact Button (no asChild).
- */
 const Button = ({ class: className, variant, size, ...props }: ButtonProps) => {
     return (
         <button
