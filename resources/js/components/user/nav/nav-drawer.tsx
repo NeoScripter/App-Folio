@@ -39,8 +39,8 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
             <div>
                 <div
                     class={cn(
-                        'text-foreground ease-nav-drawer translate-x-[200%] mt-3 mb-8 w-36 opacity-0 transition-all duration-1000 lg:translate-x-0 lg:opacity-100',
-                        show && 'translate-x-0 opacity-100',
+                        'text-foreground mt-3 mb-8 w-36',
+                        show && 'slide-in',
                     )}
                 >
                     <LogoRus className="w-32" />
@@ -62,7 +62,7 @@ export const Nav: FC<{ show: boolean }> = ({ show }) => {
                     <NavLink
                         show={show}
                         key={navLink.id}
-                        // active={idx === 0}
+                        active={idx === 1}
                         idx={idx}
                         link={navLink}
                     />

@@ -14,27 +14,35 @@ const NavLink: FC<{
         <li>
             <a
                 class={cn(
-                    'group relative mx-auto flex w-fit min-w-30 translate-x-[200%] items-center gap-3 opacity-0 transition-all duration-600 ease-nav-drawer lg:min-w-0 lg:translate-x-0 lg:opacity-100',
+                    'group relative mx-auto flex w-fit min-w-30 items-center gap-3 font-medium lg:min-w-0 lg:font-normal',
                     {
-                        'font-bold': active,
-                        'translate-x-0 opacity-100': show,
+                        'cursor-default lg:font-bold': active,
+                        'slide-in': show,
                     },
                     className,
                 )}
                 href={link.path}
                 aria-current={active ? 'page' : undefined}
-                style={{ transitionDelay: `${show ? idx * 200 : 0}ms` }}
+                style={{
+                    '--slide-delay': `${show ? idx * 200 : 0}ms`,
+                }}
             >
+                {active && (
+                    <span
+                        aria-hidden="true"
+                        class="border-foreground/30 bg-background pointer-events-none absolute -inset-x-6 -inset-y-2 -z-4 rounded-md border lg:hidden"
+                    />
+                )}
                 <link.icon
                     class="size-5 shrink-0 lg:hidden"
                     aria-hidden="true"
-                    strokeWidth={active ? 3 : 2}
+                    strokeWidth={2.5}
                 />
                 <span>{link.label}</span>
 
                 <AnimatedUnderline
                     className={cn('hidden lg:block lg:bg-white', {
-                        'h-0.5 w-full': active,
+                        'hidden group-hover:hidden': active,
                         'h-px': !active,
                     })}
                 />
