@@ -1,19 +1,22 @@
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
-import { LG, MD } from '@/lib/constants/breakpoints';
+import { LG } from '@/lib/constants/breakpoints';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useEffect, useState } from 'preact/compat';
 import NavDrawer, { Nav } from '../nav/nav-drawer';
 import BurgerMenu from './burger-menu';
+import LangToggle from './lang-toggle';
 import LogoRus from './logo-rus';
 import ThemeToggle from './theme-toggle';
-import LangToggle from './lang-toggle';
+import useScrollOffset from '@/hooks/use-scroll-offset';
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
     const { show: showMenu, setShow: setShowMenu } = useClickOutside([
         '#nav-drawer',
         '#burger-menu',
     ]);
+
+    const { isBelow } = useScrollOffset(100);
 
     useEscapeKey(() => setShowMenu(false));
 
@@ -37,8 +40,8 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
     return (
         <header
             class={cn(
-                'fixed inset-x-0 top-0 isolate z-10 flex items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:inset-x-4 md:top-4 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-6',
-                className,
+                'fixed inset-x-0 top-0 isolate z-10 flex items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:inset-x-4 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-12',
+                className, isBelow ? 'md:top-0' : 'md:top-4'
             )}
         >
             <div class="w-36">
@@ -62,8 +65,8 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
             )}
 
             {!showDrawer && (
-                <div class="flex gap-11 items-center">
-                    <LangToggle className='mr-2' />
+                <div class="flex items-center gap-11">
+                    <LangToggle className="mr-2" />
                     <Nav />
                     <ThemeToggle />
                 </div>

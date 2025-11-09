@@ -37,3 +37,5 @@ const Button: FC<{ lang: 'en' | 'ru'; className?: string }> = ({
         </button>
     );
 };
+
+

@@ -1,7 +1,9 @@
+import useFollowCursor from '@/hooks/use-follow-cursor';
 import { cn } from '@/utils/cn';
 import { cva, VariantProps } from 'class-variance-authority';
 import { ArrowDownRight } from 'lucide-preact';
 import { JSX } from 'preact';
+import { useRef } from 'preact/hooks';
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center gap-[0.5em] whitespace-nowrap rounded-xl group transition-[color,box-shadow,opacity] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*="size-"])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
@@ -34,6 +36,9 @@ const Button = ({
     variant,
     ...props
 }: ButtonProps) => {
+    const arrowRef = useRef<HTMLDivElement>(null);
+
+    useFollowCursor(arrowRef);
     return (
         <button
             data-slot="button"
@@ -42,7 +47,12 @@ const Button = ({
         >
             {children}
 
-            <ArrowDownRight class="size-[1.25em] transition-all duration-200 group-hover:-rotate-90" />
+            <div
+                ref={arrowRef}
+                class="transition-transform duration-100 ease-out"
+            >
+                <ArrowDownRight class="size-[1.25em] -rotate-45" />
+            </div>
         </button>
     );
 };
