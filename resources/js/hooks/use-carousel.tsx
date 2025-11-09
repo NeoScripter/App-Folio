@@ -1,258 +1,108 @@
-import { RefObject } from "preact";
-import { useCallback, useEffect, useReducer } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
-// Types
-type CarouselState<T> = {
-    slides: T[];
-    animationMultiplier: number;
-    isAnimating: boolean;
-    shouldAnimate: boolean;
-    touchStartX: number | null;
+export type BreakpointConfig = {
+    screen: number;
+    values: {
+        slide: number;
+        gap: number;
+    };
 };
-
-type CarouselAction<T> =
-    | { type: 'START_SLIDE'; direction: 1 | -1 }
-    | { type: 'FINISH_SLIDE'; direction: 1 | -1 }
-    | { type: 'TOUCH_START'; x: number }
-    | { type: 'TOUCH_END' }
-    | { type: 'SET_SLIDES'; slides: T[] };
 
 type UseCarouselOptions<T> = {
     slides: T[];
-    containerRef: RefObject<HTMLElement>;
-    nextButtonRef?: RefObject<HTMLButtonElement>;
-    prevButtonRef?: RefObject<HTMLButtonElement>;
+    offset: number;
+    animationDuration?: number;
+    breakpoints: BreakpointConfig[];
 };
 
-// Reducer
-function carouselReducer<T>(
-    state: CarouselState<T>,
-    action: CarouselAction<T>,
-): CarouselState<T> {
-    switch (action.type) {
-        case 'START_SLIDE':
-            return {
-                ...state,
-                isAnimating: true,
-                shouldAnimate: true,
-                animationMultiplier: action.direction,
-            };
-        case 'FINISH_SLIDE': {
-            const newSlides =
-                action.direction === 1
-                    ? [...state.slides.slice(1), state.slides[0]]
-                    : [
-                          state.slides[state.slides.length - 1],
-                          ...state.slides.slice(0, -1),
-                      ];
-            return {
-                ...state,
-                slides: newSlides,
-                isAnimating: false,
-                shouldAnimate: false,
-                animationMultiplier: 0,
-            };
-        }
-        case 'TOUCH_START':
-            return { ...state, touchStartX: action.x };
-        case 'TOUCH_END':
-            return { ...state, touchStartX: null };
-        case 'SET_SLIDES':
-            return { ...state, slides: action.slides };
-        default:
-            return state;
-    }
-}
+type UseCarouselReturn<T> = {
+    slides: T[];
+    offsetPx: number;
+    handleTouchStart: (e: TouchEvent) => void;
+    handleTouchEnd: (e: TouchEvent) => void;
+    handleIncrement: () => void;
+    handleDecrement: () => void;
+    shouldAnimate: boolean;
+    animationDuration: number;
+};
 
-const ANIMATION_DURATION = 500;
-const SWIPE_THRESHOLD = 50;
-const INITIAL_OFFSET = 3;
-
-// Hook
 export function useCarousel<T>({
     slides,
-    containerRef,
-    nextButtonRef,
-    prevButtonRef,
-}: UseCarouselOptions<T>) {
-    const [state, dispatch] = useReducer(carouselReducer<T>, {
-        slides: [...slides],
-        animationMultiplier: 0,
-        isAnimating: false,
-        shouldAnimate: false,
-        touchStartX: null,
-    });
+    offset,
+    animationDuration = 500,
+    breakpoints,
+}: UseCarouselOptions<T>): UseCarouselReturn<T> {
+    const [carouselSlides, setCarouselSlides] = useState<T[]>([...slides]);
+    const [multiplier, setMultiplier] = useState(0);
+    const [shouldAnimate, setShouldAnimate] = useState(true);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
-    // Update slides when external data changes
     useEffect(() => {
-        if (slides.length > 0) {
-            dispatch({ type: 'SET_SLIDES', slides: [...slides] });
-        }
+        setCarouselSlides([...slides]);
     }, [slides.length]);
 
-    // Calculate single slide offset dynamically from DOM
-    const getSlideOffset = useCallback((): number => {
-        const container = containerRef.current;
-        if (!container || container.children.length === 0) return 0;
+    const getOffset = () => {
+        const width = screen.width;
+        const config =
+            breakpoints.find((bp) => width < bp.screen) ?? breakpoints[-1]!;
+        return config.values.slide + config.values.gap;
+    };
 
-        const firstSlide = container.children[0] as HTMLElement;
-        const slideWidth = firstSlide.offsetWidth;
+    const offsetPx = getOffset() * multiplier + getOffset() * offset;
 
-        const computedStyle = window.getComputedStyle(container);
-        const gap = parseFloat(computedStyle.gap) || 0;
+    const handleSlide = (direction: 1 | -1) => {
+        if (isAnimating) return;
 
-        return slideWidth + gap;
-    }, [containerRef]);
+        setIsAnimating(true);
+        setShouldAnimate(true);
+        setMultiplier(direction);
 
-    // Apply transform styles to container
-    const applyTransform = useCallback(() => {
-        const container = containerRef.current;
-        if (!container) return;
+        setTimeout(() => {
+            setShouldAnimate(false);
+            setMultiplier(0);
 
-        const slideOffset = getSlideOffset();
-        const baseOffset = slideOffset * INITIAL_OFFSET;
-        const animationOffset = slideOffset * state.animationMultiplier;
-        const totalOffset = baseOffset + animationOffset;
+            setCarouselSlides((prev) =>
+                direction === 1
+                    ? [...prev.slice(1), prev[0]]
+                    : [prev[prev.length - 1], ...prev.slice(0, -1)],
+            );
 
-        const transform = `translateX(-${totalOffset}px)`;
-        const transition = state.shouldAnimate
-            ? `transform ${ANIMATION_DURATION}ms ease-in-out`
-            : 'none';
+            setIsAnimating(false);
+        }, animationDuration);
+    };
 
-        container.style.transform = transform;
-        container.style.transition = transition;
-    }, [
-        containerRef,
-        state.animationMultiplier,
-        state.shouldAnimate,
-        getSlideOffset,
-    ]);
+    const handleIncrement = () => handleSlide(1);
+    const handleDecrement = () => handleSlide(-1);
 
-    useEffect(() => {
-        applyTransform();
-    }, [applyTransform]);
+    const handleTouchStart = (e: TouchEvent) => {
+        setTouchStartX(e.touches[0].clientX);
+    };
 
-    // Slide handler
-    const handleSlide = useCallback(
-        (direction: 1 | -1) => {
-            if (state.isAnimating || state.slides.length === 0) return;
+    const handleTouchEnd = (e: TouchEvent) => {
+        if (touchStartX === null) return;
 
-            dispatch({ type: 'START_SLIDE', direction });
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
 
-            setTimeout(() => {
-                dispatch({ type: 'FINISH_SLIDE', direction });
-            }, ANIMATION_DURATION);
-        },
-        [state.isAnimating, state.slides.length],
-    );
-
-    const handleNext = useCallback(() => handleSlide(1), [handleSlide]);
-    const handlePrev = useCallback(() => handleSlide(-1), [handleSlide]);
-
-    // Touch handlers
-    const handleTouchStart = useCallback((e: TouchEvent) => {
-        dispatch({ type: 'TOUCH_START', x: e.touches[0].clientX });
-    }, []);
-
-    const handleTouchEnd = useCallback(
-        (e: TouchEvent) => {
-            if (state.touchStartX === null) return;
-
-            const deltaX = e.changedTouches[0].clientX - state.touchStartX;
-
-            if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
-                deltaX > 0 ? handlePrev() : handleNext();
+        if (Math.abs(deltaX) > 50) {
+            if (deltaX > 0) {
+                handleDecrement();
+            } else {
+                handleIncrement();
             }
+        }
 
-            dispatch({ type: 'TOUCH_END' });
-        },
-        [state.touchStartX, handleNext, handlePrev],
-    );
-
-    // Recalculate on resize
-    useEffect(() => {
-        window.addEventListener('resize', applyTransform);
-        return () => window.removeEventListener('resize', applyTransform);
-    }, [applyTransform]);
-
-    // Attach button click handlers
-    useEffect(() => {
-        const nextBtn = nextButtonRef?.current;
-        const prevBtn = prevButtonRef?.current;
-
-        if (nextBtn) nextBtn.addEventListener('click', handleNext);
-        if (prevBtn) prevBtn.addEventListener('click', handlePrev);
-
-        return () => {
-            if (nextBtn) nextBtn.removeEventListener('click', handleNext);
-            if (prevBtn) prevBtn.removeEventListener('click', handlePrev);
-        };
-    }, [nextButtonRef, prevButtonRef, handleNext, handlePrev]);
-
-    // Attach touch handlers to container
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        container.addEventListener('touchstart', handleTouchStart, {
-            passive: true,
-        });
-        container.addEventListener('touchend', handleTouchEnd, {
-            passive: true,
-        });
-
-        return () => {
-            container.removeEventListener('touchstart', handleTouchStart);
-            container.removeEventListener('touchend', handleTouchEnd);
-        };
-    }, [containerRef, handleTouchStart, handleTouchEnd]);
+        setTouchStartX(null);
+    };
 
     return {
-        slides: state.slides,
-        goToNext: handleNext,
-        goToPrev: handlePrev,
+        slides: carouselSlides,
+        offsetPx,
+        handleTouchStart,
+        handleTouchEnd,
+        handleIncrement,
+        handleDecrement,
+        shouldAnimate,
+        animationDuration,
     };
 }
-
-/* ==================== USAGE EXAMPLE ==================== */
-
-/*
-import { useRef } from 'react';
-import { useCarousel } from './useCarousel';
-
-export default function Slider() {
-    const { data: carwashes } = useCarwashes();
-
-    const containerRef = useRef<HTMLDivElement>(null);
-    const nextBtnRef = useRef<HTMLButtonElement>(null);
-    const prevBtnRef = useRef<HTMLButtonElement>(null);
-
-    const { slides } = useCarousel({
-        slides: carwashes ? [...carwashes, ...carwashes] : [],
-        containerRef,
-        nextButtonRef: nextBtnRef,
-        prevButtonRef: prevBtnRef,
-    });
-
-    return (
-        <div className="overflow-hidden">
-            <div
-                ref={containerRef}
-                className="flex gap-[10px] sm:gap-[17px] xl:gap-[15px]"
-            >
-                {slides.map((slide, index) => (
-                    <div
-                        key={`slide-${index}`}
-                        className="min-w-[220px] sm:min-w-[367px] xl:min-w-[331px] shrink-0"
-                    >
-                        <CarwashCard {...slide} />
-                    </div>
-                ))}
-            </div>
-
-            <button ref={prevBtnRef}>Previous</button>
-            <button ref={nextBtnRef}>Next</button>
-        </div>
-    );
-}
-*/

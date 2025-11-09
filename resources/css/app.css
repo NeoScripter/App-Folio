@@ -246,7 +246,7 @@
 }
 
 .slide-in {
-    --slide-delay: 0ms;
+    --slide-delay: 100ms;
     animation-name: slide-in;
     animation-duration: 600ms;
     animation-delay: var(--slide-delay);

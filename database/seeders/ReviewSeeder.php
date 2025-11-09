@@ -13,7 +13,7 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 8; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
 
             Review::factory()
                 ->afterCreating(function ($review) use ($i) {

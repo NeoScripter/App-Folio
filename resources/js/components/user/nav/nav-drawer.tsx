@@ -54,7 +54,7 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
     );
 };
 
-export const Nav: FC<{ show: boolean }> = ({ show }) => {
+export const Nav: FC<{ show?: boolean }> = ({ show = false }) => {
     return (
         <nav class="text-foreground" aria-label="Основная навигация">
             <ul class="my-17 space-y-13 lg:my-0 lg:flex lg:items-center lg:gap-11 lg:space-y-0 lg:text-white">

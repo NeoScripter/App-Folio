@@ -24,7 +24,7 @@ const NavLink: FC<{
                 href={link.path}
                 aria-current={active ? 'page' : undefined}
                 style={{
-                    '--slide-delay': `${show ? idx * 200 : 0}ms`,
+                    '--slide-delay': `${show ? idx * 200 + 100 : 100}ms`,
                 }}
             >
                 {active && (

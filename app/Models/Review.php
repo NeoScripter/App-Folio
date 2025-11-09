@@ -15,7 +15,6 @@ class Review extends Model
 
     public function image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')
-            ->select(['id', 'imageable_id', 'imageable_type', 'path', 'alt_ru', 'alt_en']);
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

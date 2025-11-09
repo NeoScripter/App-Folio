@@ -6,7 +6,7 @@ import { appearance } from './signals/appearance';
 
 const About = lazy(() => import('./pages/user/about'));
 const Login = lazy(() => import('./pages/auth/login'));
-const Home = lazy(() => import('./pages/user/home'));
+const Home = lazy(() => import('./pages/user/home/home'));
 const Dashboard = lazy(() => import('./pages/admin/dashboard'));
 const Appearance = lazy(() => import('./pages/admin/appearance'));
 const Profile = lazy(() => import('./pages/admin/profile'));

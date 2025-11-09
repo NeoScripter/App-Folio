@@ -1,0 +1,110 @@
+import LazyImage from '@/components/user/ui/lazy-image';
+import { useCarousel } from '@/hooks/use-carousel';
+import { useFetch } from '@/hooks/use-fetch';
+import { ReviewResource, ReviewType } from '@/lib/types/reviews';
+import { locale } from '@/signals/locale';
+import { cn } from '@/utils/cn';
+import { FC, useEffect, useState } from 'preact/compat';
+import { toast } from 'sonner';
+
+const breakpoints = [
+    { screen: 640, values: { slide: 600, gap: 10 } },
+    { screen: 768, values: { slide: 800, gap: 17 } },
+    { screen: Infinity, values: { slide: 800, gap: 15 } },
+];
+
+const Reviews = () => {
+    const [data, setData] = useState<ReviewResource | null>(null);
+    const { fetchData, loading, errors } = useFetch();
+
+    useEffect(() => {
+        fetchData({
+            url: '/api/reviews',
+            onSuccess: (data) => {
+                setData(data);
+            },
+            onError: () => {
+                toast.error('Failed to fetch reviews');
+            },
+        });
+    }, []);
+
+    const reviews = data?.data;
+
+    const {
+        slides: carouselSlides,
+        offsetPx,
+        handleTouchStart,
+        handleTouchEnd,
+        handleIncrement,
+        handleDecrement,
+        shouldAnimate,
+        animationDuration,
+    } = useCarousel({
+        slides:
+            errors == null && !loading && reviews
+                ? [...reviews]
+                : [],
+        offset: 3,
+        animationDuration: 500,
+        breakpoints: breakpoints,
+    });
+
+    return (
+        <div>
+            <div
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className="relative mt-16 mb-13 overflow-x-clip sm:my-19 lg:mb-23"
+            >
+                <ul
+                    className={cn(
+                        'flex w-max gap-[10px] sm:gap-[17px] xl:gap-[15px]',
+                        shouldAnimate && 'transition-transform ease-in-out',
+                    )}
+                    style={{
+                        transform: `translateX(-${offsetPx}px)`,
+                        transitionDuration: shouldAnimate
+                            ? `${animationDuration}ms`
+                            : '0ms',
+                    }}
+                >
+                    {reviews?.map((review) => (
+                        <ReviewCard key={review.id} review={review} />
+                    ))}
+                </ul>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button onClick={handleDecrement}>Left</button>
+                <button onClick={handleIncrement}>Right</button>
+            </div>
+        </div>
+    );
+};
+
+export default Reviews;
+
+const ReviewCard: FC<{ review: ReviewType }> = ({ review }) => {
+    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+
+    return (
+        <li class="bg-muted flex max-w-240 flex-col items-start gap-8 rounded-xl py-7.5 pr-7 pl-6 select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13">
+            {review.image && (
+                <LazyImage
+                    parentClass="size-32 md:size-40 lg:size-51 shrink-0 rounded-full"
+                    alt={review.image[`alt${lang}`]}
+                    tinyImg={review.image.tinyPath}
+                    img={review.image.path}
+                />
+            )}
+            <div>
+                <p class="mb-6">{review.attributes[`description${lang}`]}</p>
+
+                <p class="font-bold md:text-xl xl:text-2xl">
+                    {review.attributes[`author${lang}`]}
+                </p>
+            </div>
+        </li>
+    );
+};

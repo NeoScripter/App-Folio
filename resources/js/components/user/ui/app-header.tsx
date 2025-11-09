@@ -16,7 +16,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         '#burger-menu',
     ]);
 
-    const { isBelow } = useScrollOffset(100);
+    const { isBelow } = useScrollOffset(16);
 
     useEscapeKey(() => setShowMenu(false));
 
@@ -40,7 +40,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
     return (
         <header
             class={cn(
-                'fixed inset-x-0 top-0 isolate z-10 flex items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:inset-x-4 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-12',
+                'fixed inset-x-0 top-0 bg-home-hero-bg/40 isolate z-10 flex items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:inset-x-4 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-12',
                 className, isBelow ? 'md:top-0' : 'md:top-4'
             )}
         >

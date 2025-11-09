@@ -20,8 +20,8 @@ class ReviewFactory extends Factory
         $fakerEn = \Faker\Factory::create('en_US');
 
         return [
-            'content_ru' => $fakerRu->sentence(3),
-            'content_en' => $fakerEn->sentence(3),
+            'content_ru' => $fakerRu->realText(200),
+            'content_en' => $fakerEn->realText(200),
             'name_ru' => $fakerRu->firstName(),
             'name_en' => $fakerEn->firstName(),
         ];
