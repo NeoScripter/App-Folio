@@ -77,7 +77,6 @@ const Footer = () => {
         <footer>
             <div class="text-foreground flex items-center justify-between font-bold">
                 <LangToggle />
-
                 <ThemeToggle />
             </div>
         </footer>
