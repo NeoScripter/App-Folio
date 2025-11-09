@@ -1,108 +1,198 @@
-import { useEffect, useState } from "preact/hooks";
+import { RefObject } from 'preact';
+import { useCallback, useEffect, useReducer } from 'preact/hooks';
 
-export type BreakpointConfig = {
-    screen: number;
-    values: {
-        slide: number;
-        gap: number;
-    };
-};
+const ANIMATION_DURATION = 500;
+const INITIAL_OFFSET = 3;
+const SWIPE_THRESHOLD = 50;
 
 type UseCarouselOptions<T> = {
     slides: T[];
-    offset: number;
-    animationDuration?: number;
-    breakpoints: BreakpointConfig[];
+    containerRef: RefObject<HTMLElement>;
 };
 
 type UseCarouselReturn<T> = {
     slides: T[];
-    offsetPx: number;
     handleTouchStart: (e: TouchEvent) => void;
     handleTouchEnd: (e: TouchEvent) => void;
     handleIncrement: () => void;
     handleDecrement: () => void;
     shouldAnimate: boolean;
-    animationDuration: number;
 };
+
+type CarouselState<T> = {
+    slides: T[];
+    multiplier: number;
+    shouldAnimate: boolean;
+    isAnimating: boolean;
+    touchStartX: number | null;
+};
+
+type CarouselAction<T> =
+    | { type: 'SET_SLIDES'; slides: T[] }
+    | { type: 'START_SLIDE'; direction: 1 | -1 }
+    | { type: 'FINISH_SLIDE'; direction: 1 | -1 }
+    | { type: 'TOUCH_START'; x: number }
+    | { type: 'TOUCH_END' };
+
+function carouselReducer<T>(
+    state: CarouselState<T>,
+    action: CarouselAction<T>,
+): CarouselState<T> {
+    switch (action.type) {
+        case 'SET_SLIDES':
+            return {
+                ...state,
+                slides: action.slides,
+            };
+        case 'START_SLIDE':
+            return {
+                ...state,
+                isAnimating: true,
+                shouldAnimate: true,
+                multiplier: action.direction,
+            };
+        case 'FINISH_SLIDE': {
+            const newSlides =
+                action.direction === 1
+                    ? [...state.slides.slice(1), state.slides[0]]
+                    : [
+                          state.slides[state.slides.length - 1],
+                          ...state.slides.slice(0, -1),
+                      ];
+            return {
+                ...state,
+                slides: newSlides,
+                isAnimating: false,
+                shouldAnimate: false,
+                multiplier: 0,
+            };
+        }
+        case 'TOUCH_START':
+            return {
+                ...state,
+                touchStartX: action.x,
+            };
+        case 'TOUCH_END':
+            return {
+                ...state,
+                touchStartX: null,
+            };
+        default:
+            return state;
+    }
+}
 
 export function useCarousel<T>({
     slides,
-    offset,
-    animationDuration = 500,
-    breakpoints,
+    containerRef,
 }: UseCarouselOptions<T>): UseCarouselReturn<T> {
-    const [carouselSlides, setCarouselSlides] = useState<T[]>([...slides]);
-    const [multiplier, setMultiplier] = useState(0);
-    const [shouldAnimate, setShouldAnimate] = useState(true);
-    const [isAnimating, setIsAnimating] = useState(false);
-    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [state, dispatch] = useReducer(carouselReducer<T>, {
+        slides: [...slides],
+        multiplier: 0,
+        shouldAnimate: false,
+        isAnimating: false,
+        touchStartX: null,
+    });
 
     useEffect(() => {
-        setCarouselSlides([...slides]);
+        if (slides.length > 0) {
+            dispatch({ type: 'SET_SLIDES', slides: [...slides] });
+            requestAnimationFrame(() => {
+                applyTransform(0, false);
+            });
+        }
     }, [slides.length]);
 
-    const getOffset = () => {
-        const width = screen.width;
-        const config =
-            breakpoints.find((bp) => width < bp.screen) ?? breakpoints[-1]!;
-        return config.values.slide + config.values.gap;
-    };
+    const getSlideOffset = useCallback((): number => {
+        const container = containerRef.current;
+        if (!container || container.children.length === 0) return 0;
 
-    const offsetPx = getOffset() * multiplier + getOffset() * offset;
+        const firstSlide = container.children[0] as HTMLElement;
+        const slideWidth = firstSlide.offsetWidth;
 
-    const handleSlide = (direction: 1 | -1) => {
-        if (isAnimating) return;
+        const computedStyle = window.getComputedStyle(container);
+        const gap = parseFloat(computedStyle.gap) || 0;
 
-        setIsAnimating(true);
-        setShouldAnimate(true);
-        setMultiplier(direction);
+        return slideWidth + gap;
+    }, [containerRef]);
 
-        setTimeout(() => {
-            setShouldAnimate(false);
-            setMultiplier(0);
+    const applyTransform = useCallback(
+        (multiplier: number, shouldAnimate: boolean) => {
+            const container = containerRef.current;
+            if (!container) return;
 
-            setCarouselSlides((prev) =>
-                direction === 1
-                    ? [...prev.slice(1), prev[0]]
-                    : [prev[prev.length - 1], ...prev.slice(0, -1)],
-            );
+            const slideOffset = getSlideOffset();
+            const baseOffset = slideOffset * INITIAL_OFFSET;
+            const animationOffset = slideOffset * multiplier;
+            const totalOffset = baseOffset + animationOffset;
 
-            setIsAnimating(false);
-        }, animationDuration);
-    };
+            const transform = `translateX(-${totalOffset}px)`;
+            const transition = shouldAnimate
+                ? `transform ${ANIMATION_DURATION}ms ease-in-out`
+                : 'none';
 
-    const handleIncrement = () => handleSlide(1);
-    const handleDecrement = () => handleSlide(-1);
-
-    const handleTouchStart = (e: TouchEvent) => {
-        setTouchStartX(e.touches[0].clientX);
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-        if (touchStartX === null) return;
-
-        const deltaX = e.changedTouches[0].clientX - touchStartX;
-
-        if (Math.abs(deltaX) > 50) {
-            if (deltaX > 0) {
-                handleDecrement();
+            if (!shouldAnimate) {
+                container.style.transition = 'none';
+                requestAnimationFrame(() => {
+                    container.style.transform = transform;
+                });
             } else {
-                handleIncrement();
+                container.style.transition = transition;
+                container.style.transform = transform;
             }
-        }
+        },
+        [containerRef, getSlideOffset],
+    );
 
-        setTouchStartX(null);
-    };
+    const handleSlide = useCallback(
+        (direction: 1 | -1) => {
+            if (state.isAnimating) return;
+
+            dispatch({ type: 'START_SLIDE', direction });
+            applyTransform(direction, true);
+
+            setTimeout(() => {
+                dispatch({ type: 'FINISH_SLIDE', direction });
+                applyTransform(0, false);
+            }, ANIMATION_DURATION);
+        },
+        [state.isAnimating, applyTransform],
+    );
+
+    const handleIncrement = useCallback(() => handleSlide(1), [handleSlide]);
+    const handleDecrement = useCallback(() => handleSlide(-1), [handleSlide]);
+
+    const handleTouchStart = useCallback((e: TouchEvent) => {
+        dispatch({ type: 'TOUCH_START', x: e.touches[0].clientX });
+    }, []);
+
+    const handleTouchEnd = useCallback(
+        (e: TouchEvent) => {
+            if (state.touchStartX === null) return;
+
+            const deltaX = e.changedTouches[0].clientX - state.touchStartX;
+
+            if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+                deltaX > 0 ? handleDecrement() : handleIncrement();
+            }
+
+            dispatch({ type: 'TOUCH_END' });
+        },
+        [state.touchStartX, handleDecrement, handleIncrement],
+    );
+
+    useEffect(() => {
+        const handleApply = () => applyTransform(0, false);
+        window.addEventListener('resize', handleApply);
+        return () => window.removeEventListener('resize', handleApply);
+    }, []);
 
     return {
-        slides: carouselSlides,
-        offsetPx,
+        slides: state.slides,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
         handleDecrement,
-        shouldAnimate,
-        animationDuration,
+        shouldAnimate: state.shouldAnimate,
     };
 }

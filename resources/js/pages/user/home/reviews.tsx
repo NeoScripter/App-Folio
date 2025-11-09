@@ -4,18 +4,13 @@ import { useFetch } from '@/hooks/use-fetch';
 import { ReviewResource, ReviewType } from '@/lib/types/reviews';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC, useEffect, useRef, useState } from 'preact/compat';
 import { toast } from 'sonner';
-
-const breakpoints = [
-    { screen: 640, values: { slide: 600, gap: 10 } },
-    { screen: 768, values: { slide: 800, gap: 17 } },
-    { screen: Infinity, values: { slide: 800, gap: 15 } },
-];
 
 const Reviews = () => {
     const [data, setData] = useState<ReviewResource | null>(null);
     const { fetchData, loading, errors } = useFetch();
+    const carouselRef = useRef(null);
 
     useEffect(() => {
         fetchData({
@@ -33,22 +28,18 @@ const Reviews = () => {
 
     const {
         slides: carouselSlides,
-        offsetPx,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
         handleDecrement,
-        shouldAnimate,
-        animationDuration,
     } = useCarousel({
         slides:
             errors == null && !loading && reviews
                 ? [...reviews]
                 : [],
-        offset: 3,
-        animationDuration: 500,
-        breakpoints: breakpoints,
+        containerRef: carouselRef,
     });
+
 
     return (
         <div>
@@ -58,18 +49,12 @@ const Reviews = () => {
                 className="relative mt-16 mb-13 overflow-x-clip sm:my-19 lg:mb-23"
             >
                 <ul
+                    ref={carouselRef}
                     className={cn(
                         'flex w-max gap-[10px] sm:gap-[17px] xl:gap-[15px]',
-                        shouldAnimate && 'transition-transform ease-in-out',
                     )}
-                    style={{
-                        transform: `translateX(-${offsetPx}px)`,
-                        transitionDuration: shouldAnimate
-                            ? `${animationDuration}ms`
-                            : '0ms',
-                    }}
                 >
-                    {reviews?.map((review) => (
+                    {carouselSlides?.map((review) => (
                         <ReviewCard key={review.id} review={review} />
                     ))}
                 </ul>
