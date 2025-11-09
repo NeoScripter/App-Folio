@@ -4,10 +4,10 @@ import { navLinks } from '@/lib/constants/nav-links';
 import { appearance } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
+import LangToggle from '../ui/lang-toggle';
 import LogoRus from '../ui/logo-rus';
 import ThemeToggle from '../ui/theme-toggle';
 import NavLink from './nav-link';
-import LangToggle from '../ui/lang-toggle';
 
 type NavDrawerProps = { show: boolean };
 
@@ -19,7 +19,7 @@ export default function NavDrawer({ show }: NavDrawerProps) {
             aria-modal="true"
             aria-label="Навигационное меню"
             class={cn(
-                'bg-background fixed top-0 right-0 z-0 w-80 max-w-full overflow-y-auto rounded-bl-[2rem] bg-cover bg-top-left bg-no-repeat px-8 py-7 transition-transform duration-300 ease-in',
+                'bg-background ease-nav-drawer fixed top-0 right-0 z-0 w-80 max-w-full overflow-y-auto rounded-bl-[2rem] bg-cover bg-top-left bg-no-repeat px-8 py-7 transition-transform duration-1000',
                 !show && 'translate-x-full',
             )}
             style={{
@@ -27,7 +27,7 @@ export default function NavDrawer({ show }: NavDrawerProps) {
             }}
         >
             <Header show={show} />
-            <Nav />
+            <Nav show={show} />
             <Footer />
         </div>
     );
@@ -39,8 +39,8 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
             <div>
                 <div
                     class={cn(
-                        'text-foreground mt-3 mb-8 w-36 transition-opacity duration-300 ease-in-out',
-                        !show && 'opacity-0',
+                        'text-foreground ease-nav-drawer translate-x-[200%] mt-3 mb-8 w-36 opacity-0 transition-all duration-1000 lg:translate-x-0 lg:opacity-100',
+                        show && 'translate-x-0 opacity-100',
                     )}
                 >
                     <LogoRus className="w-32" />
@@ -54,14 +54,16 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
     );
 };
 
-export const Nav = () => {
+export const Nav: FC<{ show: boolean }> = ({ show }) => {
     return (
         <nav class="text-foreground" aria-label="Основная навигация">
             <ul class="my-17 space-y-13 lg:my-0 lg:flex lg:items-center lg:gap-11 lg:space-y-0 lg:text-white">
                 {navLinks.map((navLink, idx) => (
                     <NavLink
+                        show={show}
                         key={navLink.id}
                         // active={idx === 0}
+                        idx={idx}
                         link={navLink}
                     />
                 ))}

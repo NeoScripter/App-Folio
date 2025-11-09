@@ -37,8 +37,8 @@ const Button = ({
     ...props
 }: ButtonProps) => {
     const arrowRef = useRef<HTMLDivElement>(null);
-
     useFollowCursor(arrowRef);
+
     return (
         <button
             data-slot="button"
