@@ -8,6 +8,7 @@ import TinyTabletBg from '@/assets/images/home/hero-tablet-tiny.webp';
 import TabletBg from '@/assets/images/home/hero-tablet.webp';
 import AnimatedUnderline from '@/components/user/ui/animated-underline';
 import { Button } from '@/components/user/ui/button';
+import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import AppSection from '@/layouts/user/app-section';
 import { cn } from '@/utils/cn';
 
@@ -48,13 +49,25 @@ export default function Home() {
 
                         <a href="/" class="group relative ml-5">
                             Узнать больше
-
                             <AnimatedUnderline
                                 className={cn('z-10 bg-white')}
                             />
                         </a>
                     </nav>
                 </div>
+            </AppSection>
+
+            <AppSection className='py-28 sm:pb-23 sm:pt-38 lg:pt-35 lg:pb-41 xl:pb-35'>
+                <SecondaryHeading>
+                    Уникальные и профессиональные сайты, которые невозможно не
+                    заметить
+                </SecondaryHeading>
+                <p class="max-w-208">
+                    Я специализируюсь на создании качественных и надежных
+                    сайтов. За годы работы я помог многим клиентам реализовать их
+                    проекты — от простых портфолио до сложных
+                    интернет-магазинов.
+                </p>
             </AppSection>
         </AppLayout>
     );

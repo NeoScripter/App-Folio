@@ -47,7 +47,7 @@
         }
 
         html.dark {
-            background-color: oklch(0.145 0 0);
+            background-color: oklch(0.2435 0 0);
         }
     </style>
     {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
