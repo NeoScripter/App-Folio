@@ -2,7 +2,7 @@ import { RefObject } from 'preact';
 import { useCallback, useEffect, useReducer } from 'preact/hooks';
 import useThrottle from './use-throttle';
 
-const ANIMATION_DURATION = 500;
+const ANIMATION_DURATION = 700;
 const INITIAL_OFFSET = 3;
 const SWIPE_THRESHOLD = 50;
 const MAX_SCREEN_SIZE = 1920;
@@ -150,7 +150,7 @@ export function useCarousel<T>({
                 getCenteringOffset();
 
             container.style.transition = shouldAnimate
-                ? `transform ${ANIMATION_DURATION}ms ease-in-out`
+                ? `transform ${ANIMATION_DURATION}ms linear(0, 0.012 0.9%, 0.05 2%, 0.411 9.2%, 0.517 11.8%, 0.611 14.6%, 0.694 17.7%, 0.765 21.1%, 0.824 24.8%, 0.872 28.9%, 0.91 33.4%, 0.939 38.4%, 0.977 50.9%, 0.994 68.4%, 1)`
                 : 'none';
             container.style.transform = `translateX(-${totalOffset}px)`;
         },
