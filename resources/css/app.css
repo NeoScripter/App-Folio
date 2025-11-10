@@ -271,12 +271,6 @@
     opacity: 0;
 }
 
-@media screen and (min-width: 1024px) {
-    .slide-in {
-        opacity: 100;
-    }
-}
-
 @keyframes slide-in {
     0% {
         opacity: 0;
@@ -285,5 +279,25 @@
     100% {
         opacity: 1;
         transform: translateX(0%);
+    }
+}
+
+.review-slide {
+    --offset: 1.25rem;
+    width: min(60rem, calc(100vw - (var(--offset) * 2)));
+}
+
+@media screen and (min-width: 640px) {
+    .review-slide {
+        --offset: 1.25rem;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .review-slide {
+        --offset: 3.25rem;
+    }
+
+    .slide-in {
+        opacity: 100;
     }
 }

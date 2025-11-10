@@ -44,13 +44,14 @@ const Reviews = () => {
             <div
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
-                className="relative mt-16 mb-13 overflow-x-clip sm:my-19 lg:mb-23"
+                className="relative mt-16 mb-13 sm:my-19 lg:mb-23"
             >
+                {/* sm:px-15 lg:px-23 */}
                 current slide: {currentSlide}
                 <ul
                     ref={carouselRef}
                     className={cn(
-                        'flex w-max gap-[10px] sm:gap-[17px] xl:gap-[15px]',
+                        '-ml-5 flex w-max items-start gap-6 sm:-ml-15 sm:gap-10 md:-ml-19 lg:-ml-27 lg:gap-13 xl:-ml-47',
                     )}
                 >
                     {carouselSlides?.map((review) => (
@@ -73,7 +74,7 @@ const ReviewCard: FC<{ review: ReviewType }> = ({ review }) => {
     const lang = locale.value === 'ru' ? 'Ru' : 'En';
 
     return (
-        <li class="bg-muted flex max-w-240 flex-col items-start gap-8 rounded-xl py-7.5 pr-7 pl-6 select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13">
+        <li class="bg-muted review-slide flex flex-col items-start gap-8 rounded-xl py-7.5 pr-7 pl-6 select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13">
             {review.image && (
                 <LazyImage
                     parentClass="size-32 md:size-40 lg:size-51 shrink-0 rounded-full"

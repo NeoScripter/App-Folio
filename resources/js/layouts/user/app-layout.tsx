@@ -10,6 +10,7 @@ const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
     return (
         <main
             class={cn('mx-auto max-w-480 md:px-4 md:pt-4 xl:px-24', className)}
+            id="wrapper"
         >
             <AppHeader />
 

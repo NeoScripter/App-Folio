@@ -1,5 +1,6 @@
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
+import useScrollOffset from '@/hooks/use-scroll-offset';
 import { LG } from '@/lib/constants/breakpoints';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useEffect, useState } from 'preact/compat';
@@ -8,7 +9,6 @@ import BurgerMenu from './burger-menu';
 import LangToggle from './lang-toggle';
 import LogoRus from './logo-rus';
 import ThemeToggle from './theme-toggle';
-import useScrollOffset from '@/hooks/use-scroll-offset';
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
     const { show: showMenu, setShow: setShowMenu } = useClickOutside([
@@ -40,39 +40,44 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
     return (
         <header
             class={cn(
-                'fixed inset-x-0 top-0 bg-home-hero-bg/40 isolate z-10 flex items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:inset-x-4 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-12',
-                className, isBelow ? 'md:top-0' : 'md:top-4'
+                'fixed inset-x-0 top-0 isolate z-10 md:inset-x-4',
+                className,
+                isBelow ? 'md:top-0' : 'md:top-4',
             )}
         >
-            <div class="w-36">
-                <LogoRus />
-            </div>
-
-            {showDrawer && (
-                <>
-                    {' '}
-                    <Overlay show={showMenu} />
-                    <BurgerMenu
-                        show={showMenu}
-                        onClick={toggleMenu}
-                        className="z-5"
-                        aria-label={showMenu ? 'Закрыть меню' : 'Открыть меню'}
-                        aria-expanded={showMenu}
-                        aria-controls="nav-drawer"
-                    />
-                    <NavDrawer show={showMenu} />
-                </>
-            )}
-
-            {!showDrawer && (
-                <div class="flex items-center gap-11">
-                    <LangToggle className="mr-2" />
-                    <Nav />
-                    <ThemeToggle />
+            <div class="bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-12">
+                <div class="w-36">
+                    <LogoRus />
                 </div>
-            )}
 
-            <Separator />
+                {showDrawer && (
+                    <>
+                        {' '}
+                        <Overlay show={showMenu} />
+                        <BurgerMenu
+                            show={showMenu}
+                            onClick={toggleMenu}
+                            className="z-5"
+                            aria-label={
+                                showMenu ? 'Закрыть меню' : 'Открыть меню'
+                            }
+                            aria-expanded={showMenu}
+                            aria-controls="nav-drawer"
+                        />
+                        <NavDrawer show={showMenu} />
+                    </>
+                )}
+
+                {!showDrawer && (
+                    <div class="flex items-center gap-11">
+                        <LangToggle className="mr-2" />
+                        <Nav />
+                        <ThemeToggle />
+                    </div>
+                )}
+
+                <Separator />
+            </div>
         </header>
     );
 };

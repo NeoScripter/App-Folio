@@ -1,10 +1,10 @@
-import throttle from '@/utils/throttle';
 import { RefObject } from 'preact';
 import { useCallback, useEffect, useReducer } from 'preact/hooks';
 
 const ANIMATION_DURATION = 500;
 const INITIAL_OFFSET = 3;
 const SWIPE_THRESHOLD = 50;
+const MAX_SCREEN_SIZE = 1920;
 
 type UseCarouselOptions = {
     containerRef: RefObject<HTMLElement>;
@@ -124,13 +124,28 @@ export function useCarousel<T>({
         return first.offsetWidth + gap;
     }, [containerRef]);
 
+    const calculateExtraSpace = useCallback(() => {
+        const container = containerRef.current;
+        if (!container) return 0;
+
+        const first = container.firstElementChild as HTMLElement | null;
+        if (!first) return 0;
+
+        return (
+            (Math.min(window.innerWidth, MAX_SCREEN_SIZE) - first.offsetWidth) /
+            2
+        );
+    }, [containerRef, getOffset]);
+
     const applyTransform = useCallback(
         (multiplier: number, shouldAnimate: boolean) => {
             const container = containerRef.current;
             if (!container) return;
 
             const slideOffset = getOffset();
-            const totalOffset = slideOffset * (INITIAL_OFFSET + multiplier);
+            const totalOffset =
+                slideOffset * (INITIAL_OFFSET + multiplier) -
+                calculateExtraSpace();
 
             container.style.transition = shouldAnimate
                 ? `transform ${ANIMATION_DURATION}ms ease-in-out`
@@ -178,9 +193,10 @@ export function useCarousel<T>({
     );
 
     useEffect(() => {
-        const handleApply = throttle(() => {
-            applyTransform(0, false);
-        }, 400);
+        // const handleApply = throttle(() => {
+        //     applyTransform(0, false);
+        // }, 400);
+        const handleApply = () => applyTransform(0, false);
 
         window.addEventListener('resize', handleApply);
         return () => window.removeEventListener('resize', handleApply);
