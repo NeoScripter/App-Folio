@@ -24,8 +24,7 @@ const Reviews = () => {
 
     useEffect(() => {
         fetchData({
-            url: '/api/asdareviews',
-            // url: '/api/reviews',
+            url: '/api/reviews',
             onSuccess: (data) => {
                 setter(data.data);
             },

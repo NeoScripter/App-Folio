@@ -1,3 +1,4 @@
+import throttle from '@/utils/throttle';
 import { RefObject } from 'preact';
 import { useCallback, useEffect, useReducer } from 'preact/hooks';
 
@@ -112,17 +113,15 @@ export function useCarousel<T>({
         }
     };
 
-    const getSlideOffset = useCallback((): number => {
+    const getOffset = useCallback(() => {
         const container = containerRef.current;
-        if (!container || container.children.length === 0) return 0;
+        if (!container) return 0;
 
-        const firstSlide = container.children[0] as HTMLElement;
-        const slideWidth = firstSlide.offsetWidth;
+        const first = container.firstElementChild as HTMLElement | null;
+        if (!first) return 0;
 
-        const computedStyle = window.getComputedStyle(container);
-        const gap = parseFloat(computedStyle.gap) || 0;
-
-        return slideWidth + gap;
+        const gap = parseFloat(getComputedStyle(container).gap) || 0;
+        return first.offsetWidth + gap;
     }, [containerRef]);
 
     const applyTransform = useCallback(
@@ -130,24 +129,15 @@ export function useCarousel<T>({
             const container = containerRef.current;
             if (!container) return;
 
-            const slideOffset = getSlideOffset();
-            const baseOffset = slideOffset * INITIAL_OFFSET;
-            const animationOffset = slideOffset * multiplier;
-            const totalOffset = baseOffset + animationOffset;
+            const slideOffset = getOffset();
+            const totalOffset = slideOffset * (INITIAL_OFFSET + multiplier);
 
-            const transform = `translateX(-${totalOffset}px)`;
-            const transition = shouldAnimate
+            container.style.transition = shouldAnimate
                 ? `transform ${ANIMATION_DURATION}ms ease-in-out`
                 : 'none';
-
-            if (!shouldAnimate) {
-                container.style.transition = 'none';
-            } else {
-                container.style.transition = transition;
-            }
-            container.style.transform = transform;
+            container.style.transform = `translateX(-${totalOffset}px)`;
         },
-        [containerRef, getSlideOffset],
+        [containerRef, getOffset],
     );
 
     const handleSlide = useCallback(
@@ -188,10 +178,13 @@ export function useCarousel<T>({
     );
 
     useEffect(() => {
-        const handleApply = () => applyTransform(0, false);
+        const handleApply = throttle(() => {
+            applyTransform(0, false);
+        }, 400);
+
         window.addEventListener('resize', handleApply);
         return () => window.removeEventListener('resize', handleApply);
-    }, []);
+    }, [applyTransform]);
 
     return {
         slides: state.slides,
