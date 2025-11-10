@@ -202,7 +202,7 @@ export function useCarousel<T>({
 
     return {
         slides: state.slides,
-        currentSlide: state.currentSlide,
+        currentSlide: state.currentSlide + 1,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,

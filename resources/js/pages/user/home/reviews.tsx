@@ -1,11 +1,11 @@
 import ApiError from '@/components/user/ui/api-error';
-import LazyImage from '@/components/user/ui/lazy-image';
+import CarouselControls from '@/components/user/ui/carousel-controls';
 import { useCarousel } from '@/hooks/use-carousel';
 import { useFetch } from '@/hooks/use-fetch';
 import { ReviewType } from '@/lib/types/reviews';
-import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
-import { FC, useEffect, useRef } from 'preact/compat';
+import { useEffect, useRef } from 'preact/compat';
+import ReviewCard from './review-card';
 
 const Reviews = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -46,50 +46,30 @@ const Reviews = () => {
                 onTouchEnd={handleTouchEnd}
                 className="relative mt-16 mb-13 sm:my-19 lg:mb-23"
             >
-                {/* sm:px-15 lg:px-23 */}
-                current slide: {currentSlide}
                 <ul
                     ref={carouselRef}
                     className={cn(
                         '-ml-5 flex w-max items-start gap-6 sm:-ml-15 sm:gap-10 md:-ml-19 lg:-ml-27 lg:gap-13 xl:-ml-47',
                     )}
                 >
-                    {carouselSlides?.map((review) => (
-                        <ReviewCard key={review.id} review={review} />
+                    {carouselSlides?.map((review, idx) => (
+                        <ReviewCard
+                            key={review.id}
+                            active={idx === 3}
+                            review={review}
+                        />
                     ))}
                 </ul>
             </div>
 
-            <div class="flex items-center gap-4">
-                <button onClick={handleDecrement}>Left</button>
-                <button onClick={handleIncrement}>Right</button>
-            </div>
+            <CarouselControls
+                current={currentSlide}
+                slides={carouselSlides.length}
+                handlePrev={handleDecrement}
+                handleNext={handleIncrement}
+            />
         </div>
     );
 };
 
 export default Reviews;
-
-const ReviewCard: FC<{ review: ReviewType }> = ({ review }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
-
-    return (
-        <li class="bg-muted review-slide flex flex-col items-start gap-8 rounded-xl py-7.5 pr-7 pl-6 select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13">
-            {review.image && (
-                <LazyImage
-                    parentClass="size-32 md:size-40 lg:size-51 shrink-0 rounded-full"
-                    alt={review.image[`alt${lang}`]}
-                    tinyImg={review.image.tinyPath}
-                    img={review.image.path}
-                />
-            )}
-            <div>
-                <p class="mb-6">{review.attributes[`description${lang}`]}</p>
-
-                <p class="font-bold md:text-xl xl:text-2xl">
-                    {review.attributes[`author${lang}`]}
-                </p>
-            </div>
-        </li>
-    );
-};

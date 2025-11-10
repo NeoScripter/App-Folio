@@ -40,12 +40,16 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
     return (
         <header
             class={cn(
-                'fixed inset-x-0 top-0 isolate z-10 md:inset-x-4',
-                className,
+                'fixed inset-x-0 top-0 isolate z-10 md:inset-x-4 xl:inset-x-24',
                 isBelow ? 'md:top-0' : 'md:top-4',
             )}
         >
-            <div class="bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:rounded-xl lg:px-24 xl:inset-x-24 xl:pb-12">
+            <div
+                class={cn(
+                    'bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:rounded-t-xl lg:px-24 xl:pb-12',
+                    className,
+                )}
+            >
                 <div class="w-36">
                     <LogoRus />
                 </div>
@@ -69,9 +73,9 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                 )}
 
                 {!showDrawer && (
-                    <div class="flex items-center gap-11 xl:gap-14 xl:w-full">
+                    <div class="flex items-center gap-11 xl:w-full xl:gap-14">
                         <LangToggle className="mr-2 xl:ml-auto" />
-                        <Nav className='mr-10 xl:mr-auto' />
+                        <Nav className="mr-10 xl:mr-auto" />
                         <ThemeToggle />
                     </div>
                 )}
@@ -104,7 +108,7 @@ const Separator = () => {
     return (
         <span
             aria-hidden="true"
-            class="absolute inset-x-5 bottom-0 -z-5 h-0.5 bg-gray-300/50"
+            class="absolute inset-x-5 lg:inset-x-0 bottom-0 -z-5 h-0.5 bg-gray-300/50"
         ></span>
     );
 };
