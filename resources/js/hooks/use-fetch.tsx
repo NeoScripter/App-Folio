@@ -15,13 +15,13 @@ interface State {
     data: any;
     loading: boolean;
     resentlySuccessful: boolean;
-    errors: ValidationErrors | null;
+    errors: ValidationErrors | string | null;
 }
 
 type Action =
     | { type: 'FETCH_START' }
     | { type: 'FETCH_SUCCESS'; payload: any }
-    | { type: 'FETCH_ERROR'; payload: ValidationErrors | null }
+    | { type: 'FETCH_ERROR'; payload: ValidationErrors | string | null }
     | { type: 'RESET_SUCCESS' }
     | { type: 'RESET' };
 
@@ -101,8 +101,11 @@ export function useFetch() {
             onSuccess?.(data);
             setTimeout(() => dispatch({ type: 'RESET_SUCCESS' }), 2000);
         } catch (err) {
-            console.error(err);
-            dispatch({ type: 'FETCH_ERROR', payload: null });
+            const message =
+                err instanceof Error ? err.message : 'API fetching error';
+
+            console.error(message);
+            dispatch({ type: 'FETCH_ERROR', payload: message });
             onError?.();
         }
     }

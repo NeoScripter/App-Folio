@@ -5,23 +5,24 @@ const ANIMATION_DURATION = 500;
 const INITIAL_OFFSET = 3;
 const SWIPE_THRESHOLD = 50;
 
-type UseCarouselOptions<T> = {
-    slides: T[];
+type UseCarouselOptions = {
     containerRef: RefObject<HTMLElement>;
 };
 
 type UseCarouselReturn<T> = {
     slides: T[];
+    currentSlide: number;
     handleTouchStart: (e: TouchEvent) => void;
     handleTouchEnd: (e: TouchEvent) => void;
     handleIncrement: () => void;
     handleDecrement: () => void;
-    shouldAnimate: boolean;
+    setter: (data: T[]) => void;
 };
 
 type CarouselState<T> = {
     slides: T[];
     multiplier: number;
+    currentSlide: number;
     shouldAnimate: boolean;
     isAnimating: boolean;
     touchStartX: number | null;
@@ -59,8 +60,16 @@ function carouselReducer<T>(
                           state.slides[state.slides.length - 1],
                           ...state.slides.slice(0, -1),
                       ];
+
+            const nextSlide =
+                action.direction === 1
+                    ? (state.currentSlide + 1) % state.slides.length
+                    : state.currentSlide === 0
+                      ? state.slides.length - 1
+                      : state.currentSlide - 1;
             return {
                 ...state,
+                currentSlide: nextSlide,
                 slides: newSlides,
                 isAnimating: false,
                 shouldAnimate: false,
@@ -83,25 +92,25 @@ function carouselReducer<T>(
 }
 
 export function useCarousel<T>({
-    slides,
     containerRef,
-}: UseCarouselOptions<T>): UseCarouselReturn<T> {
+}: UseCarouselOptions): UseCarouselReturn<T> {
     const [state, dispatch] = useReducer(carouselReducer<T>, {
-        slides: [...slides],
+        slides: [],
         multiplier: 0,
+        currentSlide: 0,
         shouldAnimate: false,
         isAnimating: false,
         touchStartX: null,
     });
 
-    useEffect(() => {
-        if (slides.length > 0) {
-            dispatch({ type: 'SET_SLIDES', slides: [...slides] });
+    const setter = (data: T[]) => {
+        if (data != null) {
+            dispatch({ type: 'SET_SLIDES', slides: data });
             requestAnimationFrame(() => {
                 applyTransform(0, false);
             });
         }
-    }, [slides.length]);
+    };
 
     const getSlideOffset = useCallback((): number => {
         const container = containerRef.current;
@@ -133,13 +142,10 @@ export function useCarousel<T>({
 
             if (!shouldAnimate) {
                 container.style.transition = 'none';
-                requestAnimationFrame(() => {
-                    container.style.transform = transform;
-                });
             } else {
                 container.style.transition = transition;
-                container.style.transform = transform;
             }
+            container.style.transform = transform;
         },
         [containerRef, getSlideOffset],
     );
@@ -189,10 +195,11 @@ export function useCarousel<T>({
 
     return {
         slides: state.slides,
+        currentSlide: state.currentSlide + 1,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
         handleDecrement,
-        shouldAnimate: state.shouldAnimate,
+        setter,
     };
 }

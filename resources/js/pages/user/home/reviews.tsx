@@ -1,45 +1,44 @@
+import ApiError from '@/components/user/ui/api-error';
 import LazyImage from '@/components/user/ui/lazy-image';
 import { useCarousel } from '@/hooks/use-carousel';
 import { useFetch } from '@/hooks/use-fetch';
-import { ReviewResource, ReviewType } from '@/lib/types/reviews';
+import { ReviewType } from '@/lib/types/reviews';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
-import { FC, useEffect, useRef, useState } from 'preact/compat';
-import { toast } from 'sonner';
+import { FC, useEffect, useRef } from 'preact/compat';
 
 const Reviews = () => {
-    const [data, setData] = useState<ReviewResource | null>(null);
     const { fetchData, loading, errors } = useFetch();
     const carouselRef = useRef(null);
-
-    useEffect(() => {
-        fetchData({
-            url: '/api/reviews',
-            onSuccess: (data) => {
-                setData(data);
-            },
-            onError: () => {
-                toast.error('Failed to fetch reviews');
-            },
-        });
-    }, []);
-
-    const reviews = data?.data;
-
     const {
         slides: carouselSlides,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
         handleDecrement,
-    } = useCarousel({
-        slides:
-            errors == null && !loading && reviews
-                ? [...reviews]
-                : [],
+        currentSlide,
+        setter,
+    } = useCarousel<ReviewType>({
         containerRef: carouselRef,
     });
 
+    useEffect(() => {
+        fetchData({
+            url: '/api/asdareviews',
+            // url: '/api/reviews',
+            onSuccess: (data) => {
+                setter(data.data);
+            },
+        });
+    }, []);
+
+    if (errors != null)
+        return (
+            <ApiError
+                resourceRu="отзывов клиентов"
+                resourceEn="client reviews"
+            />
+        );
 
     return (
         <div>
@@ -48,6 +47,7 @@ const Reviews = () => {
                 onTouchEnd={handleTouchEnd}
                 className="relative mt-16 mb-13 overflow-x-clip sm:my-19 lg:mb-23"
             >
+                current slide: {currentSlide}
                 <ul
                     ref={carouselRef}
                     className={cn(

@@ -15,6 +15,5 @@ Route::middleware('auth')->group(function () {
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
 });
 
-Route::get('/{any}', function () {
-    return view('app');
-})->where('any', '.*');
+Route::get('/{any}', fn () => view('app'))
+    ->where('any', '^(?!api).*');
