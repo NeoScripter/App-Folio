@@ -4,8 +4,9 @@ import { useCarousel } from '@/hooks/use-carousel';
 import { useFetch } from '@/hooks/use-fetch';
 import { ReviewType } from '@/lib/types/reviews';
 import { cn } from '@/utils/cn';
+import { range } from '@/utils/range';
 import { useEffect, useRef } from 'preact/compat';
-import ReviewCard from './review-card';
+import ReviewCard, { ReviewCardSkeleton } from './review-card';
 
 const Reviews = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -52,13 +53,19 @@ const Reviews = () => {
                         '-ml-5 flex w-max items-start gap-6 sm:-ml-15 sm:gap-10 md:-ml-19 lg:-ml-27 lg:gap-13 xl:-ml-47',
                     )}
                 >
-                    {carouselSlides?.map((review, idx) => (
-                        <ReviewCard
-                            key={review.id}
-                            active={idx === 3}
-                            review={review}
-                        />
-                    ))}
+                    {!loading
+                        ? carouselSlides?.map((review, idx) => (
+                              <ReviewCard
+                                  key={review.id}
+                                  active={idx === 3}
+                                  review={review}
+                              />
+                          ))
+                        : range(0, 8).map((skeleton) => (
+                              <ReviewCardSkeleton
+                                  key={`review-skeleton-${skeleton}`}
+                              />
+                          ))}
                 </ul>
             </div>
 

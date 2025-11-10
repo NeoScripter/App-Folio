@@ -304,3 +304,7 @@
         opacity: 100;
     }
 }
+
+.skeleton {
+    @apply text-transparent bg-gray-300 animate-pulse;
+}
