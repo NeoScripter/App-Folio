@@ -69,9 +69,9 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                 )}
 
                 {!showDrawer && (
-                    <div class="flex items-center gap-11">
-                        <LangToggle className="mr-2" />
-                        <Nav />
+                    <div class="flex items-center gap-11 xl:gap-14 xl:w-full">
+                        <LangToggle className="mr-2 xl:ml-auto" />
+                        <Nav className='mr-10 xl:mr-auto' />
                         <ThemeToggle />
                     </div>
                 )}

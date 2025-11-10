@@ -1,5 +1,6 @@
 import { RefObject } from 'preact';
 import { useCallback, useEffect, useReducer } from 'preact/hooks';
+import useThrottle from './use-throttle';
 
 const ANIMATION_DURATION = 500;
 const INITIAL_OFFSET = 3;
@@ -113,6 +114,11 @@ export function useCarousel<T>({
         }
     };
 
+    const throttledApplyTransform = useThrottle(
+        () => applyTransform(0, false),
+        150,
+    );
+
     const getOffset = useCallback(() => {
         const container = containerRef.current;
         if (!container) return 0;
@@ -124,18 +130,14 @@ export function useCarousel<T>({
         return first.offsetWidth + gap;
     }, [containerRef]);
 
-    const calculateExtraSpace = useCallback(() => {
+    const getCenteringOffset = useCallback(() => {
         const container = containerRef.current;
-        if (!container) return 0;
+        const firstSlide = container?.firstElementChild as HTMLElement | null;
+        if (!firstSlide) return 0;
 
-        const first = container.firstElementChild as HTMLElement | null;
-        if (!first) return 0;
-
-        return (
-            (Math.min(window.innerWidth, MAX_SCREEN_SIZE) - first.offsetWidth) /
-            2
-        );
-    }, [containerRef, getOffset]);
+        const viewportWidth = Math.min(window.innerWidth, MAX_SCREEN_SIZE);
+        return (viewportWidth - firstSlide.offsetWidth) / 2;
+    }, [containerRef]);
 
     const applyTransform = useCallback(
         (multiplier: number, shouldAnimate: boolean) => {
@@ -145,7 +147,7 @@ export function useCarousel<T>({
             const slideOffset = getOffset();
             const totalOffset =
                 slideOffset * (INITIAL_OFFSET + multiplier) -
-                calculateExtraSpace();
+                getCenteringOffset();
 
             container.style.transition = shouldAnimate
                 ? `transform ${ANIMATION_DURATION}ms ease-in-out`
@@ -193,18 +195,14 @@ export function useCarousel<T>({
     );
 
     useEffect(() => {
-        // const handleApply = throttle(() => {
-        //     applyTransform(0, false);
-        // }, 400);
-        const handleApply = () => applyTransform(0, false);
-
-        window.addEventListener('resize', handleApply);
-        return () => window.removeEventListener('resize', handleApply);
+        window.addEventListener('resize', throttledApplyTransform);
+        return () =>
+            window.removeEventListener('resize', throttledApplyTransform);
     }, [applyTransform]);
 
     return {
         slides: state.slides,
-        currentSlide: state.currentSlide + 1,
+        currentSlide: state.currentSlide,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
