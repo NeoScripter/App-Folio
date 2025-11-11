@@ -19,6 +19,8 @@
 
     --breakpoint-xs: 31.25rem;
 
+    --shadow-video: 0 18px 39px 0 rgba(0, 0, 0, 0.25);
+
     --color-background: var(--background);
     --color-user-background: var(--user-background);
     --color-foreground: var(--foreground);

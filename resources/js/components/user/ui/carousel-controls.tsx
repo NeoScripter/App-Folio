@@ -32,7 +32,7 @@ const CarouselBtn: FC<{ className?: string; onClick: () => void }> = ({
     onClick,
 }) => {
     return (
-        <button onClick={onClick} class={cn("hidden sm:block",className)}>
+        <button onClick={onClick} class={cn("sm:block",className)}>
             <ChevronLeft strokeWidth={3} class="text-gray-300 size-12 md:size-15" />
         </button>
     );
