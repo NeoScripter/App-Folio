@@ -10,13 +10,29 @@ import LangToggle from './lang-toggle';
 import LogoRus from './logo-rus';
 import ThemeToggle from './theme-toggle';
 
+const heroBaseOffsets = {
+    mobile: 840,
+    tablet: 924 + 16,
+    desktop: 448 + 16,
+};
+
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
     const { show: showMenu, setShow: setShowMenu } = useClickOutside([
         '#nav-drawer',
         '#burger-menu',
     ]);
 
-    const { isBelow } = useScrollOffset(16);
+    const { isBelow: isBelowPadding } = useScrollOffset(16);
+
+    const screenWidth = window.innerWidth;
+
+    const heroOffset =
+        screenWidth < 768
+            ? heroBaseOffsets.mobile
+            : screenWidth < 1024
+              ? heroBaseOffsets.tablet
+              : heroBaseOffsets.desktop;
+    const { isBelow: isBelowHero } = useScrollOffset(heroOffset);
 
     useEscapeKey(() => setShowMenu(false));
 
@@ -40,14 +56,18 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
     return (
         <header
             class={cn(
-                'fixed inset-x-0 top-0 isolate z-10 md:inset-x-4 xl:inset-x-24',
-                isBelow ? 'md:top-0' : 'md:top-4',
+                'fixed inset-x-0 top-0 isolate z-10',
+                isBelowPadding ? 'md:top-0' : 'md:top-4',
+                !isBelowHero && 'md:inset-x-4 xl:inset-x-24',
             )}
         >
             <div
                 class={cn(
-                    'bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 md:rounded-t-xl lg:px-24 xl:pb-12',
+                    'bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
+                    {
+                        'md:rounded-t-xl': !isBelowHero,
+                    },
                 )}
             >
                 <div class="w-36">
@@ -80,7 +100,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                     </div>
                 )}
 
-                <Separator />
+                {!isBelowHero && <Separator />}
             </div>
         </header>
     );
@@ -108,7 +128,7 @@ const Separator = () => {
     return (
         <span
             aria-hidden="true"
-            class="absolute inset-x-5 lg:inset-x-0 bottom-0 -z-5 h-0.5 bg-gray-300/50"
+            class="absolute inset-x-5 bottom-0 -z-5 h-0.5 bg-gray-300/50 lg:inset-x-0"
         ></span>
     );
 };
