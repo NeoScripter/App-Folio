@@ -2,8 +2,10 @@ import CarouselControls from '@/components/user/ui/carousel-controls';
 import { useCarousel } from '@/hooks/use-carousel';
 import { ReviewType } from '@/lib/types/reviews';
 import { cn } from '@/utils/cn';
-import { useRef } from 'preact/compat';
+import { useEffect, useRef } from 'preact/compat';
 import ReviewCard from './review-card';
+import { Service, services } from '@/lib/data/services';
+import ServiceCard from './service-card';
 
 const Services = () => {
     const carouselRef = useRef(null);
@@ -15,9 +17,13 @@ const Services = () => {
         handleDecrement,
         currentSlide,
         setter,
-    } = useCarousel<ReviewType>({
+    } = useCarousel<Service>({
         containerRef: carouselRef,
     });
+
+    useEffect(() => {
+        setter(services);
+    }, [services])
 
     return (
         <div>
@@ -32,11 +38,11 @@ const Services = () => {
                         '-ml-5 flex w-max items-start gap-6 sm:-ml-15 sm:gap-10 md:-ml-19 lg:-ml-27 lg:gap-13 xl:-ml-47',
                     )}
                 >
-                    {carouselSlides?.map((review, idx) => (
-                        <ReviewCard
-                            key={review.id}
+                    {carouselSlides?.map((service, idx) => (
+                        <ServiceCard
+                            key={service.id}
                             active={idx === 3}
-                            review={review}
+                            service={service}
                         />
                     ))}
                 </ul>

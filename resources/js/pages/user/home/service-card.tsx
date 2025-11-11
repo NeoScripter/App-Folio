@@ -1,11 +1,10 @@
-import LazyImage from '@/components/user/ui/lazy-image';
-import { ReviewType } from '@/lib/types/reviews';
+import { Service } from '@/lib/data/services';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 
-const ServiceCard: FC<{ review: ReviewType; active: boolean }> = ({
-    review,
+const ServiceCard: FC<{ service: Service; active: boolean }> = ({
+    service,
     active,
 }) => {
     const lang = locale.value === 'ru' ? 'Ru' : 'En';
@@ -13,25 +12,15 @@ const ServiceCard: FC<{ review: ReviewType; active: boolean }> = ({
     return (
         <li
             class={cn(
-                'bg-muted review-slide border-accent-foreground/15 ease flex flex-col items-start gap-8 rounded-xl border py-7.5 pr-7 pl-6 transition-opacity duration-150 select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13',
+                'bg-muted/85 border border-accent-foreground/10 ease w-80 gap-8 rounded-xl sm:py-10.5 px-5 sm:px-8 pt-8 pb-15 transition-opacity duration-150 select-none sm:w-96',
                 !active && 'opacity-30',
             )}
         >
-            {review.image && (
-                <LazyImage
-                    parentClass="size-32 md:size-40 lg:size-51 shrink-0 rounded-full"
-                    alt={review.image[`alt${lang}`]}
-                    tinyImg={review.image.tinyPath}
-                    img={review.image.path}
-                />
-            )}
-            <div>
-                <p class="mb-6">{review.attributes[`description${lang}`]}</p>
-
-                <p class="font-bold md:text-xl xl:text-2xl">
-                    {review.attributes[`author${lang}`]}
-                </p>
+            <div class="mb-4.5">
+                <service.icon class="size-12" strokeWidth={1.5} />
             </div>
+            <p class="mb-6.5 font-semibold text-xl sm:text-2xl">{service[`title${lang}`]}</p>
+            <p class="sm:text-xl">{service[`description${lang}`]}</p>
         </li>
     );
 };
