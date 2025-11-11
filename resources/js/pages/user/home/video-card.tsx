@@ -44,20 +44,22 @@ const VideoCard: FC<{
                     />
                 )}
                 {active && (
-                    <div class="absolute inset-0 translate-y-1/5 m-auto size-23 xl:size-32">
-                        <img
-                            aria-hidden="true"
-                            class="size-full"
-                            src={PlayBtn}
-                            alt="play button"
+                    <>
+                        <div class="absolute inset-0 m-auto size-23 translate-y-1/5 xl:size-32">
+                            <img
+                                aria-hidden="true"
+                                class="size-full"
+                                src={PlayBtn}
+                                alt="play button"
+                            />
+                        </div>
+                        <button
+                            type="button"
+                            class="absolute inset-0 z-10"
+                            onClick={() => setLoaded(true)}
                         />
-                    </div>
+                    </>
                 )}
-                <button
-                    type="button"
-                    class="absolute inset-0 z-10"
-                    onClick={() => setLoaded(true)}
-                />
             </>
         );
     };
@@ -65,11 +67,12 @@ const VideoCard: FC<{
     return (
         <li
             class={cn(
-                'shadow-video ease relative isolate h-85 w-[60vw] overflow-clip rounded-xl transition-all duration-300 lg:h-80 lg:w-[50vw] xl:h-108',
+                'shadow-video ease relative isolate h-85 w-[60vw] max-w-240 overflow-clip rounded-xl transition-all duration-300 lg:h-80 lg:w-[50vw] xl:h-108',
                 {
                     'translate-x-1/3': leftNei,
                     '-translate-x-1/3': rightNei,
                     'z-10 scale-130 md:scale-120': active,
+                    'pointer-event-none opacity-0': !active && !rightNei && !leftNei,
                 },
             )}
         >

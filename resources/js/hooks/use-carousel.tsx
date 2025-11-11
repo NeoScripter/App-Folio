@@ -48,8 +48,16 @@ function carouselReducer<T>(
                 slides: action.slides,
             };
         case 'START_SLIDE':
+            const nextSlide =
+                action.direction === 1
+                    ? (state.currentSlide + 1) % state.slides.length
+                    : state.currentSlide === 0
+                      ? state.slides.length - 1
+                      : state.currentSlide - 1;
+
             return {
                 ...state,
+                currentSlide: nextSlide,
                 isAnimating: true,
                 shouldAnimate: true,
                 multiplier: action.direction,
@@ -63,15 +71,8 @@ function carouselReducer<T>(
                           ...state.slides.slice(0, -1),
                       ];
 
-            const nextSlide =
-                action.direction === 1
-                    ? (state.currentSlide + 1) % state.slides.length
-                    : state.currentSlide === 0
-                      ? state.slides.length - 1
-                      : state.currentSlide - 1;
             return {
                 ...state,
-                currentSlide: nextSlide,
                 slides: newSlides,
                 isAnimating: false,
                 shouldAnimate: false,
