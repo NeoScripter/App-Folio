@@ -50,6 +50,9 @@ const Videos = () => {
                     ref={carouselRef}
                     className={cn(
                         'flex w-max items-start md:-ml-5 lg:-ml-27 xl:-ml-47',
+                        {
+                            'gap-2 sm:gap-5 md:gap-8 xl:gap-10' : loading
+                        }
                     )}
                 >
                     {!loading

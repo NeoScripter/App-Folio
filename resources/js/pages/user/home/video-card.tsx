@@ -94,10 +94,8 @@ export const VideoCardSkeleton = () => {
     return (
         <li
             class={cn(
-                'bg-muted video-slide border-accent-foreground/15 ease flex flex-col items-start gap-8 rounded-xl border py-7.5 pr-7 pl-6 select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13',
+                'shadow-video h-85 w-[60vw] max-w-240 rounded-xl lg:h-80 lg:w-[50vw] xl:h-108 2xl:h-120 skeleton shrink-0',
             )}
-        >
-            <div class="skeleton size-32 shrink-0 animate-pulse rounded-full md:size-40 lg:size-51" />
-        </li>
+        />
     );
 };
