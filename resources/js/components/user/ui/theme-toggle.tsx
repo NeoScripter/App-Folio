@@ -31,15 +31,9 @@ const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
             />
             <label
                 htmlFor="switch"
-                class="border-foreground/20 w-15 border-2 lg:border-white/20"
+                class="border-foreground/50 w-17 lg:w-20 border-2 lg:border-white/50"
                 aria-hidden="true"
             />
-            <span
-                class="text-xs whitespace-nowrap lg:absolute lg:-top-6 lg:-right-5"
-                aria-live="polite"
-            >
-                {isDark ? 'Темная ' : 'Светлая '} тема
-            </span>
         </div>
     );
 };
