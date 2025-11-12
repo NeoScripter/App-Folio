@@ -1,5 +1,6 @@
 import ApiError from '@/components/user/ui/api-error';
 import { useFetch } from '@/hooks/use-fetch';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { FaqResource } from '@/lib/types/faqs';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
@@ -10,6 +11,7 @@ const Faqs = () => {
     const { fetchData, loading, errors } = useFetch();
     const [data, setData] = useState<FaqResource | null>(null);
     const [currentIdx, setCurrentIdx] = useState<number | null>(null);
+    const [ref, isIntersecting] = useIntersectionObserver<HTMLUListElement>();
 
     const selectFaq = (idx: number) => {
         setCurrentIdx((prev) => (idx === prev ? null : idx));
@@ -33,13 +35,15 @@ const Faqs = () => {
         <div>
             <div className="relative mt-16 mb-40 sm:mt-19">
                 <ul
+                    ref={ref}
                     className={cn(
-                        'grid items-start isolate gap-7 lg:grid-cols-2 lg:gap-x-11',
+                        'isolate grid items-start gap-7 lg:grid-cols-2 lg:gap-x-11',
                     )}
                 >
                     {!loading
                         ? faqs?.map((faq, idx) => (
                               <FaqCard
+                                  isReached={isIntersecting}
                                   idx={idx}
                                   key={faq.id}
                                   open={idx === currentIdx}

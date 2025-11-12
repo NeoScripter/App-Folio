@@ -5,7 +5,7 @@ import { appearance } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 import LangToggle from '../ui/lang-toggle';
-import LogoRus from '../ui/logo-rus';
+import Logo from '../ui/logo';
 import ThemeToggle from '../ui/theme-toggle';
 import NavLink from './nav-link';
 
@@ -43,7 +43,7 @@ const Header: FC<{ show: boolean }> = ({ show }) => {
                         show && 'slide-in',
                     )}
                 >
-                    <LogoRus className="w-32" />
+                    <Logo className="w-32" />
                 </div>
             </div>
             <span

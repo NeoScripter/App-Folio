@@ -1,20 +1,32 @@
 import { FaqType } from '@/lib/types/faqs';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
-import { FC } from 'preact/compat';
+import { FC, useState } from 'preact/compat';
 
 const FaqCard: FC<{
+    isReached: boolean;
     faq: FaqType;
     open: boolean;
     onClick: () => void;
     idx: number;
-}> = ({ faq, open, onClick, idx }) => {
+}> = ({ faq, open, onClick, idx, isReached }) => {
     const lang = locale.value === 'ru' ? 'Ru' : 'En',
         isEven = idx % 2 === 0;
 
+    const [hasAnimated, setHasAnimated] = useState(false);
+
+    if (isReached && !hasAnimated) {
+        setHasAnimated(true);
+    }
+
     return (
         <li
-            class="border-accent-foreground/10 faq-animation bg-muted relative rounded-sm border px-5 py-7 shadow-xl sm:px-7 sm:pt-10 sm:pb-11 xl:px-9.5"
+            class={cn(
+                'border-accent-foreground/10 bg-muted relative rounded-sm border px-5 py-7 shadow-xl sm:px-7 sm:pt-10 sm:pb-11 xl:px-9.5',
+                {
+                    'faq-animation': hasAnimated,
+                },
+            )}
             style={{
                 '--offsetY': isEven ? idx : idx + 1,
                 '--offsetX': isEven ? -idx : idx + 1,

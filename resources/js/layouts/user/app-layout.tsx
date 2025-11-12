@@ -1,7 +1,8 @@
-import AppHeader from '@/components/user/ui/app-header';
 import { cn } from '@/utils/cn';
 import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
+import AppHeader from './app-header';
+import AppFooter from './app-footer';
 
 const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
     children,
@@ -9,12 +10,17 @@ const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
 }) => {
     return (
         <main
-            class={cn('mx-auto overflow-x-clip max-w-480 md:px-4 md:pt-4 xl:px-24', className)}
+            class={cn(
+                'mx-auto max-w-480 overflow-x-clip md:px-4 md:pt-4 xl:px-24',
+                className,
+            )}
             id="wrapper"
         >
             <AppHeader />
 
             {children}
+
+            <AppFooter />
         </main>
     );
 };

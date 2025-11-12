@@ -1,14 +1,14 @@
+import NavDrawer, { Nav } from '@/components/user/nav/nav-drawer';
+import BurgerMenu from '@/components/user/ui/burger-menu';
+import LangToggle from '@/components/user/ui/lang-toggle';
+import Logo from '@/components/user/ui/logo';
+import ThemeToggle from '@/components/user/ui/theme-toggle';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
 import useScrollOffset from '@/hooks/use-scroll-offset';
 import { LG } from '@/lib/constants/breakpoints';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useEffect, useState } from 'preact/compat';
-import NavDrawer, { Nav } from '../nav/nav-drawer';
-import BurgerMenu from './burger-menu';
-import LangToggle from './lang-toggle';
-import LogoRus from './logo-rus';
-import ThemeToggle from './theme-toggle';
 
 const heroBaseOffsets = {
     mobile: 840,
@@ -66,12 +66,12 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                     'bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
-                        'max-w-394 2xl:max-w-432 md:rounded-t-xl': !isBelowHero,
+                        'max-w-394 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
                     },
                 )}
             >
                 <div class="w-36">
-                    <LogoRus />
+                    <Logo />
                 </div>
 
                 {showDrawer && (

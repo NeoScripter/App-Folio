@@ -4,7 +4,7 @@ import Faqs from './faqs';
 
 const FaqsSection = () => {
     return (
-        <AppSection className="pb-28 sm:pb-23 lg:pb-31 xl:pb-35">
+        <AppSection>
             <SecondaryHeading className='xl:mb-28'>
                 Ответы на вопросы
             </SecondaryHeading>

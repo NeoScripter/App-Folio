@@ -1,0 +1,100 @@
+import { Button } from '@/components/user/ui/button';
+import { cn } from '@/utils/cn';
+import { LucideIcon, Mail, PhoneCall } from 'lucide-preact';
+import { FC } from 'preact/compat';
+
+const AppFooter: FC<{ className?: string }> = ({ className }) => {
+    return (
+        <footer class={cn('', className)}>
+            <div class="bg-footer-bg text-footer-text relative isolate overflow-clip rounded-t-md px-10 pt-10 pb-7 sm:px-14 sm:pb-10 lg:w-125 lg:pb-11 lg:pl-10 xl:w-150 xl:pt-15 xl:pr-8 xl:pl-18">
+                <ArtLayer />
+
+                <h3 class="mb-4 xl:mb-6 text-4xl font-bold text-white sm:text-5xl">
+                    Контакты
+                </h3>
+                <p class="sm:mr-10 sm:text-lg xl:text-2xl">
+                    Всегда рад ответить на любые ваши вопросы
+                </p>
+
+                <Button
+                    variant="footer"
+                    class="mt-7 rounded-2xl sm:mt-6 lg:mt-19 lg:hidden"
+                >
+                    Форма для связи
+                </Button>
+
+                <FooterLink
+                    className="mt-23 sm:mt-10 lg:mt-19"
+                    label="+63 950 464 35 91"
+                    href="tel:+639504643591"
+                    icon={PhoneCall}
+                />
+
+                <FooterLink
+                    className="mt-3.5 sm:mt-4.5"
+                    label="ask@ilyaandreev.dev"
+                    href="mailto:ask@ilyaandreev.dev"
+                    icon={Mail}
+                />
+
+                <p class="mt-15 sm:mt-13 lg:mt-50 xl:text-right xl:text-lg">
+                    © Илья Андреев, 2025. Все права защищены
+                </p>
+            </div>
+        </footer>
+    );
+};
+
+export default AppFooter;
+
+const FooterLink: FC<{
+    className?: string;
+    label: string;
+    icon: LucideIcon;
+    href: string;
+}> = ({ className, label, href, icon: Icon }) => {
+    return (
+        <a
+            target="_blank"
+            href={href}
+            class={cn(
+                'flex items-center gap-5 sm:gap-6 sm:text-xl xl:text-2xl',
+                className,
+            )}
+        >
+            <Icon class="size-5 sm:size-6 xl:size-7" />
+            <span>{label}</span>
+        </a>
+    );
+};
+
+const Ellipse = () => {
+    return (
+        <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 138 138"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle cx="69" cy="69" r="69" fill="#FFF9F9" fill-opacity="0.13" />
+        </svg>
+    );
+};
+
+const ArtLayer = () => {
+    return (
+        <div
+            class="absolute -right-1/4 -bottom-1/8 size-67.5 sm:-right-1/10"
+            aria-hidden="true"
+        >
+            <Ellipse />
+            <div
+                class="absolute -top-1/5 -left-1/5 size-38 translate-1/5"
+                aria-hidden="true"
+            >
+                <Ellipse />
+            </div>
+        </div>
+    );
+};
