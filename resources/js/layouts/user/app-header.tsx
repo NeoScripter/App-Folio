@@ -8,7 +8,7 @@ import { useEscapeKey } from '@/hooks/use-escape-key';
 import useScrollOffset from '@/hooks/use-scroll-offset';
 import { LG } from '@/lib/constants/breakpoints';
 import { cn } from '@/utils/cn';
-import { createPortal, FC, useEffect, useState } from 'preact/compat';
+import { createPortal, FC, useEffect, useRef, useState } from 'preact/compat';
 
 const heroBaseOffsets = {
     mobile: 840,
@@ -21,6 +21,8 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         '#nav-drawer',
         '#burger-menu',
     ]);
+    const [hide, setHide] = useState(false);
+    const lastScrollTopRef = useRef(0);
 
     const { isBelow: isBelowPadding } = useScrollOffset(16);
 
@@ -53,6 +55,27 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         return () => mq.removeEventListener('change', updateDrawerStatus);
     }, [mq]);
 
+    useEffect(() => {
+        const handleScrollDown = () => {
+            const currentScrollTop =
+                window.scrollY || document.documentElement.scrollTop;
+
+            if (currentScrollTop > lastScrollTopRef.current) {
+                // User is scrolling down
+                setHide(true);
+            } else if (currentScrollTop < lastScrollTopRef.current) {
+                // User is scrolling up
+                setHide(false);
+            }
+
+            lastScrollTopRef.current = currentScrollTop;
+        };
+
+        window.addEventListener('scroll', handleScrollDown);
+
+        return () => window.removeEventListener('scroll', handleScrollDown);
+    }, []);
+
     return (
         <header
             class={cn(
@@ -63,10 +86,11 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         >
             <div
                 class={cn(
-                    'bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
+                    'bg-home-hero-bg/40 transition-transform duration-300 ease-in mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
                         'max-w-394 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
+                        '-translate-y-full': hide,
                     },
                 )}
             >

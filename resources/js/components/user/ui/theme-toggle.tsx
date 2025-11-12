@@ -31,7 +31,7 @@ const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
             />
             <label
                 htmlFor="switch"
-                class="border-foreground/50 w-17 xl:w-18 border-2 border-dotted lg:border-white/50"
+                class="border-foreground/50 w-17 xl:w-18 border-5 border-double lg:border-white/50"
                 aria-hidden="true"
             />
         </div>
