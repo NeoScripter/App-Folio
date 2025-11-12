@@ -11,6 +11,7 @@ const Services = () => {
     const carouselRef = useRef(null);
     const {
         slides: carouselSlides,
+        animatingSlide,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
@@ -41,7 +42,7 @@ const Services = () => {
                     {carouselSlides?.map((service, idx) => (
                         <ServiceCard
                             key={service.id}
-                            active={idx === 3}
+                            active={idx === animatingSlide}
                             service={service}
                         />
                     ))}

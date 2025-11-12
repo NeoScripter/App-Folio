@@ -13,6 +13,7 @@ const Videos = () => {
     const carouselRef = useRef(null);
     const {
         slides: carouselSlides,
+        animatingSlide,
         handleTouchStart,
         handleTouchEnd,
         handleIncrement,
@@ -55,9 +56,9 @@ const Videos = () => {
                         ? carouselSlides?.map((video, idx) => (
                               <VideoCard
                                   key={video.id}
-                                  active={idx === 3}
-                                  leftNei={idx === 2}
-                                  rightNei={idx === 4}
+                                  active={idx === animatingSlide}
+                                  leftNei={idx === animatingSlide - 1}
+                                  rightNei={idx === animatingSlide + 1}
                                   video={video}
                               />
                           ))

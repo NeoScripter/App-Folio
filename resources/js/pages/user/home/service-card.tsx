@@ -12,14 +12,16 @@ const ServiceCard: FC<{ service: Service; active: boolean }> = ({
     return (
         <li
             class={cn(
-                'bg-muted/85 border border-accent-foreground/10 ease w-80 gap-8 rounded-xl sm:py-10.5 px-5 sm:px-8 pt-8 pb-15 transition-opacity duration-150 select-none sm:w-96',
+                'bg-muted/85 border-accent-foreground/10 ease w-80 gap-8 rounded-xl border px-5 pt-8 pb-15 transition-opacity duration-500 ease-in select-none sm:w-96 sm:px-8 sm:py-10.5',
                 !active && 'opacity-30',
             )}
         >
             <div class="mb-4.5">
                 <service.icon class="size-12" strokeWidth={1.5} />
             </div>
-            <p class="mb-6.5 font-semibold text-xl sm:text-2xl">{service[`title${lang}`]}</p>
+            <p class="mb-6.5 text-xl font-semibold sm:text-2xl">
+                {service[`title${lang}`]}
+            </p>
             <p class="sm:text-xl">{service[`description${lang}`]}</p>
         </li>
     );

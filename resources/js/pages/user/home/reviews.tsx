@@ -14,6 +14,7 @@ const Reviews = () => {
     const {
         slides: carouselSlides,
         handleTouchStart,
+        animatingSlide,
         handleTouchEnd,
         handleIncrement,
         handleDecrement,
@@ -57,7 +58,7 @@ const Reviews = () => {
                         ? carouselSlides?.map((review, idx) => (
                               <ReviewCard
                                   key={review.id}
-                                  active={idx === 3}
+                                  active={idx === animatingSlide}
                                   review={review}
                               />
                           ))

@@ -14,6 +14,7 @@ type UseCarouselOptions = {
 type UseCarouselReturn<T> = {
     slides: T[];
     currentSlide: number;
+    animatingSlide: number;
     handleTouchStart: (e: TouchEvent) => void;
     handleTouchEnd: (e: TouchEvent) => void;
     handleIncrement: () => void;
@@ -23,6 +24,7 @@ type UseCarouselReturn<T> = {
 
 type CarouselState<T> = {
     slides: T[];
+    animatingSlide: number;
     multiplier: number;
     currentSlide: number;
     shouldAnimate: boolean;
@@ -55,9 +57,15 @@ function carouselReducer<T>(
                       ? state.slides.length - 1
                       : state.currentSlide - 1;
 
+            const animatingSlide =
+                action.direction === 1
+                    ? INITIAL_OFFSET + 1
+                    : INITIAL_OFFSET - 1;
+
             return {
                 ...state,
                 currentSlide: nextSlide,
+                animatingSlide: animatingSlide,
                 isAnimating: true,
                 shouldAnimate: true,
                 multiplier: action.direction,
@@ -74,6 +82,7 @@ function carouselReducer<T>(
             return {
                 ...state,
                 slides: newSlides,
+                animatingSlide: INITIAL_OFFSET,
                 isAnimating: false,
                 shouldAnimate: false,
                 multiplier: 0,
@@ -99,6 +108,7 @@ export function useCarousel<T>({
 }: UseCarouselOptions): UseCarouselReturn<T> {
     const [state, dispatch] = useReducer(carouselReducer<T>, {
         slides: [],
+        animatingSlide: INITIAL_OFFSET,
         multiplier: 0,
         currentSlide: 0,
         shouldAnimate: false,
@@ -203,6 +213,7 @@ export function useCarousel<T>({
 
     return {
         slides: state.slides,
+        animatingSlide: state.animatingSlide,
         currentSlide: state.currentSlide + 1,
         handleTouchStart,
         handleTouchEnd,

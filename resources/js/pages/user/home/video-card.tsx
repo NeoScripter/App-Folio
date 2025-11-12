@@ -25,7 +25,7 @@ const VideoCard: FC<{
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
+                allowFullScreen
             />
         );
     };
@@ -67,12 +67,13 @@ const VideoCard: FC<{
     return (
         <li
             class={cn(
-                'shadow-video ease relative isolate h-85 w-[60vw] max-w-240 overflow-clip rounded-xl transition-all duration-300 lg:h-80 lg:w-[50vw] xl:h-108',
+                'shadow-video ease-in relative isolate h-85 w-[60vw] max-w-240 overflow-clip rounded-xl transition-all bg-user-background duration-650 lg:h-80 lg:w-[50vw] xl:h-108 2xl:h-120',
                 {
                     'translate-x-1/3': leftNei,
                     '-translate-x-1/3': rightNei,
                     'z-10 scale-130 md:scale-120': active,
-                    'pointer-event-none opacity-0': !active && !rightNei && !leftNei,
+                    'pointer-event-none opacity-0':
+                        !active && !rightNei && !leftNei,
                 },
             )}
         >
