@@ -7,6 +7,8 @@ export interface VideoType {
     id: number;
     attributes: {
         url: string;
+        titleRu: string;
+        titleEn: string;
     };
     image?: {
         path: string;

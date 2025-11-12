@@ -21,7 +21,7 @@ const VideoCard: FC<{
                 width="100%"
                 height="100%"
                 src={video.attributes.url}
-                title="YouTube video player"
+                title={video.attributes[`title${lang}`]}
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
@@ -83,7 +83,7 @@ const VideoCard: FC<{
                     class="pointer-events-none absolute inset-0 z-10 bg-black/40"
                 />
             )}
-            {loaded ? <Iframe /> : <Preview />}
+            {loaded && active ? <Iframe /> : <Preview />}
         </li>
     );
 };

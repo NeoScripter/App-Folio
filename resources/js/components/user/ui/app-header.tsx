@@ -12,8 +12,8 @@ import ThemeToggle from './theme-toggle';
 
 const heroBaseOffsets = {
     mobile: 840,
-    tablet: 924 + 16,
-    desktop: 448 + 16,
+    tablet: 1224 + 16,
+    desktop: 648 + 16,
 };
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
@@ -66,7 +66,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                     'bg-home-hero-bg/40 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
-                        'md:rounded-t-xl': !isBelowHero,
+                        'max-w-394 2xl:max-w-432 md:rounded-t-xl': !isBelowHero,
                     },
                 )}
             >

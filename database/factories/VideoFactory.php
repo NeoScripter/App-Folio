@@ -16,8 +16,13 @@ class VideoFactory extends Factory
      */
     public function definition(): array
     {
+        $fakerRu = \Faker\Factory::create('ru_RU');
+        $fakerEn = \Faker\Factory::create('en_US');
+
         return [
-            'url' => 'https://www.youtube.com/embed/MVj1Yqak6bY?si=qg0LceeIokh9hS9_'
+            'url' => 'https://www.youtube.com/embed/MVj1Yqak6bY?si=qg0LceeIokh9hS9_',
+            'title_ru' => implode(' ', $fakerRu->words(4)),
+            'title_en' => implode(' ', $fakerEn->words(4)),
         ];
     }
 }

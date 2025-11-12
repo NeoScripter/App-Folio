@@ -1,10 +1,8 @@
 import CarouselControls from '@/components/user/ui/carousel-controls';
 import { useCarousel } from '@/hooks/use-carousel';
-import { ReviewType } from '@/lib/types/reviews';
+import { Service, services } from '@/lib/data/services';
 import { cn } from '@/utils/cn';
 import { useEffect, useRef } from 'preact/compat';
-import ReviewCard from './review-card';
-import { Service, services } from '@/lib/data/services';
 import ServiceCard from './service-card';
 
 const Services = () => {
@@ -24,7 +22,7 @@ const Services = () => {
 
     useEffect(() => {
         setter(services);
-    }, [services])
+    }, [services]);
 
     return (
         <div>

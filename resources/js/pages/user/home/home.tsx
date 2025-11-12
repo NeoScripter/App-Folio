@@ -3,6 +3,7 @@ import HeroSection from './hero-section';
 import IntroSection from './intro-section';
 import ServicesSection from './services-section';
 import VideosSection from './videos-section';
+import PerksSection from './perks-section';
 
 export default function Home() {
     return (
@@ -11,6 +12,7 @@ export default function Home() {
             <IntroSection />
             <ServicesSection />
             <VideosSection />
+            <PerksSection />
         </AppLayout>
     );
 }

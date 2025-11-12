@@ -1,6 +1,5 @@
 import { RefObject } from 'preact';
 import { useCallback, useEffect, useReducer } from 'preact/hooks';
-import useThrottle from './use-throttle';
 
 const ANIMATION_DURATION = 700;
 const INITIAL_OFFSET = 3;
@@ -125,11 +124,6 @@ export function useCarousel<T>({
         }
     };
 
-    const throttledApplyTransform = useThrottle(
-        () => applyTransform(0, false),
-        150,
-    );
-
     const getOffset = useCallback(() => {
         const container = containerRef.current;
         if (!container) return 0;
@@ -206,9 +200,10 @@ export function useCarousel<T>({
     );
 
     useEffect(() => {
-        window.addEventListener('resize', throttledApplyTransform);
+        const handleResize = () => requestAnimationFrame(() => applyTransform(0, false));
+        window.addEventListener('resize', handleResize);
         return () =>
-            window.removeEventListener('resize', throttledApplyTransform);
+            window.removeEventListener('resize', handleResize);
     }, [applyTransform]);
 
     return {

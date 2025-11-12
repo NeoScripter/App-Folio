@@ -1,17 +1,45 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef } from 'preact/hooks';
 
-const useDebounce = <T,>(value: T, delay: number = 500): T => {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+type Callback = () => void;
+
+function useTimeout(callback: Callback, delay: number) {
+    const callbackRef = useRef<Callback>(callback);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setDebouncedValue(value);
-        }, delay);
+        callbackRef.current = callback;
+    }, [callback]);
 
-        return () => clearTimeout(timeout);
-    }, [value, delay]);
+    const set = useCallback(() => {
+        timeoutRef.current = setTimeout(() => callbackRef.current(), delay);
+    }, [delay]);
 
-    return debouncedValue;
-};
+    const clear = useCallback(() => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+    }, []);
 
-export default useDebounce;
+    useEffect(() => {
+        set();
+        return clear;
+    }, [delay, set, clear]);
+
+    const reset = useCallback(() => {
+        clear();
+        set();
+    }, [clear, set]);
+
+    return { reset, clear };
+}
+
+export default function useDebounce(
+    callback: Callback,
+    delay: number,
+    dependencies: DependencyList,
+): void {
+    const { reset, clear } = useTimeout(callback, delay);
+
+    useEffect(reset, [...dependencies, reset]);
+    useEffect(clear, []);
+}
