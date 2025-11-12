@@ -11,6 +11,6 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        return ReviewResource:: collection(Review::all());
+        return ReviewResource::collection(Review::all());
     }
 }
