@@ -7,6 +7,7 @@ import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
 import { useEffect, useRef } from 'preact/compat';
 import ReviewCard, { ReviewCardSkeleton } from './review-card';
+import { locale } from '@/signals/locale';
 
 const Reviews = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -33,6 +34,8 @@ const Reviews = () => {
         });
     }, []);
 
+    const listLabel = locale.value === 'ru' ? "Отзывы клиентов" : "Customer reviews";
+
     if (errors != null)
         return (
             <ApiError
@@ -53,6 +56,9 @@ const Reviews = () => {
                     className={cn(
                         '-ml-5 flex w-max items-start gap-6 sm:-ml-15 sm:gap-10 md:-ml-19 lg:-ml-27 lg:gap-13 xl:-ml-47',
                     )}
+                    role="tablist"
+                    aria-label={listLabel}
+                    aria-live="polite"
                 >
                     {!loading
                         ? carouselSlides?.map((review, idx) => (

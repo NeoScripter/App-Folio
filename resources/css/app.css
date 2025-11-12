@@ -314,3 +314,21 @@
 .skeleton {
     @apply animate-pulse bg-gray-300 text-transparent;
 }
+
+@media (not (prefers-reduced-motion: reduce)) {
+    .faq-animation {
+        animation: faqs calc(var(--offsetY) * 400ms) ease-in-out forwards;
+    }
+}
+
+@keyframes faqs {
+    0% {
+        transform: translate(
+            calc(var(--offsetX) * -50%),
+            calc(var(--offsetY) * -100%)
+        );
+    }
+    100% {
+        transform: translate(0%, 0%);
+    }
+}

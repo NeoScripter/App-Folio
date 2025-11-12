@@ -16,6 +16,10 @@ const ReviewCard: FC<{ review: ReviewType; active: boolean }> = ({
                 'bg-muted review-slide border-accent-foreground/15 ease flex flex-col items-start gap-8 rounded-xl border py-7.5 pr-7 pl-6 transition-opacity duration-500 ease-in select-none sm:flex-row sm:gap-10.5 sm:py-12 sm:pr-18 sm:pl-8 sm:text-base md:items-center lg:gap-12 lg:pt-12 lg:pr-17 lg:pb-18 lg:pl-10.5 lg:text-xl xl:pb-13',
                 !active && 'opacity-30',
             )}
+            role="tabpanel"
+            aria-label={`Review by ${review.attributes[`author${lang}`]}`}
+            aria-hidden={!active}
+            tabIndex={active ? 0 : -1}
         >
             {review.image && (
                 <LazyImage
@@ -26,10 +30,15 @@ const ReviewCard: FC<{ review: ReviewType; active: boolean }> = ({
                 />
             )}
             <div>
-                <p class="mb-6">{review.attributes[`description${lang}`]}</p>
-
+                <blockquote>
+                    <p class="mb-6">
+                        {review.attributes[`description${lang}`]}
+                    </p>
+                </blockquote>
                 <p class="font-bold md:text-xl xl:text-2xl">
-                    {review.attributes[`author${lang}`]}
+                    <cite class="not-italic">
+                        {review.attributes[`author${lang}`]}
+                    </cite>
                 </p>
             </div>
         </li>
@@ -54,7 +63,7 @@ export const ReviewCardSkeleton = () => {
                     dignissim malesuada commodo ultrices.
                 </p>
 
-                <p class="skeleton animate-pulse font-bold md:text-xl xl:text-2xl w-40">
+                <p class="skeleton w-40 animate-pulse font-bold md:text-xl xl:text-2xl">
                     Lorem
                 </p>
             </div>

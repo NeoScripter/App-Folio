@@ -1,3 +1,4 @@
+import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
 import { ChevronLeft } from 'lucide-preact';
@@ -10,13 +11,26 @@ const CarouselControls: FC<{
     handlePrev: () => void;
     handleNext: () => void;
 }> = ({ className, handleNext, handlePrev, slides, current }) => {
+    const navLabel =
+        locale.value === 'ru' ? 'Навигация карусели' : 'Carousel navigation';
+
     return (
-        <nav class={cn('flex items-center justify-center gap-5 md:justify-between md:max-w-240 md:mx-auto', className)}>
+        <nav
+            class={cn(
+                'flex items-center justify-center gap-5 md:mx-auto md:max-w-240 md:justify-between',
+                className,
+            )}
+            aria-label={navLabel}
+        >
             <CarouselBtn onClick={handlePrev} className="" />
 
             <div class="flex items-center justify-center gap-2">
                 {range(1, slides).map((dot) => (
-                    <SlideMarker key={dot} active={dot === current} />
+                    <SlideMarker
+                        key={dot}
+                        slideNumber={current}
+                        active={dot === current}
+                    />
                 ))}
             </div>
 
@@ -32,14 +46,35 @@ const CarouselBtn: FC<{ className?: string; onClick: () => void }> = ({
     onClick,
 }) => {
     return (
-        <button onClick={onClick} class={cn("hidden xs:block",className)}>
-            <ChevronLeft strokeWidth={3} class="text-gray-300 size-12 md:size-15" />
+        <button onClick={onClick} class={cn('xs:block hidden', className)}>
+            <ChevronLeft
+                strokeWidth={3}
+                class="size-12 text-gray-300 md:size-15"
+                aria-hidden="true"
+            />
         </button>
     );
 };
 
-const SlideMarker: FC<{ active: boolean }> = ({ active }) => {
+const SlideMarker: FC<{ active: boolean; slideNumber: number }> = ({
+    active,
+    slideNumber,
+}) => {
+    const markerLabel = active
+        ? locale.value === 'ru'
+            ? `Текущий слайд, слайд ${slideNumber}`
+            : `Current slide, slide ${slideNumber}`
+        : locale.value === 'ru'
+          ? `Слайд ${slideNumber}`
+          : `Slide ${slideNumber}`;
     return (
-        <div class={cn('bg-gray-300 h-2 md:h-3 flex-1 max-w-12 min-w-6 md:w-12 w-8 rounded-sm', active && 'bg-slide-marker')} />
+        <div
+            class={cn(
+                'h-2 w-8 max-w-12 min-w-6 flex-1 rounded-sm bg-gray-300 md:h-3 md:w-12',
+                active && 'bg-slide-marker',
+            )}
+            role="presentation"
+            aria-label={markerLabel}
+        />
     );
 };

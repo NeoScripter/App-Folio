@@ -26,7 +26,7 @@ const PerkCard: FC<{ perk: Perk }> = ({ perk }) => {
 
     return (
         <li>
-            <perk.icon class="mb-3 size-8 mx-auto sm:ml-0 sm:mb-4.5 lg:mb-6 xl:mb-7 xl:size-12" />
+            <perk.icon strokeWidth={1.5} class="mb-3 size-8 mx-auto sm:ml-0 sm:mb-4.5 lg:mb-6 xl:mb-7 xl:size-12" />
             <p class="text-center mx-auto max-w-110 sm:max-w-full sm:mx-0 text-balance sm:text-left">{perk[`description${lang}`]}</p>
         </li>
     );

@@ -4,8 +4,7 @@ import { FaqResource } from '@/lib/types/faqs';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
 import { useEffect, useState } from 'preact/compat';
-import FaqCard from './faq-card';
-import { VideoCardSkeleton } from './video-card';
+import FaqCard, { FaqSkeleton } from './faq-card';
 
 const Faqs = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -13,7 +12,7 @@ const Faqs = () => {
     const [currentIdx, setCurrentIdx] = useState<number | null>(null);
 
     const selectFaq = (idx: number) => {
-        setCurrentIdx(prev => idx === prev ? null : idx);
+        setCurrentIdx((prev) => (idx === prev ? null : idx));
     };
 
     useEffect(() => {
@@ -33,20 +32,23 @@ const Faqs = () => {
     return (
         <div>
             <div className="relative mt-16 mb-40 sm:mt-19">
-                <ul className={cn('grid gap-7 lg:grid-cols-2 items-start lg:gap-x-11')}>
+                <ul
+                    className={cn(
+                        'grid items-start isolate gap-7 lg:grid-cols-2 lg:gap-x-11',
+                    )}
+                >
                     {!loading
                         ? faqs?.map((faq, idx) => (
                               <FaqCard
+                                  idx={idx}
                                   key={faq.id}
                                   open={idx === currentIdx}
                                   onClick={() => selectFaq(idx)}
                                   faq={faq}
                               />
                           ))
-                        : range(0, 8).map((skeleton) => (
-                              <VideoCardSkeleton
-                                  key={`video-skeleton-${skeleton}`}
-                              />
+                        : range(0, 5).map((skeleton) => (
+                              <FaqSkeleton key={`faq-skeleton-${skeleton}`} />
                           ))}
                 </ul>
             </div>
