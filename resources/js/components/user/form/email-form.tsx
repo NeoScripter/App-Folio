@@ -79,13 +79,17 @@ const EmailForm: FC<{ className?: string }> = ({ className }) => {
             url: '/email',
             method: 'POST',
             payload: state,
-            onSuccess: () => {},
-            onError: () => toast.error('Login failed'),
+            onSuccess: (data) => {
+                toast.success(data.message);
+            },
+            onError: () => {
+                toast.error(errors?.general?.[0] || 'An error occured while sending an email, please try again later');
+            },
         });
     }
 
     return (
-        <form class="w-full" onSubmit={submit}>
+        <form class="w-full max-w-220" onSubmit={submit}>
             <div class="grid items-start gap-11 lg:grid-cols-2">
                 <div class="group grid gap-2">
                     <Label htmlFor="name">Full Name</Label>

@@ -9,11 +9,14 @@ import { FC } from 'preact/compat';
 const AppFooter: FC<{ className?: string }> = ({ className }) => {
     return (
         <footer
-            class={cn('lg:flex lg:items-center lg:justify-between lg:gap-12 xl:gap-24 2xl:gap-40', className)}
+            class={cn(
+                'lg:flex lg:items-center lg:justify-between lg:gap-12 xl:gap-24 2xl:gap-40',
+                className,
+            )}
         >
             <FooterInfo />
 
-            <div class="flex-1 hidden lg:block lg:pb-10 xl:pb-20 lg:mt-8 xl:pr-0 lg:pr-6">
+            <div class="hidden max-w-220 flex-1 lg:mt-8 lg:block lg:pr-6 lg:pb-10 xl:pr-0 xl:mt-14 2xl:mr-auto xl:pb-20">
                 <EmailForm />
             </div>
         </footer>

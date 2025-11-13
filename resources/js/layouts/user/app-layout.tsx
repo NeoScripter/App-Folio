@@ -1,8 +1,9 @@
 import { cn } from '@/utils/cn';
 import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
-import AppHeader from './app-header';
 import AppFooter from './app-footer';
+import AppHeader from './app-header';
+import { Toaster } from 'sonner';
 
 const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
     children,
@@ -21,6 +22,8 @@ const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
             {children}
 
             <AppFooter />
+
+            <Toaster position="top-center" />
         </main>
     );
 };
