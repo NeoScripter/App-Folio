@@ -15,13 +15,14 @@ interface State {
     data: any;
     loading: boolean;
     resentlySuccessful: boolean;
-    errors: ValidationErrors | string | null;
+    errors: ValidationErrors | null;
 }
 
 type Action =
     | { type: 'FETCH_START' }
     | { type: 'FETCH_SUCCESS'; payload: any }
-    | { type: 'FETCH_ERROR'; payload: ValidationErrors | string | null }
+    | { type: 'FETCH_ERROR'; payload: ValidationErrors | null }
+    | { type: 'SET_ERRORS'; payload: ValidationErrors | null }
     | { type: 'RESET_SUCCESS' }
     | { type: 'RESET' };
 
@@ -45,6 +46,8 @@ function reducer(state: State, action: Action): State {
             };
         case 'FETCH_ERROR':
             return { ...state, loading: false, errors: action.payload };
+        case 'SET_ERRORS':
+            return { ...state, errors: action.payload };
         case 'RESET_SUCCESS':
             return { ...state, resentlySuccessful: false };
         case 'RESET':
@@ -105,14 +108,24 @@ export function useFetch() {
                 err instanceof Error ? err.message : 'API fetching error';
 
             console.error(message);
-            dispatch({ type: 'FETCH_ERROR', payload: message });
+            dispatch({ type: 'FETCH_ERROR', payload: { general: [message] } });
             onError?.();
         }
+    }
+
+    function setErrors(errors: ValidationErrors | null) {
+        dispatch({ type: 'SET_ERRORS', payload: errors });
+    }
+
+    function clearErrors() {
+        dispatch({ type: 'SET_ERRORS', payload: null });
     }
 
     return {
         ...state,
         fetchData,
+        setErrors,
+        clearErrors,
         reset: () => dispatch({ type: 'RESET' }),
     };
 }

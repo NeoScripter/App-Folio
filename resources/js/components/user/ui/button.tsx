@@ -12,6 +12,8 @@ const buttonVariants = cva(
             variant: {
                 default:
                     'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+                primary:
+                    'bg-foreground flex text-user-background font-medium shadow-xs py-[0.5em] pl-[1.5em] pr-[1em] hover:ring-[3px] hover:ring-footer-text focus-visible:ring-footer-text',
                 hero: 'bg-zinc-700/20 hover:bg-zinc-700/60 text-white shadow-xs py-[0.5em] pl-[1.5em] pr-[1em] backdrop-blur-sm border border-white hover:ring-[3px] hover:ring-white focus-visible:ring-white',
                 footer: 'bg-white text-footer-bg font-medium shadow-xs py-[0.5em] pl-[1.5em] pr-[1em] backdrop-blur-sm hover:ring-[3px] hover:ring-footer-text focus-visible:ring-footer-text',
                 outline:
