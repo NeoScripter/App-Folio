@@ -95,7 +95,6 @@ const EmailForm: FC<{ className?: string }> = ({ className }) => {
                     <Label htmlFor="name">Full Name</Label>
                     <Input
                         id="name"
-                        tabIndex={2}
                         autoComplete="name"
                         value={state.name}
                         onInput={(e) =>
@@ -114,7 +113,6 @@ const EmailForm: FC<{ className?: string }> = ({ className }) => {
                     <Input
                         id="email"
                         type="email"
-                        tabIndex={1}
                         autoComplete="email"
                         value={state.email}
                         onInput={(e) =>
@@ -132,7 +130,6 @@ const EmailForm: FC<{ className?: string }> = ({ className }) => {
                     <Label htmlFor="telegram">Telegram</Label>
                     <Input
                         id="telegram"
-                        tabIndex={3}
                         autoComplete="telegram"
                         value={state.telegram}
                         onInput={(e) =>
@@ -150,7 +147,6 @@ const EmailForm: FC<{ className?: string }> = ({ className }) => {
                     <Label htmlFor="whatsapp">Whatsapp</Label>
                     <Input
                         id="whatsapp"
-                        tabIndex={4}
                         autoComplete="whatsapp"
                         value={state.whatsapp}
                         onInput={(e) =>
@@ -169,7 +165,6 @@ const EmailForm: FC<{ className?: string }> = ({ className }) => {
                 <Label htmlFor="message">Message</Label>
                 <TextArea
                     id="message"
-                    tabIndex={5}
                     autoComplete="message"
                     value={state.message}
                     onInput={(e) =>

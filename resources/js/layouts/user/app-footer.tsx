@@ -1,6 +1,7 @@
 import EmailForm from '@/components/user/form/email-form';
 import MailSvg from '@/components/user/svgs/mail-svg';
 import { Button } from '@/components/user/ui/button';
+import { useModal } from '@/providers/modal-context';
 import { cn } from '@/utils/cn';
 import { PhoneCall } from 'lucide-preact';
 import { ComponentChildren } from 'preact';
@@ -16,7 +17,7 @@ const AppFooter: FC<{ className?: string }> = ({ className }) => {
         >
             <FooterInfo />
 
-            <div class="hidden max-w-220 flex-1 lg:mt-8 lg:block lg:pr-6 lg:pb-10 xl:pr-0 xl:mt-14 2xl:mr-auto xl:pb-20">
+            <div class="hidden max-w-220 flex-1 lg:mt-8 lg:block lg:pr-6 lg:pb-10 xl:mt-14 xl:pr-0 xl:pb-20 2xl:mr-auto">
                 <EmailForm />
             </div>
         </footer>
@@ -26,6 +27,8 @@ const AppFooter: FC<{ className?: string }> = ({ className }) => {
 export default AppFooter;
 
 const FooterInfo = () => {
+    const { showModal } = useModal();
+
     return (
         <div class="bg-footer-bg text-footer-text relative isolate overflow-clip rounded-t-md px-10 pt-10 pb-7 sm:px-14 sm:pb-10 lg:w-125 lg:pb-11 lg:pl-10 xl:w-150 xl:pt-15 xl:pr-8 xl:pl-18">
             <ArtLayer />
@@ -38,6 +41,7 @@ const FooterInfo = () => {
             </p>
 
             <Button
+                onClick={() => (showModal.value = true)}
                 variant="footer"
                 class="mt-7 rounded-2xl sm:mt-6 lg:mt-19 lg:hidden"
             >
