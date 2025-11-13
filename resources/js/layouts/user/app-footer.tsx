@@ -1,6 +1,8 @@
+import MailSvg from '@/components/user/svgs/mail-svg';
 import { Button } from '@/components/user/ui/button';
 import { cn } from '@/utils/cn';
-import { LucideIcon, Mail, PhoneCall } from 'lucide-preact';
+import { Mail, PhoneCall } from 'lucide-preact';
+import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
 
 const AppFooter: FC<{ className?: string }> = ({ className }) => {
@@ -9,7 +11,7 @@ const AppFooter: FC<{ className?: string }> = ({ className }) => {
             <div class="bg-footer-bg text-footer-text relative isolate overflow-clip rounded-t-md px-10 pt-10 pb-7 sm:px-14 sm:pb-10 lg:w-125 lg:pb-11 lg:pl-10 xl:w-150 xl:pt-15 xl:pr-8 xl:pl-18">
                 <ArtLayer />
 
-                <h3 class="mb-4 xl:mb-6 text-4xl font-bold text-white sm:text-5xl">
+                <h3 class="mb-4 text-4xl font-bold text-white sm:text-5xl xl:mb-6">
                     Контакты
                 </h3>
                 <p class="sm:mr-10 sm:text-lg xl:text-2xl">
@@ -27,15 +29,17 @@ const AppFooter: FC<{ className?: string }> = ({ className }) => {
                     className="mt-23 sm:mt-10 lg:mt-19"
                     label="+63 950 464 35 91"
                     href="tel:+639504643591"
-                    icon={PhoneCall}
-                />
+                >
+                    <PhoneCall class="size-full group-hover:animate-wiggle" />
+                </FooterLink>
 
                 <FooterLink
                     className="mt-3.5 sm:mt-4.5"
                     label="ask@ilyaandreev.dev"
                     href="mailto:ask@ilyaandreev.dev"
-                    icon={Mail}
-                />
+                >
+                    <MailSvg className='size-full' />
+                </FooterLink>
 
                 <p class="mt-15 sm:mt-13 lg:mt-50 xl:text-right xl:text-lg">
                     © Илья Андреев, 2025. Все права защищены
@@ -50,19 +54,19 @@ export default AppFooter;
 const FooterLink: FC<{
     className?: string;
     label: string;
-    icon: LucideIcon;
     href: string;
-}> = ({ className, label, href, icon: Icon }) => {
+    children: ComponentChildren;
+}> = ({ className, label, href, children }) => {
     return (
         <a
             target="_blank"
             href={href}
             class={cn(
-                'flex items-center gap-5 sm:gap-6 sm:text-xl xl:text-2xl',
+                'flex items-center transition-colors duration-300 ease hover:text-white gap-5 sm:gap-6 sm:text-xl xl:text-2xl group',
                 className,
             )}
         >
-            <Icon class="size-5 sm:size-6 xl:size-7" />
+            <div class="size-5 sm:size-6 xl:size-7">{children}</div>
             <span>{label}</span>
         </a>
     );

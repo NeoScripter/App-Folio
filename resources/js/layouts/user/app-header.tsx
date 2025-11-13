@@ -60,7 +60,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
             const currentScrollTop =
                 window.scrollY || document.documentElement.scrollTop;
 
-            if (currentScrollTop > lastScrollTopRef.current) {
+            if (currentScrollTop > lastScrollTopRef.current + 30) {
                 // User is scrolling down
                 setHide(true);
             } else if (currentScrollTop < lastScrollTopRef.current) {
