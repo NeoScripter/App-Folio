@@ -1,14 +1,17 @@
+import AppHeaderContext, { HeaderVariant } from '@/providers/app-header-context';
 import { cn } from '@/utils/cn';
 import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
+import { Toaster } from 'sonner';
 import AppFooter from './app-footer';
 import AppHeader from './app-header';
-import { Toaster } from 'sonner';
 
-const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
-    children,
-    className,
-}) => {
+const AppLayout: FC<{
+    children: ComponentChildren;
+    className?: string;
+    hasFooter?: boolean;
+    variant?: HeaderVariant;
+}> = ({ children, className, hasFooter = true, variant = 'primary' }) => {
     return (
         <main
             class={cn(
@@ -17,12 +20,13 @@ const AppLayout: FC<{ children: ComponentChildren; className?: string }> = ({
             )}
             id="wrapper"
         >
-            <AppHeader />
+            <AppHeaderContext.Provider value={{ variant }}>
+                <AppHeader />
+            </AppHeaderContext.Provider>
 
             {children}
 
-            <AppFooter />
-
+            {hasFooter && <AppFooter />}
             <Toaster position="top-center" />
         </main>
     );

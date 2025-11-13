@@ -1,3 +1,4 @@
+import { useHeaderVariant } from '@/providers/app-header-context';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 
@@ -6,6 +7,8 @@ const BurgerMenu: FC<{
     onClick: () => void;
     show: boolean;
 }> = ({ className, onClick, show }) => {
+    const { variant } = useHeaderVariant();
+
     return (
         <button
             onClick={onClick}
@@ -13,9 +16,10 @@ const BurgerMenu: FC<{
             class={cn(
                 'size-9 transition-transform duration-300 ease-in',
                 {
+                    'scale-100': !show,
+                    'text-white': variant === 'primary',
                     'scale-50 text-gray-400 sm:translate-x-8 sm:-translate-y-3':
-                        show,
-                    'scale-100 text-white': !show,
+                    show,
                 },
                 className,
             )}

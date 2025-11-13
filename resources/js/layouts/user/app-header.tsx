@@ -7,6 +7,7 @@ import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
 import useScrollOffset from '@/hooks/use-scroll-offset';
 import { LG } from '@/lib/constants/breakpoints';
+import { useHeaderVariant } from '@/providers/app-header-context';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useEffect, useRef, useState } from 'preact/compat';
 
@@ -17,6 +18,8 @@ const heroBaseOffsets = {
 };
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
+    const { variant } = useHeaderVariant();
+
     const { show: showMenu, setShow: setShowMenu } = useClickOutside([
         '#nav-drawer',
         '#burger-menu',
@@ -86,11 +89,14 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         >
             <div
                 class={cn(
-                    'bg-home-hero-bg/40 transition-transform duration-300 ease-in mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 text-white backdrop-blur-sm sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
+                    'mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 backdrop-blur-sm transition-transform duration-300 ease-in sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
                         'max-w-394 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
                         '-translate-y-full': hide,
+                        'bg-home-hero-bg/40 text-white': variant === 'primary',
+                        'bg-muted': variant === 'secondary',
+                        'text-foreground': variant === 'ghost',
                     },
                 )}
             >
@@ -124,7 +130,10 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                     </div>
                 )}
 
-                {!isBelowHero && <Separator />}
+                {!isBelowHero &&
+                    (variant === 'primary' || variant === 'ghost') && (
+                        <Separator />
+                    )}
             </div>
         </header>
     );

@@ -1,8 +1,11 @@
+import { useHeaderVariant } from '@/providers/app-header-context';
 import { appearance } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, JSX } from 'preact/compat';
 
 const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
+    const { variant } = useHeaderVariant();
+
     const handleChange = (e: JSX.TargetedEvent<HTMLInputElement, Event>) => {
         if (e.currentTarget.checked) {
             appearance.value = 'dark';
@@ -31,7 +34,12 @@ const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
             />
             <label
                 htmlFor="switch"
-                class="border-foreground/50 w-17 xl:w-18 border-5 border-double lg:border-white/50"
+                class={cn(
+                    'border-foreground/50 w-17 border-5 border-double xl:w-18',
+                    {
+                        'lg:border-white/50': variant === 'primary',
+                    },
+                )}
                 aria-hidden="true"
             />
         </div>

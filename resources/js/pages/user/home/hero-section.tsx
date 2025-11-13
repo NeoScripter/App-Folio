@@ -25,7 +25,7 @@ const HeroSection = () => {
                 class="absolute inset-0 -z-5 bg-black/40"
             ></span>
 
-            <div class="pt-36 sm:pt-42 lg:max-w-1/2 lg:pt-50">
+            <div class="lg:max-w-1/2">
                 <h1 class="xs:text-5xl mb-8 text-4xl font-medium text-balance sm:mb-10 sm:text-6xl">
                     Элегантные и быстрые сайты
                 </h1>

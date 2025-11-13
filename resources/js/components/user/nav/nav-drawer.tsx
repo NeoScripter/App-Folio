@@ -1,6 +1,7 @@
 import BgDark from '@/assets/images/shared/menu-bg-dark.webp';
 import BgLight from '@/assets/images/shared/menu-bg.webp';
 import { navLinks } from '@/lib/constants/nav-links';
+import { useHeaderVariant } from '@/providers/app-header-context';
 import { appearance } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
@@ -34,14 +35,15 @@ export default function NavDrawer({ show }: NavDrawerProps) {
 }
 
 const Header: FC<{ show: boolean }> = ({ show }) => {
+    const { variant } = useHeaderVariant();
+
     return (
         <header>
             <div>
                 <div
-                    class={cn(
-                        'text-foreground mt-3 mb-8 w-36',
-                        show && 'slide-in',
-                    )}
+                    class={cn('mt-3 mb-8 w-36', show && 'slide-in', {
+                        'text-foreground': variant === 'primary',
+                    })}
                 >
                     <Logo className="w-32" />
                 </div>
@@ -58,12 +60,22 @@ export const Nav: FC<{ show?: boolean; className?: string }> = ({
     show = false,
     className,
 }) => {
+    const { variant } = useHeaderVariant();
+
     return (
         <nav
             class={cn('text-foreground', className)}
             aria-label="Основная навигация"
         >
-            <ul class="my-17 space-y-13 lg:my-0 lg:flex lg:items-center lg:gap-12 xl:gap-14 lg:space-y-0 lg:text-white">
+            <ul
+                class={cn(
+                    'my-17 space-y-13 lg:my-0 lg:flex lg:items-center lg:gap-12 lg:space-y-0 xl:gap-14',
+                    {
+                        'lg:text-white':
+                            variant === 'primary'
+                    },
+                )}
+            >
                 {navLinks.map((navLink, idx) => (
                     <NavLink
                         show={show}
