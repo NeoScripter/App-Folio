@@ -4,7 +4,6 @@ import AppHeaderContext, {
 } from '@/providers/app-header-context';
 import { ModalProvider } from '@/providers/modal-context';
 import { cn } from '@/utils/cn';
-import { signal } from '@preact/signals';
 import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
 import { Toaster } from 'sonner';
@@ -35,12 +34,8 @@ const AppLayout: FC<{
 
                 {hasFooter && <AppFooter />}
 
-                <ModalLayout
-                    className="flex flex-wrap bg-black/40"
-                >
-                    <div class="bg-user-background m-auto w-full max-w-100 lg:max-w-160 rounded-sm px-10 py-14">
-                        <EmailForm />
-                    </div>
+                <ModalLayout className="max-w-100 px-10 py-14 lg:max-w-160">
+                    <EmailForm />
                 </ModalLayout>
 
                 <Toaster position="top-center" />

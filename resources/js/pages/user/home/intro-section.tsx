@@ -4,7 +4,7 @@ import Reviews from './reviews';
 
 const IntroSection = () => {
     return (
-        <AppSection className="py-28 sm:pt-38 sm:pb-23 lg:pt-35 lg:pb-41 xl:pb-35">
+        <AppSection className="py-14 sm:pt-19 sm:pb-12 lg:pt-17 lg:pb-22 xl:pb-18">
             <SecondaryHeading>
                 Уникальные и профессиональные сайты, которые невозможно не
                 заметить

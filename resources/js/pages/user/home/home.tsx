@@ -5,12 +5,14 @@ import ServicesSection from './services-section';
 import VideosSection from './videos-section';
 import PerksSection from './perks-section';
 import FaqsSection from './faqs-section';
+import FeaturedSection from './featured-section';
 
 export default function Home() {
     return (
         <AppLayout>
             <HeroSection />
             <IntroSection />
+            <FeaturedSection />
             <ServicesSection />
             <VideosSection />
             <PerksSection />

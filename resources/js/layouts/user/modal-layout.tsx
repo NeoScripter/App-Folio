@@ -34,17 +34,26 @@ const ModalLayout: FC<{
             onClick={handleClick}
             id="email-form-modal"
             class={cn(
-                'size-screen fixed inset-0 z-10 overflow-y-auto backdrop-blur-sm transition-opacity duration-300 ease-in-out',
+                'size-screen fixed inset-0 z-10 flex flex-wrap overflow-y-auto bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out',
                 {
                     'opacity-100': showModal.value,
                     'pointer-events-none opacity-0': !showModal.value,
                 },
-
-                className,
             )}
         >
-            {' '}
-            {children}{' '}
+            <div
+                class={cn(
+                    'bg-user-background m-auto w-full rounded-sm',
+                    {
+                        'animate-shrink': !showModal.value,
+                        'animate-expand': showModal.value,
+                    },
+
+                    className,
+                )}
+            >
+                {children}
+            </div>
         </div>,
         document.getElementById('portals')!,
     );

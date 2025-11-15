@@ -8,6 +8,7 @@ import { useEscapeKey } from '@/hooks/use-escape-key';
 import useScrollOffset from '@/hooks/use-scroll-offset';
 import { LG } from '@/lib/constants/breakpoints';
 import { useHeaderVariant } from '@/providers/app-header-context';
+import { useModal } from '@/providers/modal-context';
 import { cn } from '@/utils/cn';
 import { createPortal, FC, useEffect, useRef, useState } from 'preact/compat';
 
@@ -19,6 +20,7 @@ const heroBaseOffsets = {
 
 const AppHeader: FC<{ className?: string }> = ({ className }) => {
     const { variant } = useHeaderVariant();
+    const { showModal } = useModal();
 
     const { show: showMenu, setShow: setShowMenu } = useClickOutside([
         '#nav-drawer',
@@ -81,6 +83,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
 
     return (
         <header
+            inert={showModal.value}
             class={cn(
                 'fixed inset-x-0 top-0 isolate z-10',
                 isBelowPadding ? 'md:top-0' : 'md:top-4',

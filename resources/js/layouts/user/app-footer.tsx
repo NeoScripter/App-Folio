@@ -8,8 +8,10 @@ import { ComponentChildren } from 'preact';
 import { FC } from 'preact/compat';
 
 const AppFooter: FC<{ className?: string }> = ({ className }) => {
+    const { showModal } = useModal();
     return (
         <footer
+            inert={showModal.value}
             class={cn(
                 'lg:flex lg:items-center lg:justify-between lg:gap-12 xl:gap-24 2xl:gap-40',
                 className,
