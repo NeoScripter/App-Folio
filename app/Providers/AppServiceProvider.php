@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
 use App\Models\Review;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'review' => Review::class,
             'video' => Video::class,
+            'project' => Project::class,
         ]);
     }
 }

@@ -3,8 +3,10 @@ import FeaturedBgMb from '@/assets/images/home/featured-bg-mb.webp';
 import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import AppSection from '@/layouts/user/app-section';
 import { LG } from '@/lib/constants/breakpoints';
+import { appearance } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
+import Projects from './projects';
 
 const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
     const mq = window.matchMedia(`(max-width: ${LG}px)`);
@@ -22,7 +24,7 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
     return (
         <AppSection
             className={cn(
-                'relative isolate bg-contain bg-no-repeat py-14 sm:pt-19 sm:pb-12 lg:pt-17 lg:pb-22 xl:pb-18',
+                'relative isolate bg-contain bg-no-repeat pt-14 pb-7 sm:pt-19 sm:pb-0 lg:pt-27 lg:pb-5',
                 className,
             )}
         >
@@ -37,9 +39,15 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 />
                 <div
                     class="absolute inset-0 z-5"
-                    style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(242,246,250,0) 0%, #fff 90.87%)`,
-                    }}
+                    style={
+                        appearance.value === 'light'
+                            ? {
+                                  backgroundImage: `linear-gradient(180deg, rgba(242,246,250,0) 0%, #fff 90.87%)`,
+                              }
+                            : {
+                                  backgroundImage: `linear-gradient(180deg, rgba(30, 32, 33, 0.83) 0%, #1E2021 90.87%)`,
+                              }
+                    }
                 />
             </div>
             <SecondaryHeading>
@@ -54,6 +62,8 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 вашего проекта. Спасибо, что заглянули, надеюсь, вам понравится
                 мое портфолио!
             </p>
+
+            <Projects />
         </AppSection>
     );
 };

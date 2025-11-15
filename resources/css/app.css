@@ -22,6 +22,8 @@
     --shadow-video: 0 18px 39px 0 rgba(0, 0, 0, 0.25);
     --shadow-faq: 0 24.556px 32.742px -14.734px rgba(149, 149, 149, 0.25);
 
+    --shadow-project: 5px 5px 20px 0 rgba(0, 0, 0, 0.25);
+
     --color-background: var(--background);
     --color-user-background: var(--user-background);
     --color-foreground: var(--foreground);
@@ -408,3 +410,4 @@
         opacity: 100;
     }
 }
+
