@@ -80,7 +80,6 @@ export const Nav: FC<{ show?: boolean; className?: string }> = ({
                     <NavLink
                         show={show}
                         key={navLink.id}
-                        active={idx === 1}
                         idx={idx}
                         link={navLink}
                     />

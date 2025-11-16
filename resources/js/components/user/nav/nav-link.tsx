@@ -1,15 +1,18 @@
 import { NavLinkType } from '@/lib/constants/nav-links';
 import { cn } from '@/utils/cn';
+import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import AnimatedUnderline from '../ui/animated-underline';
 
 const NavLink: FC<{
     className?: string;
     link: NavLinkType;
-    active?: boolean;
     show: boolean;
     idx: number;
-}> = ({ className, idx, link, show, active = false }) => {
+}> = ({ className, idx, link, show }) => {
+    const { path } = useLocation();
+    const active = path === link.path;
+
     return (
         <li>
             <a

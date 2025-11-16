@@ -18,12 +18,12 @@ export const navLinks: NavLinkType[] = [
         id: crypto.randomUUID(),
         icon: BriefcaseBusiness,
         label: 'Портфолио',
-        path: '/',
+        path: '/projects',
     },
     {
         id: crypto.randomUUID(),
         icon: User,
         label: 'Обо мне',
-        path: '/',
+        path: '/about',
     },
 ];

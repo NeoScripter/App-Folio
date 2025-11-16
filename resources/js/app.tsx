@@ -4,7 +4,7 @@ import '../css/app.css';
 import ProtectedRoute from './layouts/auth/protected-route';
 import { appearance } from './signals/appearance';
 
-const About = lazy(() => import('./pages/user/about'));
+const About = lazy(() => import('./pages/user/about/about'));
 const Login = lazy(() => import('./pages/auth/login'));
 const Home = lazy(() => import('./pages/user/home/home'));
 const Dashboard = lazy(() => import('./pages/admin/dashboard'));
