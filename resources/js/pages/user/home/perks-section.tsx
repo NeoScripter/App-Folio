@@ -4,7 +4,7 @@ import Perks from './perks';
 
 const PerksSection = () => {
     return (
-        <AppSection className="pb-28 sm:pb-23 lg:pb-31 xl:pb-35">
+        <AppSection className="pb-10 sm:pb-8 lg:pb-4 2xl:pb-8">
             <SecondaryHeading className="text-center text-balance">
                 Преимущества работы со мной
             </SecondaryHeading>

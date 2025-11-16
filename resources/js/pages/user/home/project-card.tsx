@@ -11,17 +11,23 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
     return (
         <li
             class={cn(
-                'shadow-project max-w-90 xl:max-w-100 justify-self-center overflow-clip rounded-md',
+                'shadow-project max-w-90 justify-self-center overflow-clip rounded-md transition-transform duration-300 ease-in-out hover:scale-103 xl:max-w-100',
                 appearance.value === 'dark' && 'bg-muted',
             )}
         >
             {project.image && (
-                <LazyImage
-                    parentClass="rounded-md aspect-5/6"
-                    alt={project.image[`alt${lang}`]}
-                    tinyImg={project.image.tinyPath}
-                    img={project.image.path}
-                />
+                <div class="group relative">
+                    <LazyImage
+                        parentClass="rounded-md aspect-5/6"
+                        alt={project.image[`alt${lang}`]}
+                        tinyImg={project.image.tinyPath}
+                        img={project.image.path}
+                    />
+                    <span
+                        aria-hidden="true"
+                        class="shine-element block group-hover:animate-[shine_750ms]"
+                    />
+                </div>
             )}
             <div class="px-5 pt-5 pb-7 sm:px-6 sm:pt-6">
                 <h4 class="mb-5.5 text-2xl font-medium xl:text-2xl">
