@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ImageInserter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -35,22 +36,58 @@ class Image extends Model
         return Storage::disk('public')->url($this->attributes['tiny_path']);
     }
 
-    public static function attachTo(Model $model, UploadedFile $file, string $altRu, string $altEn, int $size = 800, string $type = 'image'): self
-    {
-        $paths = app(\App\Services\ImageResizer::class)->handleImage($file, $size);
+    private static function processAndAttach(
+        Model $model,
+        UploadedFile|string $file,
+        string $altRu,
+        string $altEn
+    ): self {
+        if (is_string($file)) {
+            $absolute = Storage::disk('public')->path($file);
+
+            $file = new UploadedFile(
+                $absolute,
+                basename($absolute),
+                'image/webp',
+                null,
+                true
+            );
+        }
+
+        $paths = app(\App\Services\ImageResizer::class)->handleImage($file);
 
         $image = new static([
-            'type'      => $type,
-            'alt_ru'       => $altRu,
-            'alt_en'       => $altEn,
-            'path'      => $paths['original'],
-            'preview_path' => $paths['preview'],
-            'tiny_path' => $paths['tiny'],
+            'alt_ru'        => $altRu,
+            'alt_en'        => $altEn,
+            'path'          => $paths['original'],
+            'preview_path'  => $paths['preview'],
+            'tiny_path'     => $paths['tiny'],
         ]);
 
         $model->image()->save($image);
 
         return $image;
+    }
+
+    public static function insertMockupAndAttachTo(
+        Model $model,
+        UploadedFile $file,
+        string $altRu,
+        string $altEn,
+        int $mockupNumber
+    ): self {
+        $inserted = app(ImageInserter::class)->handle($file, $mockupNumber);
+
+        return static::processAndAttach($model, $inserted, $altRu, $altEn);
+    }
+
+    public static function attachTo(
+        Model $model,
+        UploadedFile $file,
+        string $altRu,
+        string $altEn
+    ): self {
+        return static::processAndAttach($model, $file, $altRu, $altEn);
     }
 
     protected static function booted(): void

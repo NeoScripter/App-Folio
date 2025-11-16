@@ -10,14 +10,14 @@ use Illuminate\Support\Str;
 
 class ImageResizer
 {
-    public function handleImage(UploadedFile $file, int $size = 800): array
+    public function handleImage(UploadedFile $file): array
     {
         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $filename = Str::slug($originalName) . '-' . uniqid();
 
         $manager = new ImageManager(new Driver());
 
-        $original = $manager->read($file)->scaleDown(width: $size)->toWebp(80);
+        $original = $manager->read($file)->scaleDown(width: 1900)->toWebp(80);
         $preview = $manager->read($file)->scaleDown(width: 400)->toWebp(80);
         $tiny     = $manager->read($file)->scaleDown(width: 20)->toWebp(80);
 
