@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Project;
 use App\Models\Review;
+use App\Models\Stack;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
             'review' => Review::class,
             'video' => Video::class,
             'project' => Project::class,
+            'stack' => Stack::class,
         ]);
     }
 }

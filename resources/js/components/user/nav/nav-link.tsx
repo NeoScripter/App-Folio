@@ -1,4 +1,5 @@
 import { NavLinkType } from '@/lib/constants/nav-links';
+import { useHeaderVariant } from '@/providers/app-header-context';
 import { cn } from '@/utils/cn';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
@@ -10,6 +11,8 @@ const NavLink: FC<{
     show: boolean;
     idx: number;
 }> = ({ className, idx, link, show }) => {
+    const { variant } = useHeaderVariant();
+
     const { path } = useLocation();
     const active = path === link.path;
 
@@ -44,9 +47,10 @@ const NavLink: FC<{
                 <span>{link.label}</span>
 
                 <AnimatedUnderline
-                    className={cn('hidden lg:block lg:bg-white', {
+                    className={cn('hidden lg:block lg:bg-foreground', {
                         'hidden group-hover:hidden': active,
                         'h-px': !active,
+                        'lg:bg-white': variant === 'primary',
                     })}
                 />
             </a>
