@@ -5,7 +5,7 @@ import { ServiceType, stages } from '@/lib/data/about/services';
 import { useModal } from '@/providers/modal-context';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
-import { FC, useState } from 'preact/compat';
+import { FC, useEffect, useRef, useState } from 'preact/compat';
 
 const ServicesSection: FC<{ className?: string }> = ({ className }) => {
     return (
@@ -50,23 +50,40 @@ const ServicesInfo = () => {
 
 const Services = () => {
     const [active, setActive] = useState(0);
+    const [offset, setOffset] = useState(3);
 
     const handleMouseEnter = (idx: number) => {
         setActive(idx);
     };
     const handleMouseLeave = () => {
-        setActive(0);
+        setActive(offset - 2);
     };
 
+    const intervalRef = useRef<number | null>(null);
+
+    useEffect(() => {
+        intervalRef.current = setInterval(() => {
+            setOffset((prev) => (prev < stages.length - 1 ? prev + 1 : 3));
+        }, 5000);
+
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, []);
+
     return (
-        <ul class="mx-auto grid w-fit justify-items-center gap-11 xl:mr-0 sm:gap-6 lg:max-w-142 xl:gap-9 2xl:max-w-189">
-            {stages.map((service, idx) => (
+        <ul class="mx-auto grid w-fit justify-items-center gap-11 sm:gap-6 lg:max-w-142 xl:mr-0 xl:gap-9 2xl:max-w-189">
+            {stages.slice(offset - 3, offset).map((service, idx) => (
                 <Service
                     onMouseEnter={() => handleMouseEnter(idx)}
                     onMouseLeave={() => handleMouseLeave()}
                     key={service.id}
                     active={active === idx}
                     service={service}
+                    fadingIn={idx === 2}
+                    fadingOut={idx === 0}
+                    slidingUp1={idx === 1}
+                    slidingUp2={idx === 2}
                 />
             ))}
         </ul>
@@ -78,7 +95,20 @@ const Service: FC<{
     active: boolean;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
-}> = ({ service, active, onMouseEnter, onMouseLeave }) => {
+    fadingIn: boolean;
+    fadingOut: boolean;
+    slidingUp1: boolean;
+    slidingUp2: boolean;
+}> = ({
+    service,
+    active,
+    onMouseEnter,
+    onMouseLeave,
+    fadingIn,
+    fadingOut,
+    slidingUp1,
+    slidingUp2,
+}) => {
     const lang = locale.value === 'ru' ? 'Ru' : 'En';
 
     return (
@@ -86,9 +116,14 @@ const Service: FC<{
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             class={cn(
-                'bg-user-background ring-accent-foreground/15 rounded-md ring-1 px-8 py-9.5 transition-[shadow,scale,border] sm:p-8',
+                'bg-user-background ring-accent-foreground/15 rounded-md px-8 py-9.5 ring-1 transition-[shadow,scale,border] sm:p-8',
                 {
-                    'shadow-video scale-102 border-l-4 border-foreground': active,
+                    'shadow-video border-foreground scale-102 border-l-4':
+                        active,
+                    'animate-fade-in': fadingIn,
+                    'animate-fade-out': fadingOut,
+                    'slide-up-1': slidingUp1,
+                    'slide-up-2': slidingUp2,
                 },
             )}
         >
