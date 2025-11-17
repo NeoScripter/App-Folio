@@ -1,7 +1,7 @@
 import { Button } from '@/components/user/ui/button';
 import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import AppSection from '@/layouts/user/app-section';
-import { ServiceType, stages } from '@/lib/data/about/services';
+import { services, Service as ServiceType } from '@/lib/data/home/services';
 import { useModal } from '@/providers/modal-context';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
@@ -56,14 +56,14 @@ const Services = () => {
         setActive(idx);
     };
     const handleMouseLeave = () => {
-        setActive(offset - 2);
+        setActive(0);
     };
 
     const intervalRef = useRef<number | null>(null);
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
-            setOffset((prev) => (prev < stages.length - 1 ? prev + 1 : 3));
+            setOffset((prev) => (prev < services.length - 1 ? prev + 1 : 3));
         }, 5000);
 
         return () => {
@@ -73,7 +73,7 @@ const Services = () => {
 
     return (
         <ul class="mx-auto grid w-fit justify-items-center gap-11 sm:gap-6 lg:max-w-142 xl:mr-0 xl:gap-9 2xl:max-w-189">
-            {stages.slice(offset - 3, offset).map((service, idx) => (
+            {services.slice(offset - 3, offset).map((service, idx) => (
                 <Service
                     onMouseEnter={() => handleMouseEnter(idx)}
                     onMouseLeave={() => handleMouseLeave()}
@@ -130,7 +130,7 @@ const Service: FC<{
             <h4 class="mb-3 text-2xl font-bold 2xl:text-2xl">
                 {service[`title${lang}`]}
             </h4>
-            <p class="xl:text-base 2xl:text-lg">
+            <p class="xl:text-base 2xl:text-lg max-w-[calc(100%-5px)]">
                 {service[`description${lang}`]}
             </p>
         </li>
