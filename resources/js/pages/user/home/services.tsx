@@ -1,6 +1,6 @@
 import CarouselControls from '@/components/user/ui/carousel-controls';
 import { useCarousel } from '@/hooks/use-carousel';
-import { Service, services } from '@/lib/data/services';
+import { Service, services } from '@/lib/data/home/services';
 import { cn } from '@/utils/cn';
 import { useEffect, useRef } from 'preact/compat';
 import ServiceCard from './service-card';

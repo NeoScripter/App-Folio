@@ -1,4 +1,4 @@
-import { Perk, perks } from '@/lib/data/perks';
+import { Perk, perks } from '@/lib/data/home/perks';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';

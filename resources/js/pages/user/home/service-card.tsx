@@ -1,4 +1,4 @@
-import { Service } from '@/lib/data/services';
+import { Service } from '@/lib/data/home/services';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';

@@ -1,7 +1,7 @@
 import LazyImage from '@/components/user/ui/lazy-image';
 import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import AppSection from '@/layouts/user/app-section';
-import { backstoryItems, BackstoryItemType } from '@/lib/data/backstory-items';
+import { backstoryItems, BackstoryItemType } from '@/lib/data/about/backstory-items';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
