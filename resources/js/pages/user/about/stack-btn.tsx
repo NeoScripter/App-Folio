@@ -18,7 +18,7 @@ const StackBtn: FC<{
                     {
                         'invert-100': appearance.value === 'dark',
                         'cursor-default shadow-sm ring ring-black': active,
-                        'transition-all duration-250 hover:scale-105 hover:shadow-md hover:ring hover:ring-black/70':
+                        'transition-all duration-150 hover:scale-105 hover:shadow-md hover:ring hover:ring-black/70':
                             !active,
                     },
                     className,

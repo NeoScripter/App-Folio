@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -444,4 +444,17 @@
     100% {
         left: 125%;
     }
+}
+
+.stack-content-closed {
+    transition:
+        max-height 750ms cubic-bezier(0.66, 0, 0.34, 1),
+        padding 300ms 500ms ease-in,
+        margin 300ms 500ms ease-in;
+}
+.stack-content-open {
+    transition:
+        max-height 750ms cubic-bezier(0.66, 0, 0.34, 1),
+        padding 300ms ease-in,
+        margin 300ms ease-in;
 }
