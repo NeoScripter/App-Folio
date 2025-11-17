@@ -10,7 +10,7 @@ const BackstorySection: FC<{ className?: string }> = ({ className }) => {
     return (
         <AppSection
             className={cn(
-                'py-14 sm:pt-19 sm:pb-12 lg:pt-17 lg:pb-22 xl:px-0 xl:pb-18',
+                'pt-14 sm:pt-19 lg:pt-17 xl:px-0',
                 className,
             )}
         >
