@@ -30,6 +30,9 @@ class ProjectResource extends JsonResource
                 'altRu' => $this->image->alt_ru,
                 'altEn' => $this->image->alt_en,
             ],
+            'links' => [
+                ['self' => route('projects.show', ['project' => $this->id])]
+            ]
         ];
     }
 }

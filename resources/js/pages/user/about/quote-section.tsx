@@ -19,10 +19,16 @@ const QuoteSection: FC<{ className?: string }> = ({ className }) => {
                     интернет-магазинов.
                 </p>
 
-                <span aria-hidden="true" class="absolute -right-10 -bottom-20 block size-15 select-none xl:-right-20 xl:size-19 2xl:-right-5 2xl:size-22">
+                <span
+                    aria-hidden="true"
+                    class="absolute -right-10 -bottom-20 block size-15 select-none xl:-right-20 xl:size-19 2xl:-right-5 2xl:size-22"
+                >
                     <Quote className="size-full" />
                 </span>
-                <span aria-hidden="true" class="absolute -top-15 -left-10 block size-15 rotate-180 xl:-left-20 xl:size-19 2xl:-left-5 2xl:size-22">
+                <span
+                    aria-hidden="true"
+                    class="absolute -top-15 -left-10 block size-15 rotate-180 xl:-left-20 xl:size-19 2xl:-left-5 2xl:size-22"
+                >
                     <Quote className="size-full" />
                 </span>
             </blockquote>
