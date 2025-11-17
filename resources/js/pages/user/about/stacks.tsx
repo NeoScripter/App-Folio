@@ -9,8 +9,7 @@ import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
 import { FC, useEffect, useRef, useState } from 'preact/compat';
-import { ReviewCardSkeleton } from '../home/review-card';
-import StackBtn from './stack-btn';
+import StackBtn, { StackBtnSkeleton } from './stack-btn';
 
 const Stacks = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -40,7 +39,7 @@ const Stacks = () => {
 
     const handleSetActive = (idx: number | null) => {
         if (idx != null) {
-            lastContent.current = stacks?.[idx].attributes[`html${lang}`]
+            lastContent.current = stacks?.[idx].attributes[`html${lang}`];
         }
         setActive((prev) => (prev === idx ? null : idx));
     };
@@ -64,7 +63,7 @@ const Stacks = () => {
 
     return (
         <div>
-            <div className="relative mt-16 mb-13 sm:my-19 lg:mb-23">
+            <div className="relative mt-16 sm:mt-19">
                 <ul
                     id="stack-btns"
                     className={cn(
@@ -81,7 +80,7 @@ const Stacks = () => {
                               />
                           ))
                         : range(0, 8).map((skeleton) => (
-                              <ReviewCardSkeleton
+                              <StackBtnSkeleton
                                   key={`stack-skeleton-${skeleton}`}
                               />
                           ))}

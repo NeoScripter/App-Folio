@@ -35,3 +35,7 @@ const StackBtn: FC<{
 };
 
 export default StackBtn;
+
+export const StackBtnSkeleton = () => {
+    return <li class="skeleton size-16 rounded-md" />;
+};
