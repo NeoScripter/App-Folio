@@ -43,7 +43,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
 
     useEscapeKey(() => setShowMenu(false));
 
-    const mq = window.matchMedia(`(max-width: ${LG}px)`);
+    const mq = window.matchMedia(`(max-width: ${LG / 16}rem)`);
 
     const [showDrawer, setShowDrawer] = useState(mq.matches);
 
@@ -95,7 +95,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                     'mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 backdrop-blur-sm transition-transform duration-300 ease-in sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
-                        'max-w-394 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
+                        'xl:max-w-432 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
                         '-translate-y-full': hide,
                         'bg-home-hero-bg/40 text-white': variant === 'primary',
                         'bg-muted': variant === 'secondary',

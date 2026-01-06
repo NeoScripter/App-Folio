@@ -21,7 +21,7 @@ export const expand = () => {
     sidebarState.value = 'wide';
 };
 
-const mq = window.matchMedia(`(min-width: ${MD}px)`);
+const mq = window.matchMedia(`(min-width: ${MD / 16}rem)`);
 
 const updateSidebar = (e: MediaQueryListEvent | MediaQueryList) => {
     if (e.matches) {

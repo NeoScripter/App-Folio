@@ -9,7 +9,7 @@ import { FC, useEffect, useState } from 'preact/compat';
 import Projects from './projects';
 
 const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
-    const mq = window.matchMedia(`(max-width: ${LG}px)`);
+    const mq = window.matchMedia(`(max-width: ${LG / 16}rem)`);
     const [isMobile, setIsMobile] = useState(mq.matches);
 
     useEffect(() => {
