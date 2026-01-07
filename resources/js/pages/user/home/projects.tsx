@@ -1,26 +1,19 @@
 import ApiError from '@/components/user/ui/api-error';
 import PrimaryLink from '@/components/user/ui/primary-link';
-import { useFetch } from '@/hooks/use-fetch';
 import { ProjectType } from '@/lib/types/projects';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC } from 'preact/compat';
 import ProjectCard, { ProjectCardSkeleton } from './project-card';
+import { ValidationErrors } from '@/hooks/use-fetch';
 
-const Projects: FC<{ className?: string }> = ({ className }) => {
-    const { fetchData, loading, errors } = useFetch();
-    const [projects, setProjects] = useState<ProjectType[] | null>(null);
-
-    useEffect(() => {
-        fetchData({
-            url: '/api/projects',
-            onSuccess: (data) => {
-                setProjects(data.data);
-            },
-        });
-    }, []);
-
+const Projects: FC<{
+    className?: string;
+    projects: ProjectType[] | null;
+    loading: boolean;
+    errors: ValidationErrors | null;
+}> = ({ className, projects, loading, errors }) => {
     const listLabel = locale.value === 'ru' ? 'проекты' : 'projects';
 
     if (errors != null)
@@ -30,7 +23,8 @@ const Projects: FC<{ className?: string }> = ({ className }) => {
             <div className="relative mt-16 sm:mt-26 lg:mt-28">
                 <ul
                     className={cn(
-                        'grid place-content-center gap-15 sm:grid-cols-2 sm:gap-6.5 lg:gap-15 xl:grid-cols-3',
+                        'grid place-content-center gap-y-15 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3 xl:gap-10 2xl:gap-15',
+                        className
                     )}
                     role="tablist"
                     aria-label={listLabel}
@@ -52,9 +46,6 @@ const Projects: FC<{ className?: string }> = ({ className }) => {
                           ))}
                 </ul>
 
-                <PrimaryLink href="/projects" className="mx-auto mt-22 w-fit">
-                    На страницу проектов
-                </PrimaryLink>
             </div>
         </div>
     );

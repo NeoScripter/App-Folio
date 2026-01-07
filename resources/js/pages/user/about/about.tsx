@@ -5,6 +5,7 @@ import BackstorySection from "./backstory-section";
 import StagesSection from "./stages-section";
 import ServicesSection from "./services-section";
 import QuoteSection from "./quote-section";
+import ProjectsSection from "./projects-section";
 
 export default function About() {
     return (
@@ -14,6 +15,7 @@ export default function About() {
             <BackstorySection />
             <StagesSection />
             <ServicesSection />
+            <ProjectsSection />
             <QuoteSection />
         </AppLayout>
     );

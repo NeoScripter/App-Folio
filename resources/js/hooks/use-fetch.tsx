@@ -1,7 +1,7 @@
 import { getXSRFTokenFromCookie, initCsrf } from '@/api/auth';
 import { useReducer } from 'preact/hooks';
 
-type ValidationErrors = Record<string, string[]>;
+export type ValidationErrors = Record<string, string[]>;
 
 interface FetchOptions {
     url: string;

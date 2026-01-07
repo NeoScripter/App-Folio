@@ -1,8 +1,11 @@
 import FeaturedBgDk from '@/assets/images/home/featured-bg-dk.webp';
 import FeaturedBgMb from '@/assets/images/home/featured-bg-mb.webp';
+import PrimaryLink from '@/components/user/ui/primary-link';
 import SecondaryHeading from '@/components/user/ui/secondary-heading';
+import { useFetch } from '@/hooks/use-fetch';
 import AppSection from '@/layouts/user/app-section';
 import { LG } from '@/lib/constants/breakpoints';
+import { ProjectType } from '@/lib/types/projects';
 import { appearance } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
@@ -20,6 +23,18 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
 
         return () => mq.removeEventListener('change', updateDrawerStatus);
     }, [mq]);
+
+    const { fetchData, loading, errors } = useFetch();
+    const [projects, setProjects] = useState<ProjectType[] | null>(null);
+
+    useEffect(() => {
+        fetchData({
+            url: '/api/projects',
+            onSuccess: (data) => {
+                setProjects(data.data);
+            },
+        });
+    }, []);
 
     return (
         <AppSection
@@ -63,7 +78,11 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 мое портфолио!
             </p>
 
-            <Projects />
+            <Projects errors={errors} projects={projects} loading={loading} />
+
+            <PrimaryLink href="/projects" className="mx-auto mt-22 w-fit">
+                На страницу проектов
+            </PrimaryLink>
         </AppSection>
     );
 };

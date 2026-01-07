@@ -11,7 +11,7 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
     return (
         <li
             class={cn(
-                'shadow-project max-w-90 justify-self-center overflow-clip rounded-md transition-transform duration-300 ease-in-out select-none hover:scale-103 xl:max-w-100',
+                'shadow-project justify-self-center overflow-clip rounded-md transition-transform duration-300 ease-in-out select-none hover:scale-103',
                 appearance.value === 'dark' && 'bg-muted',
             )}
         >
@@ -29,11 +29,11 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
                     />
                 </div>
             )}
-            <div class="px-5 pt-5 pb-7 sm:px-6 sm:pt-6">
-                <h4 class="mb-5.5 text-2xl font-medium xl:text-2xl">
+            <div class="px-5 pt-5 pb-7 sm:px-6 sm:pt-6 xl:pt-8 md:px-7 xl:px-8">
+                <h4 class="mb-5.5 text-2xl font-medium xl:mb-7 md:text-3xl 2xl:text-4xl hyphens-auto">
                     {project.attributes[`title${lang}`]}
                 </h4>
-                <p class="text-foreground/60 text-sm">
+                <p class="text-foreground/60 text-sm md:text-base xl:text-lg">
                     {project.attributes[`description${lang}`]}
                 </p>
             </div>
