@@ -7,38 +7,82 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Preload the font --}}
-    <link rel="preload" href="{{ asset('fonts/IBMPlexMono-Regular.woff2') }}" as="font" type="font/woff2"
-        crossorigin>
-    <link rel="preload" href="{{ asset('fonts/IBMPlexMono-Medium.woff2') }}" as="font" type="font/woff2"
-        crossorigin>
-    <link rel="preload" href="{{ asset('fonts/IBMPlexMono-Bold.woff2') }}" as="font" type="font/woff2"
-        crossorigin>
-
+     <link rel="preload" href="{{ asset('fonts/Regular-Latin.woff2') }}" as="font" type="font/woff2" crossorigin>
+     <link rel="preload" href="{{ asset('fonts/Regular-Russian.woff2') }}" as="font" type="font/woff2" crossorigin>
+     <link rel="preload" href="{{ asset('fonts/Bold-Latin.woff2') }}" as="font" type="font/woff2" crossorigin>
+     <link rel="preload" href="{{ asset('fonts/Bold-Russian.woff2') }}" as="font" type="font/woff2" crossorigin>
 
     {{-- Inline @font-face definition --}}
     <style>
         @font-face {
             font-family: 'IBM Plex Mono';
-            src: url('{{ asset('fonts/IBMPlexMono-Regular.woff2') }}') format('woff2');
-            font-weight: normal;
             font-style: normal;
+            font-weight: 400;
             font-display: swap;
+            src: url('{{ asset('fonts/Regular-Latin.woff2') }}') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
 
         @font-face {
             font-family: 'IBM Plex Mono';
-            src: url('{{ asset('fonts/IBMPlexMono-Medium.woff2') }}') format('woff2');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('{{ asset('fonts/Regular-Russian.woff2') }}') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
             font-weight: 500;
-            font-style: normal;
             font-display: swap;
+            src: url('{{ asset('fonts/Medium-Latin.woff2') }}') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
 
         @font-face {
             font-family: 'IBM Plex Mono';
-            src: url('{{ asset('fonts/IBMPlexMono-Bold.woff2') }}') format('woff2');
-            font-weight: bold;
             font-style: normal;
+            font-weight: 500;
             font-display: swap;
+            src: url('{{ asset('fonts/Medium-Russian.woff2') }}') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('{{ asset('fonts/Bold-Latin.woff2') }}') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('{{ asset('fonts/Bold-Russian.woff2') }}') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('{{ asset('fonts/Bold-Latin.woff2') }}') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('{{ asset('fonts/Bold-Russian.woff2') }}') format('woff2');
+            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
         }
     </style>
     <style>
@@ -50,10 +94,8 @@
             background-color: oklch(0.2435 0 0);
         }
     </style>
-    {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
-    {{-- <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" /> --}}
 
-    <title>Preact + Laravel</title>
+    <title>App Folio</title>
     @vite('resources/js/app.tsx')
 </head>
 
