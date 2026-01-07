@@ -12,6 +12,7 @@ import { Button } from '@/components/user/ui/button';
 import HeroBackground from '@/components/user/ui/hero-background';
 import LazyImage from '@/components/user/ui/lazy-image';
 import AppSection from '@/layouts/user/app-section';
+import HeroLayout from '@/layouts/user/hero-layout';
 import { useModal } from '@/providers/modal-context';
 import { appearance } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
@@ -20,7 +21,7 @@ const HeroSection = () => {
     const isLight = appearance.value === 'light';
 
     return (
-        <AppSection className="relative isolate overflow-clip rounded-xl pt-12 pb-15.5 sm:pt-14 sm:pb-25 lg:pt-12 xl:pt-20.5 xl:pb-28">
+        <HeroLayout>
             <HeroBackground
                 className="-inset-1 -z-5"
                 desktopImg={isLight ? DesktopBgLight : DesktopBgDark}
@@ -37,7 +38,7 @@ const HeroSection = () => {
                 <HeroAvatar />
                 <HeroDescription />
             </div>
-        </AppSection>
+        </HeroLayout>
     );
 };
 

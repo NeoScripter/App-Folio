@@ -32,7 +32,7 @@ const ProjectsSection: FC<{ className?: string }> = ({ className }) => {
                     Смотреть проекты
                 </SecondaryHeading>
                 <PrimaryLink
-                    href="/projects"
+                    href="/portfolio"
                     className="mx-auto mt-22 mr-0 hidden w-fit xl:flex"
                 >
                     На страницу проектов
@@ -47,7 +47,7 @@ const ProjectsSection: FC<{ className?: string }> = ({ className }) => {
             />
 
             <PrimaryLink
-                href="/projects"
+                href="/portfolio"
                 className="mx-auto mt-22 w-fit xl:hidden"
             >
                 На страницу проектов

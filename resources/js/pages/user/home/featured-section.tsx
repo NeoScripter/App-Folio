@@ -80,7 +80,7 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
 
             <Projects errors={errors} projects={projects} loading={loading} />
 
-            <PrimaryLink href="/projects" className="mx-auto mt-22 w-fit">
+            <PrimaryLink href="/portfolio" className="mx-auto mt-22 w-fit">
                 На страницу проектов
             </PrimaryLink>
         </AppSection>

@@ -18,7 +18,7 @@ export const navLinks: NavLinkType[] = [
         id: crypto.randomUUID(),
         icon: BriefcaseBusiness,
         label: 'Портфолио',
-        path: '/projects',
+        path: '/portfolio',
     },
     {
         id: crypto.randomUUID(),

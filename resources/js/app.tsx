@@ -7,6 +7,7 @@ import { appearance } from './signals/appearance';
 const About = lazy(() => import('./pages/user/about/about'));
 const Login = lazy(() => import('./pages/auth/login'));
 const Home = lazy(() => import('./pages/user/home/home'));
+const Portfolio = lazy(() => import('./pages/user/portfolio/portfolio'));
 const Dashboard = lazy(() => import('./pages/admin/dashboard'));
 const Appearance = lazy(() => import('./pages/admin/appearance'));
 const Profile = lazy(() => import('./pages/admin/profile'));
@@ -27,6 +28,7 @@ function App() {
                 <Router>
                     <Route path="/" component={Home} />
                     <Route path="/about" component={About} />
+                    <Route path="/portfolio" component={Portfolio} />
                     <Route path="/login" component={Login} />
 
                     <Route

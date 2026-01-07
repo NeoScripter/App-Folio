@@ -4,12 +4,12 @@ import MobileBg from '@/assets/images/home/hero-mb.webp';
 import TinyTabletBg from '@/assets/images/home/hero-tablet-tiny.webp';
 import TabletBg from '@/assets/images/home/hero-tablet.webp';
 import HeroBackground from '@/components/user/ui/hero-background';
-import AppSection from '@/layouts/user/app-section';
+import HeroLayout from '@/layouts/user/hero-layout';
 import HeroActions from './hero-actions';
 
 const HeroSection = () => {
     return (
-        <AppSection className="relative isolate min-h-210 overflow-clip rounded-xl text-white sm:min-h-291 md:min-h-212">
+        <HeroLayout className="min-h-210 text-white sm:min-h-291 md:min-h-212">
             <HeroBackground
                 className="bg-home-hero-bg -z-5"
                 desktopImg={DesktopBg}
@@ -37,7 +37,7 @@ const HeroSection = () => {
 
                 <HeroActions />
             </div>
-        </AppSection>
+        </HeroLayout>
     );
 };
 
