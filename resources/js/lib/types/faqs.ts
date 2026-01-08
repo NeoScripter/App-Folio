@@ -3,12 +3,15 @@ export interface FaqResource {
 }
 
 export interface FaqType {
-    type: 'faq';
     id: number;
     attributes: {
-        titleRu: string;
-        titleEn: string;
-        descriptionRu: string;
-        descriptionEn: string;
+        title: {
+            ru: string;
+            en: string;
+        };
+        description: {
+            ru: string;
+            en: string;
+        };
     };
 };

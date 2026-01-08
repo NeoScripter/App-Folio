@@ -7,7 +7,7 @@ const ServiceCard: FC<{ service: Service; active: boolean }> = ({
     service,
     active,
 }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     return (
         <li
@@ -20,9 +20,9 @@ const ServiceCard: FC<{ service: Service; active: boolean }> = ({
                 <service.icon class="size-12" strokeWidth={1.5} />
             </div>
             <p class="mb-6.5 text-xl font-semibold sm:text-2xl">
-                {service[`title${lang}`]}
+                {service.title[lang]}
             </p>
-            <p class="sm:text-xl">{service[`description${lang}`]}</p>
+            <p class="sm:text-xl">{service.description[lang]}</p>
         </li>
     );
 };

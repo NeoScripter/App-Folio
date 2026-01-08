@@ -16,8 +16,8 @@ const Stacks = () => {
     const [stacks, setStacks] = useState<StackType[] | null>(null);
     const [active, setActive] = useState<number | null>(null);
 
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
-    const content = active ? stacks?.[active].attributes[`html${lang}`] : null;
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
+    const content = active ? stacks?.[active].attributes.html[lang] : null;
     const lastContent = useRef(content);
 
     useEscapeKey(() => handleSetActive(null));

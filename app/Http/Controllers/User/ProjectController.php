@@ -20,7 +20,7 @@ class ProjectController extends Controller
         }
 
         return ProjectResource::collection(
-            $query->paginate()
+            $query->paginate(8)
         );
     }
 

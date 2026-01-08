@@ -495,3 +495,10 @@
         transform: translateY(-125%);
     }
 }
+
+.ellipsis-multiline {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
+}

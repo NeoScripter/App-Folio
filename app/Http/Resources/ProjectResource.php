@@ -15,20 +15,33 @@ class ProjectResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'project',
             'id' => $this->id,
             'attributes' => [
-                'titleRu' => $this->title_ru,
-                'titleEn' => $this->title_en,
-                'descriptionRu' => $this->description_ru,
-                'descriptionEn' => $this->description_en,
+                'title' => [
+                    'ru' => $this->title_ru,
+                    'en' => $this->title_en,
+                ],
+                'description' => [
+                    'ru' => $this->description_ru,
+                    'en' => $this->description_en,
+                ],
+                'category' => [
+                    'ru' => $this->category->name_ru,
+                    'en' => $this->category->name_en,
+                ],
+                'stacks' => [
+                    'ru' => $this->technologies->pluck('name_ru')->toArray(),
+                    'en' => $this->technologies->pluck('name_en')->toArray(),
+                ],
                 'link' => $this->link,
             ],
             'image' => [
                 'path' => $this->image->path,
                 'tinyPath' => $this->image->tiny_path,
-                'altRu' => $this->image->alt_ru,
-                'altEn' => $this->image->alt_en,
+                'alt' => [
+                    'ru' => $this->image->alt_ru,
+                    'en' => $this->image->alt_en,
+                ],
             ],
             'links' => [
                 ['self' => route('projects.show', ['project' => $this->id])]

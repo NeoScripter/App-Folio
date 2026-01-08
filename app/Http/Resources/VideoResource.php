@@ -14,20 +14,22 @@ class VideoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
-            'type' => 'video',
             'id' => $this->id,
             'attributes' => [
                 'url' => $this->url,
-                'titleRu' => $this->title_ru,
-                'titleEn' => $this->title_en,
+                'title' => [
+                    'ru' => $this->title_ru,
+                    'en' => $this->title_en,
+                ],
             ],
             'image' => [
                 'path' => $this->image->path,
                 'tinyPath' => $this->image->tiny_path,
-                'altRu' => $this->image->alt_ru,
-                'altEn' => $this->image->alt_en,
+                'alt' => [
+                    'ru' => $this->image->alt_ru,
+                    'en' => $this->image->alt_en,
+                ],
             ],
         ];
     }

@@ -109,7 +109,7 @@ const Service: FC<{
     slidingUp1,
     slidingUp2,
 }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     return (
         <li
@@ -128,10 +128,10 @@ const Service: FC<{
             )}
         >
             <h4 class="mb-3 text-2xl font-bold 2xl:text-2xl">
-                {service[`title${lang}`]}
+                {service.title[lang]}
             </h4>
             <p class="xl:text-base 2xl:text-lg max-w-[calc(100%-5px)]">
-                {service[`description${lang}`]}
+                {service.description[lang]}
             </p>
         </li>
     );

@@ -11,7 +11,7 @@ const VideoCard: FC<{
     leftNei: boolean;
     rightNei: boolean;
 }> = ({ video, active, leftNei, rightNei }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     const [loaded, setLoaded] = useState(false);
 
@@ -21,7 +21,7 @@ const VideoCard: FC<{
                 width="100%"
                 height="100%"
                 src={video.attributes.url}
-                title={video.attributes[`title${lang}`]}
+                title={video.attributes.title[lang]}
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
@@ -38,7 +38,7 @@ const VideoCard: FC<{
                     <LazyImage
                         parentClass="size-full"
                         imgClass="object-top-left"
-                        alt={video.image[`alt${lang}`]}
+                        alt={video.image.alt[lang]}
                         tinyImg={video.image.tinyPath}
                         img={video.image.path}
                     />
@@ -67,12 +67,12 @@ const VideoCard: FC<{
     return (
         <li
             class={cn(
-                'shadow-video ease-in relative isolate h-85 w-[60vw] max-w-240 overflow-clip rounded-xl transition-all bg-user-background duration-650 lg:h-80 lg:w-[50vw] xl:h-108 2xl:h-120',
+                'shadow-video bg-user-background relative isolate h-85 w-[60vw] max-w-240 overflow-clip rounded-xl transition-transform duration-650 ease-in lg:h-80 lg:w-[50vw] xl:h-108 2xl:h-120',
                 {
                     'translate-x-1/3': leftNei,
                     '-translate-x-1/3': rightNei,
                     'z-10 scale-130 md:scale-120': active,
-                    'pointer-event-none opacity-0':
+                    'pointer-event-none opacity-100':
                         !active && !rightNei && !leftNei,
                 },
             )}
@@ -94,7 +94,7 @@ export const VideoCardSkeleton = () => {
     return (
         <li
             class={cn(
-                'shadow-video h-85 w-[60vw] max-w-240 rounded-xl lg:h-80 lg:w-[50vw] xl:h-108 2xl:h-120 skeleton shrink-0',
+                'shadow-video skeleton h-85 w-[60vw] max-w-240 shrink-0 rounded-xl lg:h-80 lg:w-[50vw] xl:h-108 2xl:h-120',
             )}
         />
     );

@@ -15,13 +15,14 @@ class StackResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'stack',
             'id' => $this->id,
             'attributes' => [
                 'image' => $this->image,
-                'htmlRu' => $this->html_ru,
-                'htmlEn' => $this->html_en,
-            ],
+                'html' => [
+                    'ru' => $this->html_ru,
+                    'en' => $this->html_en,
+                ]
+            ]
         ];
     }
 }

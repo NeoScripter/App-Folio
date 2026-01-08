@@ -23,7 +23,7 @@ const Projects: FC<{
             <div className="relative mt-16 sm:mt-26 lg:mt-28">
                 <ul
                     className={cn(
-                        'grid place-content-center gap-y-15 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3 xl:gap-10 2xl:gap-15',
+                        'grid place-content-center gap-y-15 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3 xl:gap-6 2xl:gap-15',
                         className
                     )}
                     role="tablist"

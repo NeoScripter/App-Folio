@@ -10,7 +10,7 @@ const FaqCard: FC<{
     onClick: () => void;
     idx: number;
 }> = ({ faq, open, onClick, idx, isReached }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En',
+    const lang = locale.value === 'ru' ? 'ru' : 'en',
         isEven = idx % 2 === 0;
 
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -39,11 +39,10 @@ const FaqCard: FC<{
                 class="absolute inset-0 z-5"
                 aria-expanded={open}
                 aria-controls={`faq-content-${faq.id}`}
-                aria-label={faq.attributes[`title${lang}`]}
+                aria-label={faq.attributes.title[lang]}
             >
                 <span class="sr-only">
-                    {open ? 'Collapse' : 'Expand'}{' '}
-                    {faq.attributes[`title${lang}`]}
+                    {open ? 'Collapse' : 'Expand'} {faq.attributes.title[lang]}
                 </span>
             </button>
 
@@ -56,7 +55,7 @@ const FaqCard: FC<{
                         id={`faq-title-${faq.id}`}
                         class="xs:text-lg font-bold xl:text-2xl"
                     >
-                        {faq.attributes[`title${lang}`]}
+                        {faq.attributes.title[lang]}
                     </h3>
 
                     <div
@@ -70,7 +69,7 @@ const FaqCard: FC<{
                         aria-hidden={!open}
                     >
                         <p class="mt-6 text-sm text-pretty lg:mt-7 xl:text-xl">
-                            {faq.attributes[`description${lang}`]}
+                            {faq.attributes.description[lang]}
                         </p>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 
 const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     return (
         <li
@@ -19,7 +19,7 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
                 <div class="group relative">
                     <LazyImage
                         parentClass="rounded-md aspect-5/6"
-                        alt={project.image[`alt${lang}`]}
+                        alt={project.image.alt[lang]}
                         tinyImg={project.image.tinyPath}
                         img={project.image.path}
                     />
@@ -31,10 +31,10 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
             )}
             <div class="px-5 pt-5 pb-7 sm:px-6 sm:pt-6 xl:pt-8 md:px-7 xl:px-8">
                 <h4 class="mb-5.5 text-2xl font-medium xl:mb-7 md:text-3xl 2xl:text-4xl hyphens-auto">
-                    {project.attributes[`title${lang}`]}
+                    {project.attributes.title[lang]}
                 </h4>
-                <p class="text-foreground/60 text-sm md:text-base xl:text-lg">
-                    {project.attributes[`description${lang}`]}
+                <p class="text-foreground/60 ellipsis-multiline text-sm md:text-base xl:text-lg">
+                    {project.attributes.description[lang]}
                 </p>
             </div>
         </li>

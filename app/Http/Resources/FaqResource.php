@@ -15,13 +15,16 @@ class FaqResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'faq',
             'id' => $this->id,
             'attributes' => [
-                'titleRu' => $this->title_ru,
-                'titleEn' => $this->title_en,
-                'descriptionRu' => $this->content_ru,
-                'descriptionEn' => $this->content_en,
+                'title' => [
+                    'ru' => $this->title_ru,
+                    'en' => $this->title_en,
+                ],
+                'description' => [
+                    'ru' => $this->content_ru,
+                    'en' => $this->content_en,
+                ],
             ],
         ];
     }

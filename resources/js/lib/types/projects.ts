@@ -3,19 +3,35 @@ export interface ProjectResource {
 }
 
 export interface ProjectType {
-    type: 'project';
     id: number;
     attributes: {
-        titleRu: string;
-        titleEn: string;
-        descriptionRu: string;
-        descriptionEn: string;
+        title: {
+            ru: string;
+            en: string;
+        };
+        description: {
+            ru: string;
+            en: string;
+        };
+        category: {
+            ru: string;
+            en: string;
+        };
+        stacks: {
+            ru: string[];
+            en: string[];
+        };
         link: string;
     };
-    image?: {
+    image: {
         path: string;
         tinyPath: string;
-        altRu: string;
-        altEn: string;
+        alt: {
+            ru: string;
+            en: string;
+        };
     };
-};
+    links: {
+        self: string;
+    }[];
+}

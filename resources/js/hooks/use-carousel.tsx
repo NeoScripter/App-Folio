@@ -1,7 +1,7 @@
 import { RefObject } from 'preact';
 import { useCallback, useEffect, useReducer } from 'preact/hooks';
 
-const ANIMATION_DURATION = 700;
+const ANIMATION_DURATION = 1000;
 const INITIAL_OFFSET = 3;
 const SWIPE_THRESHOLD = 50;
 const MAX_SCREEN_SIZE = 1920;

@@ -8,7 +8,7 @@ const ReviewCard: FC<{ review: ReviewType; active: boolean }> = ({
     review,
     active,
 }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     return (
         <li
@@ -17,27 +17,25 @@ const ReviewCard: FC<{ review: ReviewType; active: boolean }> = ({
                 !active && 'opacity-30',
             )}
             role="tabpanel"
-            aria-label={`Review by ${review.attributes[`author${lang}`]}`}
+            aria-label={`Review by ${review.attributes.author[lang]}`}
             aria-hidden={!active}
             tabIndex={active ? 0 : -1}
         >
             {review.image && (
                 <LazyImage
                     parentClass="size-32 md:size-40 lg:size-51 shrink-0 rounded-full"
-                    alt={review.image[`alt${lang}`]}
+                    alt={review.image.alt[lang]}
                     tinyImg={review.image.tinyPath}
                     img={review.image.path}
                 />
             )}
             <div>
                 <blockquote>
-                    <p class="mb-6">
-                        {review.attributes[`description${lang}`]}
-                    </p>
+                    <p class="mb-6">{review.attributes.description[lang]}</p>
                 </blockquote>
                 <p class="font-bold md:text-xl xl:text-2xl">
                     <cite class="not-italic">
-                        {review.attributes[`author${lang}`]}
+                        {review.attributes.author[lang]}
                     </cite>
                 </p>
             </div>

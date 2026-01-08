@@ -3,17 +3,20 @@ export interface VideoResource {
 }
 
 export interface VideoType {
-    type: 'video';
     id: number;
     attributes: {
         url: string;
-        titleRu: string;
-        titleEn: string;
+        title: {
+            ru: string;
+            en: string;
+        };
     };
     image?: {
         path: string;
         tinyPath: string;
-        altRu: string;
-        altEn: string;
+        alt: {
+            ru: string;
+            en: string;
+        };
     };
-};
+}

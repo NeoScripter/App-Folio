@@ -3,11 +3,12 @@ export interface StackResource {
 }
 
 export interface StackType {
-    type: 'stack';
     id: number;
     attributes: {
-        htmlRu: string;
-        htmlEn: string;
+        html: {
+            ru: string;
+            en: string;
+        };
         image: string;
     };
 };

@@ -13,91 +13,111 @@ import {
 export interface Service {
     id: string;
     icon: LucideIcon;
-    titleRu: string;
-    titleEn: string;
-    descriptionRu: string;
-    descriptionEn: string;
+    title: {
+        ru: string;
+        en: string;
+    };
+    description: {
+        ru: string;
+        en: string;
+    };
 }
 
 export const services: Service[] = [
     {
         id: crypto.randomUUID(),
         icon: Presentation,
-        titleRu: 'Лендинг',
-        titleEn: 'Landing Page',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'Лендинг',
+            en: 'Landing Page',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Code,
-        titleRu: 'Веб-разработка',
-        titleEn: 'Web Development',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'Веб-разработка',
+            en: 'Web Development',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Palette,
-        titleRu: 'UI/UX Дизайн',
-        titleEn: 'UI/UX Design',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'UI/UX Дизайн',
+            en: 'UI/UX Design',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Smartphone,
-        titleRu: 'Мобильные приложения',
-        titleEn: 'Mobile Applications',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'Мобильные приложения',
+            en: 'Mobile Applications',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Search,
-        titleRu: 'SEO Оптимизация',
-        titleEn: 'SEO Optimization',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'SEO Оптимизация',
+            en: 'SEO Optimization',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Zap,
-        titleRu: 'Технический аудит',
-        titleEn: 'Technical Audit',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'Технический аудит',
+            en: 'Technical Audit',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Shield,
-        titleRu: 'Кибербезопасность',
-        titleEn: 'Cybersecurity',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'Кибербезопасность',
+            en: 'Cybersecurity',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
     {
         id: crypto.randomUUID(),
         icon: Users,
-        titleRu: 'Техническая поддержка',
-        titleEn: 'Technical Support',
-        descriptionRu:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
-        descriptionEn:
-            'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        title: {
+            ru: 'Техническая поддержка',
+            en: 'Technical Support',
+        },
+        description: {
+            ru: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+            en: 'Lorem ipsum dolor sit amet consectetur. Morbi diam nisi nam diam interdum',
+        },
     },
 ];

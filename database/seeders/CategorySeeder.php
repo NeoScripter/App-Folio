@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\Technology;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TechnologySeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $names = collect(['React', 'PHP', 'Laravel', 'TypeScript', 'HTML', 'CSS', 'Vue']);
+        $names = collect(['Application', 'Website', 'Landing', 'Game', 'Store']);
 
         $names->each(function ($name) {
-            Technology::factory(['name_en' => $name, 'name_ru' => $name])->create();
+            Category::factory(['name_en' => $name, 'name_ru' => $name])->create();
         });
     }
 }

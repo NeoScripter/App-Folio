@@ -37,14 +37,14 @@ const BackstoryItem: FC<{ item: BackstoryItemType; isEven: boolean }> = ({
     item,
     isEven,
 }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     return (
         <div class="xl:flex xl:gap-16">
             <LazyImage
                 img={item.img}
                 tinyImg={item.tinyImg}
-                alt={item[`text${lang}`]}
+                alt={item.text[lang]}
                 parentClass={cn(
                     '-mx-5 mb-9 max-w-175 sm:mb-16 xl:mb-0 xl:max-w-129 xl:shrink-0',
                     {
@@ -62,7 +62,7 @@ const BackstoryItem: FC<{ item: BackstoryItemType; isEven: boolean }> = ({
             <div
                 class="prose sm:prose-base prose-sm lg:prose-lg 2xl:prose-xl text-foreground [&>h2]:text-foreground max-w-full"
                 dangerouslySetInnerHTML={{
-                    __html: item[`text${lang}`] || '',
+                    __html: item.text[lang] || '',
                 }}
             />
         </div>

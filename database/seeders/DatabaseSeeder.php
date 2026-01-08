@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ReviewSeeder::class);
         $this->call(VideoSeeder::class);
         $this->call(FaqSeeder::class);
+        $this->call(TechnologySeeder::class);
+        $this->call(CategorySeeder::class);
         $this->call(ProjectSeeder::class);
         $this->call(StackSeeder::class);
     }

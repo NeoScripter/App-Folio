@@ -22,12 +22,12 @@ const Perks = () => {
 export default Perks;
 
 const PerkCard: FC<{ perk: Perk }> = ({ perk }) => {
-    const lang = locale.value === 'ru' ? 'Ru' : 'En';
+    const lang = locale.value === 'ru' ? 'ru' : 'en';
 
     return (
         <li>
             <perk.icon strokeWidth={1.5} class="mb-3 size-8 mx-auto sm:ml-0 sm:mb-4.5 lg:mb-6 xl:mb-7 xl:size-12" />
-            <p class="text-center mx-auto max-w-110 sm:max-w-full sm:mx-0 text-balance sm:text-left">{perk[`description${lang}`]}</p>
+            <p class="text-center mx-auto max-w-110 sm:max-w-full sm:mx-0 text-balance sm:text-left">{perk.description[lang]}</p>
         </li>
     );
 };

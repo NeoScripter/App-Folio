@@ -3,18 +3,23 @@ export interface ReviewResource {
 }
 
 export interface ReviewType {
-    type: 'review';
     id: number;
     attributes: {
-        authorRu: string;
-        authorEn: string;
-        descriptionRu: string;
-        descriptionEn: string;
+        author: {
+            ru: string;
+            en: string;
+        };
+        description: {
+            ru: string;
+            en: string;
+        };
     };
-    image?: {
+    image: {
         path: string;
         tinyPath: string;
-        altRu: string;
-        altEn: string;
+        alt: {
+            ru: string;
+            en: string;
+        };
     };
-};
+}
