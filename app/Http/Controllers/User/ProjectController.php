@@ -11,11 +11,14 @@ class ProjectController extends Controller
 {
     public function index(ProjectFilter $filters)
     {
-        $query = Project::filter($filters);
+
+        $query = Project::filter($filters)
+            ->with(['category', 'technologies']);
 
         if (request()->filled('limit')) {
+            $limit = request()->integer('limit');
             return ProjectResource::collection(
-                $query->get()
+                $query->limit($limit)->get()
             );
         }
 
@@ -26,6 +29,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
+        $project->load(['category', 'technologies']);
         return new ProjectResource($project);
     }
 }

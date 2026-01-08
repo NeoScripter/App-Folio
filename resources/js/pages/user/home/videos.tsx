@@ -28,7 +28,6 @@ const Videos = () => {
         fetchData({
             url: '/api/videos',
             onSuccess: (data) => {
-                console.log(data);
                 setter(data.data);
             },
         });

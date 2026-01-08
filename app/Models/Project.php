@@ -15,6 +15,8 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
 
+    protected $with = ['image'];
+
     public function image(): MorphOne
     {
         return $this->morphOne(Image::class, 'imageable');
