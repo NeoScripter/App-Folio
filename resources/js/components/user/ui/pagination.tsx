@@ -54,13 +54,21 @@ const Pagination: FunctionalComponent<PaginationProps> = ({
             )}
         >
             {/* Mobile Navigation */}
-            <div className="flex flex-1 justify-between sm:hidden">
-                <PaginationButton link={links[0]} handleClick={onClick}>
-                    <ChevronLeftIcon className="text-foreground size-10" />
+            <div className="mx-auto flex max-w-8/10 flex-1 justify-between sm:hidden">
+                <PaginationButton
+                    link={links[0]}
+                    handleClick={onClick}
+                    class="size-16"
+                >
+                    <ChevronLeftIcon className="text-foreground size-16" />
                 </PaginationButton>
 
-                <PaginationButton link={links[links.length - 1]} handleClick={onClick}>
-                    <ChevronRightIcon className="text-foreground size-10" />
+                <PaginationButton
+                    link={links[links.length - 1]}
+                    handleClick={onClick}
+                    class="size-16"
+                >
+                    <ChevronRightIcon className="text-foreground size-16" />
                 </PaginationButton>
             </div>
 
@@ -110,12 +118,14 @@ interface PaginationButtonProps {
     link: PaginationLink;
     children: ComponentChildren;
     handleClick: (newPage: number) => void;
+    class?: string;
 }
 
 const PaginationButton: FunctionalComponent<PaginationButtonProps> = ({
     link,
     children,
     handleClick,
+    class: className,
 }) => {
     const baseClasses = cn(
         'relative inline-flex size-8 items-center justify-center rounded-sm font-medium ring-1 transition duration-200 ease-in ring-inset 2xl:size-12 2xl:text-2xl',
@@ -125,6 +135,7 @@ const PaginationButton: FunctionalComponent<PaginationButtonProps> = ({
                 !link.active && link.url,
             'opacity-50': !link.url,
         },
+        className,
     );
 
     // Disabled state

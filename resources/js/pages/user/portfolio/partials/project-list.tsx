@@ -30,7 +30,7 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
         if (!projectsRef.current) return;
 
         projectsRef.current.scrollIntoView({
-            behavior: 'smooth',
+            // behavior: 'smooth',
             block: 'start',
         });
     };
@@ -50,7 +50,7 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
     return (
         <div className={cn('', className)}>
             <SearchBar />
-            <section ref={projectsRef}>
+            <section ref={projectsRef} className="scroll-m-80">
                 {projectData?.data != null && !loading ? (
                     <ul>
                         {projectData.data.map((project, idx) => (
