@@ -103,7 +103,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
                     },
                 )}
             >
-                <div class="w-36">
+                <div class="w-40">
                     <Logo />
                 </div>
 

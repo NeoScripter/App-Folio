@@ -17,7 +17,7 @@ const NavLink: FC<{
     const active = path === link.path;
 
     return (
-        <li>
+        <li class='select-none'>
             <a
                 class={cn(
                     'group relative mx-auto flex w-fit min-w-30 items-center gap-3 font-medium lg:min-w-0 lg:font-normal',
