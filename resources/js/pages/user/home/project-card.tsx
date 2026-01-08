@@ -11,10 +11,14 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
     return (
         <li
             class={cn(
-                'shadow-project justify-self-center overflow-clip rounded-md transition-transform duration-300 ease-in-out select-none hover:scale-103',
+                'shadow-project relative isolate justify-self-center overflow-clip rounded-md transition-transform duration-300 ease-in-out select-none focus-within:scale-103 focus-within:ring-2 focus-within:ring-blue-500 hover:scale-103',
                 appearance.value === 'dark' && 'bg-muted',
             )}
         >
+            <a
+                href={`portfolio/${project.id}`}
+                class="absolute inset-0 z-1 block size-full"
+            ></a>
             {project.image && (
                 <div class="group relative">
                     <LazyImage
@@ -29,8 +33,8 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
                     />
                 </div>
             )}
-            <div class="px-5 pt-5 pb-7 sm:px-6 sm:pt-6 xl:pt-8 md:px-7 xl:px-8">
-                <h4 class="mb-5.5 text-2xl font-medium xl:mb-7 md:text-3xl 2xl:text-4xl hyphens-auto">
+            <div class="px-5 pt-5 pb-7 sm:px-6 sm:pt-6 md:px-7 xl:px-8 xl:pt-8">
+                <h4 class="mb-5.5 text-2xl font-medium hyphens-auto md:text-3xl xl:mb-7 2xl:text-4xl">
                     {project.attributes.title[lang]}
                 </h4>
                 <p class="text-foreground/60 ellipsis-multiline text-sm md:text-base xl:text-lg">

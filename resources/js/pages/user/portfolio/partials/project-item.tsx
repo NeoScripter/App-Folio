@@ -1,3 +1,4 @@
+import { Anchor } from '@/components/user/ui/anchor';
 import { Button } from '@/components/user/ui/button';
 import LazyImage from '@/components/user/ui/lazy-image';
 import { NodeProps } from '@/lib/types/nodeProps';
@@ -42,12 +43,13 @@ const ProjectItem: FC<NodeProps<{ project: ProjectType }>> = ({
                         {project.attributes.description[lang]}
                     </p>
 
-                    <Button
+                    <Anchor
                         class="ml-auto md:mr-auto lg:ml-0"
+                        href={`portfolio/${project.id}`}
                         variant="primary"
                     >
                         Перейти к проекту
-                    </Button>
+                    </Anchor>
                 </div>
             </div>
         </li>

@@ -89,3 +89,41 @@ class ImageInserter
         return "uploads/{$filename}";
     }
 }
+
+// Command for the first mockup:
+
+// convert mockup-1.webp \
+// \( result.png -virtual-pixel none +distort perspective \
+// "0,0 272,286   965,0 1240,288   965,707 1264,967   0,707 298,1017" \) \
+// -layers merge +repage output.png
+
+// Command for the second mockup:
+// convert mockup-2.webp \
+// \( result.png -virtual-pixel none +distort perspective \
+// "0,0 365,136   965,0 1368,134   965,707 1238,857   0,707 250,932" \) \
+// -layers merge +repage output.png
+
+// Command for the third mockup:
+// convert mockup-3.webp \
+// \( result.png -virtual-pixel none +distort perspective \
+// "0,0 789,61   965,0 1809,459   965,707 1571,1220   0,707 602,780" \) \
+// -layers merge +repage output.png
+
+// Command for the fourth mockup:
+// convert mockup-4.webp \
+// \( result.png -virtual-pixel none +distort perspective \
+// "0,0 314,206   965,0 1502,136   965,707 1472,937   0,707 320,1076" \) \
+// -layers merge +repage output.png
+
+// Command for the fifth mockup:
+// convert mockup-5.webp \
+// \( result.webp -virtual-pixel none +distort perspective \
+// "0,0 653,288   965,0 1806,235   965,707 1779,1170   0,707 618,1135" \) \
+// -layers merge +repage output.webp
+
+// image 621 width 854 height
+// Command for the sixth mockup:
+// convert mockup-6.webp \
+// \( cropped.webp -virtual-pixel none +distort perspective \
+// "0,0 392,435   621,0 971,166   621,854 1462,975   0,854 872,1282" \) \
+// -layers merge +repage output.webp

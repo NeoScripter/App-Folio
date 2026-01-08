@@ -1,5 +1,12 @@
 import { effect } from '@preact/signals';
-import { ErrorBoundary, hydrate, lazy, LocationProvider, Route, Router } from 'preact-iso';
+import {
+    ErrorBoundary,
+    hydrate,
+    lazy,
+    LocationProvider,
+    Route,
+    Router,
+} from 'preact-iso';
 import '../css/app.css';
 import ProtectedRoute from './layouts/auth/protected-route';
 import { appearance } from './signals/appearance';
@@ -8,6 +15,7 @@ const About = lazy(() => import('./pages/user/about/about'));
 const Login = lazy(() => import('./pages/auth/login'));
 const Home = lazy(() => import('./pages/user/home/home'));
 const Portfolio = lazy(() => import('./pages/user/portfolio/portfolio'));
+const Project = lazy(() => import('./pages/user/project/project'));
 const Dashboard = lazy(() => import('./pages/admin/dashboard'));
 const Appearance = lazy(() => import('./pages/admin/appearance'));
 const Profile = lazy(() => import('./pages/admin/profile'));
@@ -18,7 +26,9 @@ function App() {
     effect(() => {
         document.documentElement.classList.toggle(
             'dark',
-            appearance.value === 'dark' || (appearance.value === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches),
+            appearance.value === 'dark' ||
+                (appearance.value === 'system' &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches),
         );
     });
 
@@ -29,6 +39,7 @@ function App() {
                     <Route path="/" component={Home} />
                     <Route path="/about" component={About} />
                     <Route path="/portfolio" component={Portfolio} />
+                    <Route path="/portfolio/:id" component={Project} />
                     <Route path="/login" component={Login} />
 
                     <Route
