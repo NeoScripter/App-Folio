@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('alt_ru');
             $table->text('alt_en');
             $table->morphs('imageable');
+            $table->string('type')->default('image');
             $table->timestamps();
         });
     }

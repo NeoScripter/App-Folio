@@ -92,7 +92,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         >
             <div
                 class={cn(
-                    'mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 backdrop-blur-sm transition-transform duration-300 ease-in sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
+                    'mx-auto flex max-w-480 bg-background/50 items-center justify-between overflow-x-clip px-7 py-8 backdrop-blur-sm transition-transform duration-300 ease-in sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
                         'xl:max-w-432 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
