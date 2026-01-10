@@ -1,5 +1,4 @@
 import AvatarTiny from '@/assets/images/about/avatar-tiny.webp';
-import Avatar from '@/assets/images/about/avatar.webp';
 import DesktopBgDarkTiny from '@/assets/images/about/hero-bg-dark-desktop-tiny.webp';
 import DesktopBgDark from '@/assets/images/about/hero-bg-dark-desktop.webp';
 import MobileBgDarkTiny from '@/assets/images/about/hero-bg-dark-mb-tiny.webp';
@@ -8,13 +7,16 @@ import DesktopBgLightTiny from '@/assets/images/about/hero-bg-light-desktop-tiny
 import DesktopBgLight from '@/assets/images/about/hero-bg-light-desktop.webp';
 import MobileBgLightTiny from '@/assets/images/about/hero-bg-light-mb-tiny.webp';
 import MobileBgLight from '@/assets/images/about/hero-bg-light-mb.webp';
+import AvatarMbAvif from '@/assets/images/about/test/avatar-mb.avif';
+import AvatarMbWebp from '@/assets/images/about/test/avatar-mb.webp';
+import AvatarTbAvif from '@/assets/images/about/test/avatar-tb.avif';
+import AvatarTbWebp from '@/assets/images/about/test/avatar-tb.webp';
 import { Button } from '@/components/user/ui/button';
+import FluidImage from '@/components/user/ui/fluid-image';
 import HeroBackground from '@/components/user/ui/hero-background';
-import LazyImage from '@/components/user/ui/lazy-image';
-import AppSection from '@/layouts/user/app-section';
 import HeroLayout from '@/layouts/user/hero-layout';
 import { useModal } from '@/providers/modal-context';
-import { appearance, effectiveTheme } from '@/signals/appearance';
+import { effectiveTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 
 const HeroSection = () => {
@@ -52,10 +54,15 @@ const HeroAvatar = () => {
 
     return (
         <div class="relative isolate mx-auto mb-16 w-fit sm:mb-20 md:mb-24 lg:order-2 lg:mx-0 lg:mb-0 xl:mx-auto">
-            <LazyImage
+            <FluidImage
                 parentClass="max-w-75 2xl:max-w-95 rounded-3xl w-[50vw]"
-                img={Avatar}
-                tinyImg={AvatarTiny}
+                dkWebp={AvatarTbWebp}
+                dkAvif={AvatarTbAvif}
+                tbWebp={AvatarTbWebp}
+                tbAvif={AvatarTbAvif}
+                mbWebp={AvatarMbWebp}
+                mbAvif={AvatarMbAvif}
+                tiny={AvatarTiny}
                 alt={avatarAlt}
             />
             <div

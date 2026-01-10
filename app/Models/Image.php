@@ -76,12 +76,15 @@ class Image extends Model
         $paths = app(\App\Services\ImageResizer::class)->handleImage($file);
 
         $image = new static([
-            'alt_ru'        => $altRu,
-            'alt_en'        => $altEn,
-            'dk_webp'          => $paths['desktop'],
-            'tb_webp'          => $paths['tablet'],
-            'mb_webp'          => $paths['mobile'],
-            'tiny'     => $paths['tiny'],
+            'alt_ru' => $altRu,
+            'alt_en' => $altEn,
+            'dk_webp' => $paths['dkWebp'],
+            'tb_webp' => $paths['tbWebp'],
+            'mb_webp' => $paths['mbWebp'],
+            'dk_avif' => $paths['dkAvif'],
+            'tb_avif' => $paths['tbAvif'],
+            'mb_avif' => $paths['mbAvif'],
+            'tiny'  => $paths['tiny'],
         ]);
 
         $model->image()->save($image);

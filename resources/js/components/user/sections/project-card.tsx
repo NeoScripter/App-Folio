@@ -20,10 +20,10 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
                     <FluidImage
                         parentClass="rounded-md aspect-5/6"
                         alt={project.image.alt[lang]}
-                        dkWebp={project.image.mbWebp}
-                        dkAvif={project.image.mbAvif}
-                        tbWebp={project.image.mbWebp}
-                        tbAvif={project.image.mbAvif}
+                        dkWebp={project.image.tbWebp}
+                        dkAvif={project.image.tbAvif}
+                        tbWebp={project.image.tbWebp}
+                        tbAvif={project.image.tbAvif}
                         mbWebp={project.image.mbWebp}
                         mbAvif={project.image.mbAvif}
                         tiny={project.image.tiny}
