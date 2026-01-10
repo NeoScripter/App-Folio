@@ -1,5 +1,6 @@
 import FeaturedBgDk from '@/assets/images/home/featured-bg-dk.webp';
 import FeaturedBgMb from '@/assets/images/home/featured-bg-mb.webp';
+import Projects from '@/components/user/sections/projects';
 import PrimaryLink from '@/components/user/ui/primary-link';
 import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import { useFetch } from '@/hooks/use-fetch';
@@ -9,7 +10,6 @@ import { ProjectType } from '@/lib/types/projects';
 import { appearance, effectiveTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
-import Projects from './projects';
 
 const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
     const mq = window.matchMedia(`(max-width: ${LG / 16}rem)`);

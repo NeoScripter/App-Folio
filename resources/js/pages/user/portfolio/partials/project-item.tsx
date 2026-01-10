@@ -51,7 +51,7 @@ const ProjectItem: FC<NodeProps<{ project: ProjectType }>> = ({
 
                     <Anchor
                         class="ml-auto md:mr-auto lg:ml-0"
-                        href={`portfolio/${project.id}`}
+                        href={project.attributes.url}
                         variant="primary"
                     >
                         Перейти к проекту

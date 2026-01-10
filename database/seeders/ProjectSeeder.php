@@ -18,7 +18,9 @@ class ProjectSeeder extends Seeder
     {
         for ($i = 1; $i <= 24; $i++) {
 
-            Project::factory()
+            Project::factory([
+                'order' => $i * 10
+            ])
                 ->afterCreating(function ($project) use ($i) {
                     Image::factory()->create([
                         'imageable_id' => $project,

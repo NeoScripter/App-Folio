@@ -73,6 +73,8 @@ export interface ProjectType {
             ru: string[];
             en: string[];
         };
+        slug: string;
+        url: string;
         link: string;
     };
     image: FluidImageType;

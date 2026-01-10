@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title_ru');
             $table->string('title_en');
+            $table->unsignedInteger('order')->default(100);
+            $table->string('slug');
             $table->text('description_ru');
             $table->text('description_en');
             $table->string('link');

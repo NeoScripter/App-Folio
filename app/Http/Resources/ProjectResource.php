@@ -14,6 +14,8 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $isShow = $request->routeIs('projects.show');
+
         return [
             'id' => $this->id,
             'attributes' => [
@@ -33,7 +35,9 @@ class ProjectResource extends JsonResource
                     'ru' => $this->technologies->pluck('name_ru')->toArray(),
                     'en' => $this->technologies->pluck('name_en')->toArray(),
                 ],
+                'slug' => $this->slug,
                 'link' => $this->link,
+                'url' => url('/portfolio/' . $this->slug),
             ],
             'image' => [
                 'dkAvif' => $this->image->dk_avif,
@@ -50,7 +54,7 @@ class ProjectResource extends JsonResource
             ],
             'links' => [
                 ['self' => route('projects.show', ['project' => $this->id])]
-            ]
+            ],
         ];
     }
 }

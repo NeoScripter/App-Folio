@@ -39,7 +39,7 @@ function App() {
                     <Route path="/" component={Home} />
                     <Route path="/about" component={About} />
                     <Route path="/portfolio" component={Portfolio} />
-                    <Route path="/portfolio/:id" component={Project} />
+                    <Route path="/portfolio/:slug" component={Project} />
                     <Route path="/login" component={Login} />
 
                     <Route

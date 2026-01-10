@@ -5,15 +5,24 @@ import AppSection from '@/layouts/user/app-section';
 import { ProjectType } from '@/lib/types/projects';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
-import Projects from '../home/projects';
+import Projects from './projects';
 
-const ProjectsSection: FC<{ className?: string }> = ({ className }) => {
+const ProjectsSection: FC<{
+    className?: string;
+    title: string;
+    excludedId?: number;
+}> = ({ className, title, excludedId }) => {
     const { fetchData, loading, errors } = useFetch();
     const [projects, setProjects] = useState<ProjectType[] | null>(null);
 
     useEffect(() => {
+        let req = '/api/projects?limit=3';
+
+        if (excludedId != null) {
+            req += `${req}&exclude=${excludedId}`;
+        }
         fetchData({
-            url: '/api/projects?limit=3',
+            url: req,
             onSuccess: (data) => {
                 setProjects(data.data);
             },
@@ -29,7 +38,7 @@ const ProjectsSection: FC<{ className?: string }> = ({ className }) => {
         >
             <div className="xl:flex xl:items-baseline xl:justify-between">
                 <SecondaryHeading className="xs:text-center xs:text-balance text-center text-4xl xl:text-5xl">
-                    Смотреть проекты
+                    {title}
                 </SecondaryHeading>
                 <PrimaryLink
                     href="/portfolio"

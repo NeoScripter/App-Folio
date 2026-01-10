@@ -17,8 +17,15 @@ class ProjectController extends Controller
 
         if (request()->filled('limit')) {
             $limit = request()->integer('limit');
+
+            if (request()->filled('exclude')) {
+                $excluded = request()->integer('exclude');
+                $query->where('id', '!=', $excluded);
+            }
             return ProjectResource::collection(
-                $query->limit($limit)->get()
+                $query->orderBy('order')
+                    ->limit($limit)
+                    ->get()
             );
         }
 
