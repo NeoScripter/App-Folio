@@ -36,7 +36,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $project->load(['category', 'technologies']);
+        $project->load(['category', 'technologies', 'modules' => fn($q) => $q->orderBy('order')]);
         return new ProjectResource($project);
     }
 }

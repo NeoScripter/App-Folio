@@ -23,6 +23,8 @@ const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
         });
     }, []);
 
+    console.log(project)
+
     if (errors != null)
         return <ApiError resourceRu="проекта" resourceEn="project" />;
 

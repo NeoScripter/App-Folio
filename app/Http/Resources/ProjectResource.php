@@ -14,8 +14,6 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isShow = $request->routeIs('projects.show');
-
         return [
             'id' => $this->id,
             'attributes' => [
@@ -53,8 +51,12 @@ class ProjectResource extends JsonResource
                 ],
             ],
             'links' => [
-                ['self' => route('projects.show', ['project' => $this->id])]
+                ['self' => route('projects.show', ['project' => $this->slug])]
             ],
+            'modules' => $this->when(
+                $request->routeIs('projects.show'),
+                ProjectModuleResource::collection($this->modules)
+            ),
         ];
     }
 }

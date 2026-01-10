@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Project;
+use App\Models\ProjectModule;
 use App\Models\Review;
 use App\Models\Stack;
 use App\Models\Video;
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
             'video' => Video::class,
             'project' => Project::class,
             'stack' => Stack::class,
+            'module' => ProjectModule::class,
         ]);
     }
 }
