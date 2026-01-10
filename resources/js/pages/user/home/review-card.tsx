@@ -1,4 +1,4 @@
-import LazyImage from '@/components/user/ui/lazy-image';
+import FluidImage from '@/components/user/ui/fluid-image';
 import { ReviewType } from '@/lib/types/reviews';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
@@ -22,11 +22,16 @@ const ReviewCard: FC<{ review: ReviewType; active: boolean }> = ({
             tabIndex={active ? 0 : -1}
         >
             {review.image && (
-                <LazyImage
+                <FluidImage
                     parentClass="size-32 md:size-40 lg:size-51 shrink-0 rounded-full"
                     alt={review.image.alt[lang]}
-                    tinyImg={review.image.tinyPath}
-                    img={review.image.path}
+                    tiny={review.image.tiny}
+                    dkWebp={review.image.mbWebp}
+                    dkAvif={review.image.mbAvif}
+                    tbWebp={review.image.mbWebp}
+                    tbAvif={review.image.mbAvif}
+                    mbWebp={review.image.mbWebp}
+                    mbAvif={review.image.mbAvif}
                 />
             )}
             <div>

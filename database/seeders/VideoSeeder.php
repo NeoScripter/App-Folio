@@ -20,7 +20,13 @@ class VideoSeeder extends Seeder
                 ->afterCreating(function ($video) {
                     Image::factory()->create([
                         'imageable_id' => $video,
-                        'path' => 'models/videos/video-1.png'
+                        'dk_webp' => 'models/videos/video-1.png',
+                        'tb_webp' => 'models/videos/video-1.png',
+                        'mb_webp' => 'models/videos/video-1.png',
+                        'dk_avif' => 'models/videos/video-1.png',
+                        'tb_avif' => 'models/videos/video-1.png',
+                        'mb_avif' => 'models/videos/video-1.png',
+                        'tiny' => 'models/videos/video-1.png',
                     ]);
                 })
                 ->create();

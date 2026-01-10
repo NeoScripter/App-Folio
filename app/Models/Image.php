@@ -21,19 +21,38 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    public function getPathAttribute(): string
+    public function getDkWebpAttribute(): string
     {
-        return Storage::disk('public')->url($this->attributes['path']);
+        return Storage::disk('public')->url($this->attributes['dk_webp']);
     }
 
-    public function getPreviewPathAttribute(): string
+    public function getTbWebpAttribute(): string
     {
-        return Storage::disk('public')->url($this->attributes['preview_path']);
+        return Storage::disk('public')->url($this->attributes['tb_webp']);
     }
 
-    public function getTinyPathAttribute(): string
+    public function getMbWebpAttribute(): string
     {
-        return Storage::disk('public')->url($this->attributes['tiny_path']);
+        return Storage::disk('public')->url($this->attributes['mb_webp']);
+    }
+    public function getDkAvifAttribute(): string
+    {
+        return Storage::disk('public')->url($this->attributes['dk_avif']);
+    }
+
+    public function getTbAvifAttribute(): string
+    {
+        return Storage::disk('public')->url($this->attributes['tb_avif']);
+    }
+
+    public function getMbAvifAttribute(): string
+    {
+        return Storage::disk('public')->url($this->attributes['mb_avif']);
+    }
+
+    public function getTinyAttribute(): string
+    {
+        return Storage::disk('public')->url($this->attributes['tiny']);
     }
 
     private static function processAndAttach(
@@ -59,9 +78,10 @@ class Image extends Model
         $image = new static([
             'alt_ru'        => $altRu,
             'alt_en'        => $altEn,
-            'path'          => $paths['original'],
-            'preview_path'  => $paths['preview'],
-            'tiny_path'     => $paths['tiny'],
+            'dk_webp'          => $paths['desktop'],
+            'tb_webp'          => $paths['tablet'],
+            'mb_webp'          => $paths['mobile'],
+            'tiny'     => $paths['tiny'],
         ]);
 
         $model->image()->save($image);
@@ -94,9 +114,13 @@ class Image extends Model
     {
         static::deleting(function (Image $image) {
             Storage::disk('public')->delete([
-                $image->getRawOriginal('path'),
-                $image->getRawOriginal('preview_path'),
-                $image->getRawOriginal('tiny_path'),
+                $image->getRawOriginal('dk_webp'),
+                $image->getRawOriginal('dk_avif'),
+                $image->getRawOriginal('tb_webp'),
+                $image->getRawOriginal('tb_avif'),
+                $image->getRawOriginal('mb_webp'),
+                $image->getRawOriginal('mb_avif'),
+                $image->getRawOriginal('tiny'),
             ]);
         });
     }

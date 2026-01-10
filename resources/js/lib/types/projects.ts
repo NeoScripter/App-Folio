@@ -18,6 +18,20 @@ export interface ProjectResource {
     };
 }
 
+export type FluidImageType = {
+    dkWebp: string;
+    dkAvif: string;
+    tbWebp: string;
+    tbAvif: string;
+    mbWebp: string;
+    mbAvif: string;
+    tiny: string;
+    alt: {
+        ru: string;
+        en: string;
+    };
+};
+
 export interface PaginationLink {
     url: string | null;
     label: string;
@@ -61,14 +75,7 @@ export interface ProjectType {
         };
         link: string;
     };
-    image: {
-        path: string;
-        tinyPath: string;
-        alt: {
-            ru: string;
-            en: string;
-        };
-    };
+    image: FluidImageType;
     links: {
         self: string;
     }[];

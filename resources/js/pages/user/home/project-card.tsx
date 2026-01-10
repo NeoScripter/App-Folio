@@ -1,4 +1,4 @@
-import LazyImage from '@/components/user/ui/lazy-image';
+import FluidImage from '@/components/user/ui/fluid-image';
 import { ProjectType } from '@/lib/types/projects';
 import { effectiveTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
@@ -17,15 +17,20 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
         >
             {project.image && (
                 <div class="group relative">
-                    <LazyImage
+                    <FluidImage
                         parentClass="rounded-md aspect-5/6"
                         alt={project.image.alt[lang]}
-                        tinyImg={project.image.tinyPath}
-                        img={project.image.path}
+                        dkWebp={project.image.mbWebp}
+                        dkAvif={project.image.mbAvif}
+                        tbWebp={project.image.mbWebp}
+                        tbAvif={project.image.mbAvif}
+                        mbWebp={project.image.mbWebp}
+                        mbAvif={project.image.mbAvif}
+                        tiny={project.image.tiny}
                     />
                     <a
                         href={`portfolio/${project.id}`}
-                        class="absolute focus:outline-none inset-0 z-1 block size-full"
+                        class="absolute inset-0 z-1 block size-full focus:outline-none"
                     ></a>
                     <span
                         aria-hidden="true"

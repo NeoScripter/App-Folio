@@ -18,9 +18,13 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'path' => fake()->url(),
-            'preview_path' => fake()->url(),
-            'tiny_path' => fake()->url(),
+            'dk_webp' => fake()->url(),
+            'dk_avif' => fake()->url(),
+            'tb_webp' => fake()->url(),
+            'tb_avif' => fake()->url(),
+            'mb_webp' => fake()->url(),
+            'mb_avif' => fake()->url(),
+            'tiny' => fake()->url(),
             'alt_ru' => fake()->sentence(3),
             'alt_en' => fake()->sentence(3),
             'imageable_type' => $this->imageableType(...),

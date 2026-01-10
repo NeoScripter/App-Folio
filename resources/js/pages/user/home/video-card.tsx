@@ -1,5 +1,5 @@
 import PlayBtn from '@/assets/svgs/play-btn.svg';
-import LazyImage from '@/components/user/ui/lazy-image';
+import FluidImage from '@/components/user/ui/fluid-image';
 import { VideoType } from '@/lib/types/videos';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
@@ -35,12 +35,17 @@ const VideoCard: FC<{
             <>
                 {' '}
                 {video.image && (
-                    <LazyImage
+                    <FluidImage
                         parentClass="size-full"
                         imgClass="object-top-left"
                         alt={video.image.alt[lang]}
-                        tinyImg={video.image.tinyPath}
-                        img={video.image.path}
+                        tiny={video.image.tiny}
+                        dkWebp={video.image.tbWebp}
+                        dkAvif={video.image.tbAvif}
+                        tbWebp={video.image.tbWebp}
+                        tbAvif={video.image.tbAvif}
+                        mbWebp={video.image.mbWebp}
+                        mbAvif={video.image.mbAvif}
                     />
                 )}
                 {active && (

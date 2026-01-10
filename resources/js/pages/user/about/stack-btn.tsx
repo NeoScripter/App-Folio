@@ -16,7 +16,7 @@ const StackBtn: FC<{
                 class={cn(
                     'flex size-16 flex-wrap rounded-md',
                     {
-                        'invert-100': effectiveTheme(),
+                        'invert-100': effectiveTheme() === 'dark',
                         'cursor-default shadow-sm ring ring-black': active,
                         'transition-all duration-150 hover:scale-105 hover:shadow-md hover:ring hover:ring-black/70':
                             !active,

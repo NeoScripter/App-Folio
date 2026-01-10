@@ -1,3 +1,5 @@
+import { FluidImageType } from "./projects";
+
 export interface VideoResource {
     data: VideoType[];
 }
@@ -11,12 +13,5 @@ export interface VideoType {
             en: string;
         };
     };
-    image?: {
-        path: string;
-        tinyPath: string;
-        alt: {
-            ru: string;
-            en: string;
-        };
-    };
+    image: FluidImageType;
 }

@@ -36,8 +36,13 @@ class ProjectResource extends JsonResource
                 'link' => $this->link,
             ],
             'image' => [
-                'path' => $this->image->path,
-                'tinyPath' => $this->image->tiny_path,
+                'dkAvif' => $this->image->dk_avif,
+                'dkWebp' => $this->image->dk_webp,
+                'tbAvif' => $this->image->tb_avif,
+                'tbWebp' => $this->image->tb_webp,
+                'mbAvif' => $this->image->mb_avif,
+                'mbWebp' => $this->image->mb_webp,
+                'tiny' => $this->image->tiny,
                 'alt' => [
                     'ru' => $this->image->alt_ru,
                     'en' => $this->image->alt_en,

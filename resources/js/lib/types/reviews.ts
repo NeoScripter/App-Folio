@@ -1,3 +1,5 @@
+import { FluidImageType } from "./projects";
+
 export interface ReviewResource {
     data: ReviewType[];
 }
@@ -14,12 +16,5 @@ export interface ReviewType {
             en: string;
         };
     };
-    image: {
-        path: string;
-        tinyPath: string;
-        alt: {
-            ru: string;
-            en: string;
-        };
-    };
+    image: FluidImageType;
 }

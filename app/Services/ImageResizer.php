@@ -17,24 +17,28 @@ class ImageResizer
 
         $manager = new ImageManager(new Driver());
 
-        $original = $manager->read($file)->scaleDown(width: 1900)->toWebp(80);
-        $preview = $manager->read($file)->scaleDown(width: 400)->toWebp(80);
+        $desktop = $manager->read($file)->scaleDown(width: 1900)->toWebp(80);
+        $tablet = $manager->read($file)->scaleDown(width: 1100)->toWebp(80);
+        $mobile = $manager->read($file)->scaleDown(width: 500)->toWebp(80);
         $tiny     = $manager->read($file)->scaleDown(width: 20)->toWebp(80);
 
-        $originalPath = "uploads/{$filename}.webp";
-        $previewPath = "uploads/{$filename}-preview.webp";
+        $desktopPath = "uploads/{$filename}-dk.webp";
+        $tabletPath = "uploads/{$filename}-tb.webp";
+        $mobilePath     = "uploads/{$filename}-mb.webp";
         $tinyPath     = "uploads/{$filename}-tiny.webp";
 
         Storage::disk('public')->makeDirectory('uploads');
 
-        Storage::disk('public')->put($originalPath, (string) $original);
-        Storage::disk('public')->put($previewPath, (string) $preview);
+        Storage::disk('public')->put($desktopPath, (string) $desktop);
+        Storage::disk('public')->put($tabletPath, (string) $tablet);
+        Storage::disk('public')->put($mobilePath, (string) $mobile);
         Storage::disk('public')->put($tinyPath, (string) $tiny);
 
         return [
-            'original' => $originalPath,   // "uploads/{$filename}.webp"
-            'preview' => $previewPath,   // "uploads/{$filename}.webp"
-            'tiny'     => $tinyPath,       // "uploads/{$filename}-tiny.webp"
+            'desktop' => $desktopPath,
+            'tablet' => $tabletPath,
+            'mobile'     => $mobilePath,
+            'tiny'     => $tinyPath,
         ];
     }
 }

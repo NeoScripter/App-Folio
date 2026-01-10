@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
-            $table->string('preview_path');
-            $table->string('tiny_path');
+            $table->string('dk_webp');
+            $table->string('dk_avif')->nullable();
+            $table->string('tb_webp');
+            $table->string('tb_avif')->nullable();
+            $table->string('mb_webp');
+            $table->string('mb_avif')->nullable();
+            $table->string('tiny');
             $table->text('alt_ru');
             $table->text('alt_en');
             $table->morphs('imageable');

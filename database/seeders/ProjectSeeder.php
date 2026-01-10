@@ -22,7 +22,13 @@ class ProjectSeeder extends Seeder
                 ->afterCreating(function ($project) use ($i) {
                     Image::factory()->create([
                         'imageable_id' => $project,
-                        'path' => 'models/projects/project-' . $i % 7 . '.png'
+                        'dk_webp' => 'models/projects/project-' . max(1, $i % 7) . '-dk.webp',
+                        'dk_avif' => 'models/projects/project-' . max(1, $i % 7) . '-dk.avif',
+                        'tb_webp' => 'models/projects/project-' . max(1, $i % 7) . '-tb.webp',
+                        'tb_avif' => 'models/projects/project-' . max(1, $i % 7) . '-tb.avif',
+                        'mb_webp' => 'models/projects/project-' . max(1, $i % 7) . '-mb.webp',
+                        'mb_avif' => 'models/projects/project-' . max(1, $i % 7) . '-mb.avif',
+                        'tiny' => 'models/projects/project-' . max(1, $i % 7) . '-dk-tiny.webp',
                     ]);
 
                     $techIds = Technology::inRandomOrder()

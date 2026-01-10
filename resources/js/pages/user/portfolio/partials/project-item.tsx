@@ -1,5 +1,6 @@
 import { Anchor } from '@/components/user/ui/anchor';
 import { Button } from '@/components/user/ui/button';
+import FluidImage from '@/components/user/ui/fluid-image';
 import LazyImage from '@/components/user/ui/lazy-image';
 import { NodeProps } from '@/lib/types/nodeProps';
 import { ProjectType } from '@/lib/types/projects';
@@ -22,11 +23,16 @@ const ProjectItem: FC<NodeProps<{ project: ProjectType }>> = ({
         >
             <div class="mb-12 md:flex md:items-start md:justify-between md:gap-15 lg:order-2 lg:mb-0 lg:block lg:max-w-1/2 lg:basis-full">
                 {img && (
-                    <LazyImage
-                        alt={img.alt[lang]}
-                        img={img.path}
-                        tinyImg={img.tinyPath}
+                    <FluidImage
                         parentClass="rounded-3xl md:max-w-2/5 md:order-2 lg:max-w-full"
+                        alt={project.image.alt[lang]}
+                        tiny={project.image.tiny}
+                        dkWebp={project.image.tbWebp}
+                        dkAvif={project.image.tbAvif}
+                        tbWebp={project.image.tbWebp}
+                        tbAvif={project.image.tbAvif}
+                        mbWebp={project.image.mbWebp}
+                        mbAvif={project.image.mbAvif}
                     />
                 )}
                 <ProjectInfo project={project} className="lg:hidden" />
