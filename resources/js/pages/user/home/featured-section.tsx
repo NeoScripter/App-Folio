@@ -1,29 +1,22 @@
-import FeaturedBgDk from '@/assets/images/home/featured-bg-dk.webp';
-import FeaturedBgMb from '@/assets/images/home/featured-bg-mb.webp';
+import FeaturedBgDkAvif from '@/assets/images/home/featured-bg-dk.avif';
+import FeaturedBgDkWebp from '@/assets/images/home/featured-bg-dk.webp';
+import FeaturedBgMbAvif from '@/assets/images/home/featured-bg-mb.avif';
+import FeaturedBgMbWebp from '@/assets/images/home/featured-bg-mb.webp';
+import FeaturedBgTbAvif from '@/assets/images/home/featured-bg-tb.avif';
+import FeaturedBgTbWebp from '@/assets/images/home/featured-bg-tb.webp';
+import FeaturedBgTiny from '@/assets/images/home/featured-bg-tiny.webp';
 import Projects from '@/components/user/sections/projects';
+import FluidImage from '@/components/user/ui/fluid-image';
 import PrimaryLink from '@/components/user/ui/primary-link';
 import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import { useFetch } from '@/hooks/use-fetch';
 import AppSection from '@/layouts/user/app-section';
-import { LG } from '@/lib/constants/breakpoints';
 import { ProjectType } from '@/lib/types/projects';
-import { appearance, effectiveTheme } from '@/signals/appearance';
+import { effectiveTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
 
 const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
-    const mq = window.matchMedia(`(max-width: ${LG / 16}rem)`);
-    const [isMobile, setIsMobile] = useState(mq.matches);
-
-    useEffect(() => {
-        const updateDrawerStatus = (e: MediaQueryListEvent) =>
-            setIsMobile(e.matches);
-
-        mq.addEventListener('change', updateDrawerStatus);
-
-        return () => mq.removeEventListener('change', updateDrawerStatus);
-    }, [mq]);
-
     const { fetchData, loading, errors } = useFetch();
     const [projects, setProjects] = useState<ProjectType[] | null>(null);
 
@@ -36,8 +29,6 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
         });
     }, []);
 
-    console.log(appearance.value);
-
     return (
         <AppSection
             className={cn(
@@ -49,10 +40,15 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 aria-hidden="true"
                 class="absolute inset-0 isolate -z-5 h-fit overflow-clip md:rounded-xl"
             >
-                <img
-                    src={isMobile ? FeaturedBgMb : FeaturedBgDk}
-                    alt=""
-                    class="w-full object-contain"
+                <FluidImage
+                    dkAvif={FeaturedBgDkAvif}
+                    tiny={FeaturedBgTiny}
+                    tbWebp={FeaturedBgTbWebp}
+                    tbAvif={FeaturedBgTbAvif}
+                    mbAvif={FeaturedBgMbAvif}
+                    mbWebp={FeaturedBgMbWebp}
+                    dkWebp={FeaturedBgDkWebp}
+                    imgClass="w-full object-contain"
                 />
                 <div
                     class="absolute inset-0 z-5"

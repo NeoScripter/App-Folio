@@ -1,4 +1,3 @@
-import AvatarTiny from '@/assets/images/about/avatar-tiny.webp';
 import DesktopBgDarkTiny from '@/assets/images/about/hero-bg-dark-desktop-tiny.webp';
 import DesktopBgDark from '@/assets/images/about/hero-bg-dark-desktop.webp';
 import MobileBgDarkTiny from '@/assets/images/about/hero-bg-dark-mb-tiny.webp';
@@ -7,10 +6,11 @@ import DesktopBgLightTiny from '@/assets/images/about/hero-bg-light-desktop-tiny
 import DesktopBgLight from '@/assets/images/about/hero-bg-light-desktop.webp';
 import MobileBgLightTiny from '@/assets/images/about/hero-bg-light-mb-tiny.webp';
 import MobileBgLight from '@/assets/images/about/hero-bg-light-mb.webp';
-import AvatarMbAvif from '@/assets/images/about/test/avatar-mb.avif';
-import AvatarMbWebp from '@/assets/images/about/test/avatar-mb.webp';
-import AvatarTbAvif from '@/assets/images/about/test/avatar-tb.avif';
-import AvatarTbWebp from '@/assets/images/about/test/avatar-tb.webp';
+import AvatarMbAvif from '@/assets/images/about/avatar-mb.avif';
+import AvatarMbWebp from '@/assets/images/about/avatar-mb.webp';
+import AvatarTbAvif from '@/assets/images/about/avatar-tb.avif';
+import AvatarTbWebp from '@/assets/images/about/avatar-tb.webp';
+import AvatarTiny from '@/assets/images/about/avatar-tb-tiny.webp';
 import { Button } from '@/components/user/ui/button';
 import FluidImage from '@/components/user/ui/fluid-image';
 import HeroBackground from '@/components/user/ui/hero-background';
@@ -67,7 +67,7 @@ const HeroAvatar = () => {
             />
             <div
                 aria-hidden="true"
-                class="bg-muted-foreground/20 absolute inset-0 top-[10%] -bottom-[10%] left-[12%] -z-5 rounded-3xl backdrop-blur-sm lg:top-[8%] lg:-right-[8%] lg:-bottom-[8%] lg:left-[8%]"
+                class="bg-muted-foreground/20 absolute inset-0 top-[10%] size-full -bottom-[10%] left-[12%] -z-5 rounded-3xl backdrop-blur-sm lg:top-[8%] lg:-right-[8%] lg:-bottom-[8%] lg:left-[8%]"
             />
         </div>
     );

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     {{-- Preload the font --}}
      <link rel="preload" href="{{ asset('fonts/Regular-Latin.woff2') }}" as="font" type="font/woff2" crossorigin>
      <link rel="preload" href="{{ asset('fonts/Regular-Russian.woff2') }}" as="font" type="font/woff2" crossorigin>

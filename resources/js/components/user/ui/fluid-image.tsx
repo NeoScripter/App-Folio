@@ -11,7 +11,7 @@ type FluidImageProps = {
     mbWebp: string;
     mbAvif?: string;
     tiny: string;
-    alt: string;
+    alt?: string;
 };
 
 export default function FluidImage({
@@ -31,21 +31,33 @@ export default function FluidImage({
     return (
         <div
             className={cn('relative overflow-clip', parentClass)}
-            aria-label={alt}
+            {...(alt == null && { 'aria-hidden': 'true' })}
         >
-            <picture className="size-full block">
-                {dkAvif && <source
-                    type="image/avif"
-                    srcSet={dkAvif}
+            <picture className="block size-full">
+                {dkAvif && (
+                    <source
+                        type="image/avif"
+                        srcSet={dkAvif}
+                        media="(min-width: 56rem)"
+                    />
+                )}
+                <source
+                    type="image/webp"
+                    srcSet={dkWebp}
                     media="(min-width: 56rem)"
-                />}
-                <source type="image/webp"srcSet={dkWebp} media="(min-width: 56rem)" />
-                {tbAvif && <source
-                    type="image/avif"
-                    srcSet={tbAvif}
+                />
+                {tbAvif && (
+                    <source
+                        type="image/avif"
+                        srcSet={tbAvif}
+                        media="(min-width: 31rem)"
+                    />
+                )}
+                <source
+                    type="image/webp"
+                    srcSet={tbWebp}
                     media="(min-width: 31rem)"
-                />}
-                <source type="image/webp" srcSet={tbWebp} media="(min-width: 31rem)" />
+                />
                 {mbAvif && <source type="image/avif" srcSet={mbAvif} />}
 
                 <img
