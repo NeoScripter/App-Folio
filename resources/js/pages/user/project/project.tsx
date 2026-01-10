@@ -14,18 +14,19 @@ const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
     const { fetchData, loading, errors } = useFetch();
     const [project, setProject] = useState<ProjectType | null>(null);
 
-
     useEffect(() => {
         fetchData({
-            url: `/api/projects/{slug}`,
+            url: `/api/projects/${slug}`,
             onSuccess: (data) => {
                 setProject(data.data);
             },
         });
     }, []);
+
+    console.log(project)
     return (
         <AppLayout variant="ghost">
-            <HeroSection />
+            <HeroSection project={project} />
             <ProjectsSection title="Другие проекты" />
         </AppLayout>
     );

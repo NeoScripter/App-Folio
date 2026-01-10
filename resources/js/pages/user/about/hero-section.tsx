@@ -36,7 +36,7 @@ const HeroSection = () => {
                 tinyMobileImg={isLight ? MobileBgLightTiny : MobileBgDarkTiny}
             />
 
-            <div class="mt-4 lg:mt-0 lg:flex lg:items-start lg:justify-between 2xl:items-center">
+            <div class="mt-4 lg:mt-0 lg:flex lg:items-start gap-x-2 lg:justify-between 2xl:items-center">
                 <HeroAvatar />
                 <HeroDescription />
             </div>
