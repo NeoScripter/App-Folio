@@ -14,11 +14,11 @@ import LazyImage from '@/components/user/ui/lazy-image';
 import AppSection from '@/layouts/user/app-section';
 import HeroLayout from '@/layouts/user/hero-layout';
 import { useModal } from '@/providers/modal-context';
-import { appearance } from '@/signals/appearance';
+import { appearance, effectiveTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 
 const HeroSection = () => {
-    const isLight = appearance.value === 'light';
+    const isLight = effectiveTheme() === 'light';
 
     return (
         <HeroLayout>

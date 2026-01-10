@@ -13,7 +13,7 @@ const HeroActions = () => {
         >
             <Button onClick={() => showModal.value = true} variant="hero">Нанять меня</Button>
 
-            <a href="/" class="group relative ml-5">
+            <a href="/about" class="group relative ml-5">
                 Узнать больше
                 <AnimatedUnderline className={cn('z-10 bg-white')} />
             </a>

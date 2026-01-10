@@ -6,7 +6,7 @@ import { useFetch } from '@/hooks/use-fetch';
 import AppSection from '@/layouts/user/app-section';
 import { LG } from '@/lib/constants/breakpoints';
 import { ProjectType } from '@/lib/types/projects';
-import { appearance } from '@/signals/appearance';
+import { appearance, effectiveTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
 import Projects from './projects';
@@ -36,6 +36,8 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
         });
     }, []);
 
+    console.log(appearance.value);
+
     return (
         <AppSection
             className={cn(
@@ -55,12 +57,12 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 <div
                     class="absolute inset-0 z-5"
                     style={
-                        appearance.value === 'light'
+                        effectiveTheme() === 'dark'
                             ? {
-                                  backgroundImage: `linear-gradient(180deg, rgba(242,246,250,0) 0%, #fff 90.87%)`,
+                                  background: `linear-gradient(180deg, rgba(30, 32, 33, 0.83) 0%, #1E2021 90.87%)`,
                               }
                             : {
-                                  backgroundImage: `linear-gradient(180deg, rgba(30, 32, 33, 0.83) 0%, #1E2021 90.87%)`,
+                                  background: `linear-gradient(180deg, rgba(242,246,250,0) 0%, #fff 90.87%)`,
                               }
                     }
                 />

@@ -14,7 +14,7 @@ const AppSection: FC<{ className?: string; children: ComponentChildren, style?: 
         <section
             inert={showModal.value}
             class={cn(
-                'px-5 first-of-type:pt-36 sm:px-15 first-of-type:sm:pt-42 md:text-xl lg:px-23 first-of-type:lg:pt-50 2xl:text-2xl',
+                'px-5 content-vis-auto first-of-type:pt-36 sm:px-15 first-of-type:sm:pt-42 md:text-xl lg:px-23 first-of-type:lg:pt-50 2xl:text-2xl',
                 className,
             )}
             style={style}

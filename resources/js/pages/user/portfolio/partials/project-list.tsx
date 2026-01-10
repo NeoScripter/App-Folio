@@ -59,7 +59,7 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
                                 className={cn(
                                     idx % 2 === 0
                                         ? 'bg-muted'
-                                        : 'flex-row-reverse',
+                                        : 'flex-row-reverse [&>*]:flex-row-reverse',
                                 )}
                                 project={project}
                             />
@@ -70,7 +70,7 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
                         {range(0, 7).map((idx) => (
                             <ProjectItemSkeleton
                                 className={cn(
-                                    idx % 2 !== 0 && 'flex-row-reverse',
+                                    idx % 2 !== 0 && 'flex-row-reverse [&>*]:flex-row-reverse',
                                 )}
                                 key={idx}
                             />

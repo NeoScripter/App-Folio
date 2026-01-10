@@ -39,7 +39,7 @@ const Stacks = () => {
 
     const handleSetActive = (idx: number | null) => {
         if (idx != null) {
-            lastContent.current = stacks?.[idx].attributes[`html${lang}`];
+            lastContent.current = stacks?.[idx].attributes.html[lang];
         }
         setActive((prev) => (prev === idx ? null : idx));
     };
@@ -67,7 +67,7 @@ const Stacks = () => {
                 <ul
                     id="stack-btns"
                     className={cn(
-                        'border-muted mx-auto flex w-fit flex-wrap items-start gap-1 rounded-xl p-5 shadow-md',
+                        'border-muted mx-auto grid w-full grid-cols-[repeat(auto-fit,minmax(3rem,1fr))] items-start justify-center gap-x-5 gap-y-1 rounded-xl p-4 shadow-md sm:w-fit sm:grid-flow-col',
                     )}
                 >
                     {!loading

@@ -2,7 +2,7 @@ import BgDark from '@/assets/images/shared/menu-bg-dark.webp';
 import BgLight from '@/assets/images/shared/menu-bg.webp';
 import { navLinks } from '@/lib/constants/nav-links';
 import { useHeaderVariant } from '@/providers/app-header-context';
-import { appearance } from '@/signals/appearance';
+import { appearance, effectiveTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 import LangToggle from '../ui/lang-toggle';
@@ -24,7 +24,7 @@ export default function NavDrawer({ show }: NavDrawerProps) {
                 !show && 'translate-x-full',
             )}
             style={{
-                backgroundImage: `url(${appearance.value === 'dark' ? BgDark : BgLight})`,
+                backgroundImage: `url(${effectiveTheme() === 'dark' ? BgDark : BgLight})`,
             }}
         >
             <Header show={show} />

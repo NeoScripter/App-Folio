@@ -2,6 +2,9 @@ import { cn } from '@/utils/cn';
 import { useState } from 'preact/hooks';
 
 type HeroBackgroundProps = {
+    dkAvif?: string;
+    tbAvif?: string;
+    mbAvif?: string;
     desktopImg: string;
     tabletImg: string;
     mobileImg: string;
@@ -12,6 +15,9 @@ type HeroBackgroundProps = {
 };
 
 export default function HeroBackground({
+    dkAvif,
+    tbAvif,
+    mbAvif,
     desktopImg,
     tabletImg,
     mobileImg,
@@ -41,8 +47,12 @@ export default function HeroBackground({
                     isLoading && 'opacity-0',
                 )}
             >
-                <source srcSet={desktopImg} media="(min-width: 900px)" />
-                <source srcSet={tabletImg} media="(min-width: 500px)" />
+                <source type="image/avif" srcSet={dkAvif} media="(min-width: 56rem)" />
+                <source srcSet={desktopImg} media="(min-width: 56rem)" />
+                <source type="image/avif" srcSet={tbAvif} media="(min-width: 31rem)" />
+                <source srcSet={tabletImg} media="(min-width: 31rem)" />
+                <source type="image/avif" srcSet={mbAvif} />
+
                 <img
                     onLoad={() => setIsLoading(false)}
                     src={mobileImg}
@@ -74,8 +84,8 @@ export default function HeroBackground({
                         'block size-full w-full object-cover object-bottom-right transition-all duration-500 ease-in-out',
                     )}
                 >
-                    <source srcSet={tinyDesktop} media="(min-width: 900px)" />
-                    <source srcSet={tinyTablet} media="(min-width: 500px)" />
+                    <source srcSet={tinyDesktop} media="(min-width: 56rem)" />
+                    <source srcSet={tinyTablet} media="(min-width: 31rem)" />
                     <img
                         onLoad={() => setIsLoading(false)}
                         src={tinyMobile}

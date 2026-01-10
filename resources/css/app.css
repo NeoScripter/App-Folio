@@ -502,3 +502,7 @@
     -webkit-line-clamp: 7;
     overflow: hidden;
 }
+
+.content-vis-auto {
+    content-visibility: auto;
+}

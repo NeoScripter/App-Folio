@@ -19,7 +19,7 @@ const Projects: FC<{
     if (errors != null)
         return <ApiError resourceRu="проектов" resourceEn="projects" />;
     return (
-        <div>
+        <div className="relative z-10">
             <div className="relative mt-16 sm:mt-26 lg:mt-28">
                 <ul
                     className={cn(
