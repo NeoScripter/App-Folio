@@ -14,7 +14,7 @@ const HeroSection: FC<{ project: ProjectType | null; loading: boolean }> = ({
     const lang = locale.value === 'en' ? 'en' : 'ru';
 
     return (
-        <HeroLayout className="full-bleed-wrapper full-bleed px-0 sm:px-0 lg:px-0">
+        <HeroLayout className="full-bleed-wrapper pb-10 sm:pb-12 xl:pb-10 2xl:pb-12 full-bleed px-0 sm:px-0 lg:px-0">
             {loading || project == null ? (
                 <>
                     <div class="mb-13 sm:mb-14 xl:mb-19.5 xl:flex 2xl:mb-22 xl:[&>*]:flex-[1_1_0]">
@@ -22,7 +22,7 @@ const HeroSection: FC<{ project: ProjectType | null; loading: boolean }> = ({
                         <ProjectDetailsSkeleton className="hidden xl:block" />
                     </div>
 
-                    <div className="skeleton size-full full-bleed rounded-3xl sm:aspect-2/1 xl:aspect-10/4"></div>
+                    <div className="skeleton full-bleed size-full rounded-3xl sm:aspect-2/1 xl:aspect-10/4"></div>
                     <ProjectDetailsSkeleton className="xl:hidden" />
                 </>
             ) : (
@@ -37,7 +37,8 @@ const HeroSection: FC<{ project: ProjectType | null; loading: boolean }> = ({
 
                     {project.image && (
                         <FluidImage
-                            parentClass="rounded-3xl full-bleed sm:aspect-2/1 xl:aspect-10/4"
+                            parentClass="full-bleed px-4 sm:px-4.5 2xl:px-24"
+                            imgClass="rounded-3xl sm:aspect-2/1 xl:aspect-10/4"
                             alt={project.image.alt[lang]}
                             tiny={project.image.tiny}
                             dkWebp={project.image.tbWebp}

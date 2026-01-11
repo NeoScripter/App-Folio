@@ -33,11 +33,11 @@ class ProjectModule extends Model
 
     public function first_image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')->oldestOfMany();
+        return $this->morphOne(Image::class, 'imageable')->where('type', 'first');
     }
 
     public function second_image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')->latestOfMany();
+        return $this->morphOne(Image::class, 'imageable')->where('type', 'second');
     }
 }

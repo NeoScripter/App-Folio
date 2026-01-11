@@ -52,7 +52,7 @@ const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
                 <ProjectModule
                     key={module.id}
                     className={cn(
-                        idx % 2 === 0 &&
+                        idx % 2 !== 0 &&
                             'bg-muted full-bleed full-bleed-padding',
                     )}
                     module={module}
