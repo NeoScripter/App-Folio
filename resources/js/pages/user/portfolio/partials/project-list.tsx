@@ -15,10 +15,15 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
     const { fetchData, loading, errors } = useFetch();
     const [projectData, setProjects] = useState<ProjectResource | null>(null);
     const { query } = useLocation();
+    const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(() =>
         query?.page == null ? 1 : query.page,
     );
     const projectsRef = useRef<HTMLElement | null>(null);
+
+    const handleInputChange = (val: string) => {
+        setSearchQuery(val);
+    };
 
     const handlePageClick = (newPage: number) => {
         if (projectData?.meta == null) return;
@@ -47,8 +52,8 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
         return <ApiError resourceRu="проектов" resourceEn="projectData" />;
 
     return (
-        <div className={cn('', className)}>
-            <SearchBar />
+        <div className={cn(className)}>
+            <SearchBar value={searchQuery} handleChange={handleInputChange} />
             <section ref={projectsRef} className="scroll-m-80">
                 {projectData?.data != null && !loading ? (
                     <ul>

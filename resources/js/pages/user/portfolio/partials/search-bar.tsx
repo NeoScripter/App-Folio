@@ -5,8 +5,7 @@ import { cn } from '@/utils/cn';
 import { Search } from 'lucide-preact';
 import { ChangeEvent, FC, useState } from 'preact/compat';
 
-const SearchBar: FC<NodeProps> = ({ className }) => {
-    const [query, setQuery] = useState('');
+const SearchBar: FC<NodeProps<{value: string, handleChange: (val: string) => void}>> = ({ className, value, handleChange }) => {
     const lang = locale.value === 'en' ? 'en' : 'ru';
     const placeholder =
         lang === 'en'
@@ -23,15 +22,14 @@ const SearchBar: FC<NodeProps> = ({ className }) => {
             <Input
                 class="border-primary/50 h-10"
                 placeholder={placeholder}
-                value={query}
+                value={value}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setQuery(e.currentTarget.value)
+                    handleChange(e.currentTarget.value)
                 }
             />
 
             <button
                 type="button"
-                disabled={query === ''}
                 className="focus-visible:border-ring bg-foreground text-user-background hover:ring-footer-text focus-visible:ring-footer-text flex items-center justify-center gap-[0.5em] rounded-xl py-[0.5em] pr-[1em] pl-[1.5em] font-medium shadow-xs transition-[color,box-shadow,opacity] outline-none hover:ring-[3px] focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0"
             >
                 Найти

@@ -1,14 +1,14 @@
 import AdminLayout from '@/layouts/admin/admin-layout';
 import AdminShellLayout from '@/layouts/admin/admin-shell-layout';
 
-const Dashboard = () => {
+const Reviews = () => {
     return (
-        <AdminLayout title="Dashboard">
+        <AdminLayout title="Reviews">
             <AdminShellLayout>
-                <div>This is the dashboard page</div>
+                <div className="text">This is the reviews page</div>
             </AdminShellLayout>
         </AdminLayout>
     );
 };
 
-export default Dashboard;
+export default Reviews;

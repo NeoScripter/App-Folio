@@ -12,4 +12,9 @@ class FaqController extends Controller
     {
         return FaqResource::collection(Faq::all());
     }
+
+    public function show(Faq $faq)
+    {
+        return new FaqResource($faq);
+    }
 }
