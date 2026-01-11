@@ -72,8 +72,10 @@ export function useFetch() {
         try {
             const headers: Record<string, string> = {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
             };
+            if (!(payload instanceof FormData)) {
+                headers['Content-Type'] = 'application/json';
+            }
 
             if (method !== 'GET' && method !== 'HEAD') {
                 await initCsrf();
@@ -85,7 +87,11 @@ export function useFetch() {
                 method,
                 headers,
                 credentials: 'include',
-                body: payload ? JSON.stringify(payload) : undefined,
+                body: payload
+                    ? payload instanceof FormData
+                        ? payload
+                        : JSON.stringify(payload)
+                    : undefined,
             });
 
             const data = await res.json().catch(() => ({}));

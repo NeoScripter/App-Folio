@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ReviewController extends Controller
 {
@@ -16,11 +18,15 @@ class ReviewController extends Controller
             'content_en' => 'required|string',
             'content_ru' => 'required|string',
             'image' => 'nullable|image|max:2048',
-            'image_alt' => 'required|string|max:255',
+            'alt_en' => 'required|string|max:255',
+            'alt_ru' => 'required|string|max:255',
         ]);
 
-        $review = Review::create($validated);
+        $review = Review::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
 
+        if ($request->hasFile('image')) {
+            Image::attachTo($review, $request->file('image'), $validated['alt_ru'], $validated['alt_en']);
+        }
         return response()->json([
             'message' => 'Review created successfully',
             'data' => $review
@@ -35,12 +41,18 @@ class ReviewController extends Controller
             'content_en' => 'sometimes|required|string',
             'content_ru' => 'sometimes|required|string',
             'image' => 'sometimes|image|max:2048',
-            'image_alt' => 'sometimes|required|string|max:255',
-
+            'alt_en' => 'sometimes|required|string|max:255',
+            'alt_ru' => 'sometimes|required|string|max:255',
         ]);
 
-        $review->update($validated);
+        $review->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
 
+        if ($request->hasFile('image')) {
+            if ($review->image) {
+                $review->image->delete();
+            }
+            Image::attachTo($review, $request->file('image'), $validated['alt_ru'], $validated['alt_en']);
+        }
         return response()->json([
             'message' => 'Review updated successfully',
             'data' => $review

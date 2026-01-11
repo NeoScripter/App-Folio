@@ -70,7 +70,6 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
 
     const routeName =
         review != null ? `/admin/reviews/${review.id}` : '/admin/reviews';
-    const method = review != null ? 'PUT' : 'POST';
 
     async function submit() {
         const formData = new FormData();
@@ -84,10 +83,13 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
         if (state.image) {
             formData.append('image', state.image);
         }
+        if (review) {
+            formData.append('_method', 'PUT');
+        }
 
         await fetchData({
             url: routeName,
-            method: method,
+            method: 'POST',
             payload: formData,
             onSuccess: () => {
                 route('/reviews');
@@ -157,7 +159,7 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             <FormInput
                 key="alt_ru"
                 label="Alt Text (RU)"
-                value={state.name_ru}
+                value={state.alt_ru}
                 onInput={(value) =>
                     dispatch({ type: 'SET_ALT_RU', payload: value })
                 }
