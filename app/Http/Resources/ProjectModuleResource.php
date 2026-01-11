@@ -18,12 +18,12 @@ class ProjectModuleResource extends JsonResource
             'id' => $this->id,
             'attributes' => [
                 'heading' => [
-                    'ru' => $this->title_ru,
-                    'en' => $this->title_en,
+                    'ru' => $this->heading_ru,
+                    'en' => $this->heading_en,
                 ],
                 'html' => [
-                    'ru' => $this->description_ru,
-                    'en' => $this->description_en,
+                    'ru' => $this->html_ru,
+                    'en' => $this->html_en,
                 ],
                 'order' => $this->order,
                 'type' => $this->type,

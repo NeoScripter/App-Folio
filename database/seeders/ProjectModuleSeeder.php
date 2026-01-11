@@ -6,7 +6,6 @@ use App\Enums\ProjectModuleType;
 use App\Models\Image;
 use App\Models\Project;
 use App\Models\ProjectModule;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProjectModuleSeeder extends Seeder

@@ -1,3 +1,5 @@
+import { ProjectModuleType } from './project-module';
+
 export interface ProjectResource {
     data: ProjectType[];
     links?: {
@@ -81,4 +83,5 @@ export interface ProjectType {
     links: {
         self: string;
     }[];
+    modules?: ProjectModuleType[];
 }

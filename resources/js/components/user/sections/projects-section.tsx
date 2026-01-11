@@ -52,7 +52,7 @@ const ProjectsSection: FC<{
                 errors={errors}
                 projects={projects}
                 loading={loading}
-                className="sm:grid-cols-4 sm:*:col-span-2 sm:*:last-of-type:col-start-2 xl:grid-cols-3 xl:*:col-span-1 xl:*:last-of-type:col-start-auto"
+                className="max-w-100 mx-auto sm:max-w-full sm:grid-cols-4 sm:*:col-span-2 sm:*:last-of-type:col-start-2 xl:grid-cols-3 xl:*:col-span-1 xl:*:last-of-type:col-start-auto"
             />
 
             <PrimaryLink

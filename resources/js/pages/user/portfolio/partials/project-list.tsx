@@ -30,7 +30,6 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
         if (!projectsRef.current) return;
 
         projectsRef.current.scrollIntoView({
-            // behavior: 'smooth',
             block: 'start',
         });
     };
