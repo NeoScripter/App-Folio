@@ -20,9 +20,9 @@ class ImageResizer
         $dkWebp = $manager->read($file)->scaleDown(width: 1900)->toWebp(80);
         $tbWebp = $manager->read($file)->scaleDown(width: 1100)->toWebp(80);
         $mbWebp = $manager->read($file)->scaleDown(width: 500)->toWebp(80);
-        $dkAvif = $manager->read($file)->scaleDown(width: 1900)->toAvif(80);
-        $tbAvif = $manager->read($file)->scaleDown(width: 1100)->toAvif(80);
-        $mbAvif = $manager->read($file)->scaleDown(width: 500)->toAvif(80);
+        $dkAvif = $manager->read($file)->scaleDown(width: 1900)->toAvif(50);
+        $tbAvif = $manager->read($file)->scaleDown(width: 1100)->toAvif(50);
+        $mbAvif = $manager->read($file)->scaleDown(width: 500)->toAvif(50);
         $tiny     = $manager->read($file)->scaleDown(width: 20)->toWebp(80);
 
         $dkWebpPath = "uploads/{$filename}-dk.webp";

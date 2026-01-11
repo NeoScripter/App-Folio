@@ -15,6 +15,8 @@ class ReviewController extends Controller
             'name_ru' => 'required|string|max:255',
             'content_en' => 'required|string',
             'content_ru' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+            'image_alt' => 'required|string|max:255',
         ]);
 
         $review = Review::create($validated);
@@ -32,6 +34,9 @@ class ReviewController extends Controller
             'name_ru' => 'sometimes|required|string|max:255',
             'content_en' => 'sometimes|required|string',
             'content_ru' => 'sometimes|required|string',
+            'image' => 'sometimes|image|max:2048',
+            'image_alt' => 'sometimes|required|string|max:255',
+
         ]);
 
         $review->update($validated);

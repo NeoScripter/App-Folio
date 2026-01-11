@@ -12,4 +12,9 @@ class ReviewController extends Controller
     {
         return ReviewResource::collection(Review::all());
     }
+
+    public function show(Review $review)
+    {
+        return new ReviewResource($review);
+    }
 }
