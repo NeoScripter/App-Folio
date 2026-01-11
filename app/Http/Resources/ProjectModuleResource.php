@@ -29,34 +29,34 @@ class ProjectModuleResource extends JsonResource
                 'type' => $this->type,
             ],
             'firstImage' => $this->when(
-                $this->firstImage,
-                [
-                    'dkAvif' => $this->firstImage->dk_avif,
-                    'dkWebp' => $this->firstImage->dk_webp,
-                    'tbAvif' => $this->firstImage->tb_avif,
-                    'tbWebp' => $this->firstImage->tb_webp,
-                    'mbAvif' => $this->firstImage->mb_avif,
-                    'mbWebp' => $this->firstImage->mb_webp,
-                    'tiny' => $this->firstImage->tiny,
+                $this->first_image != null,
+                fn() => [
+                    'dkAvif' => $this->first_image->dk_avif,
+                    'dkWebp' => $this->first_image->dk_webp,
+                    'tbAvif' => $this->first_image->tb_avif,
+                    'tbWebp' => $this->first_image->tb_webp,
+                    'mbAvif' => $this->first_image->mb_avif,
+                    'mbWebp' => $this->first_image->mb_webp,
+                    'tiny' => $this->first_image->tiny,
                     'alt' => [
-                        'ru' => $this->firstImage->alt_ru,
-                        'en' => $this->firstImage->alt_en,
+                        'ru' => $this->first_image->alt_ru,
+                        'en' => $this->first_image->alt_en,
                     ],
                 ]
             ),
             'secondImage' => $this->when(
-                $this->secondImage,
-                [
-                    'dkAvif' => $this->secondImage->dk_avif,
-                    'dkWebp' => $this->secondImage->dk_webp,
-                    'tbAvif' => $this->secondImage->tb_avif,
-                    'tbWebp' => $this->secondImage->tb_webp,
-                    'mbAvif' => $this->secondImage->mb_avif,
-                    'mbWebp' => $this->secondImage->mb_webp,
-                    'tiny' => $this->secondImage->tiny,
+                $this->second_image != null,
+                fn() => [
+                    'dkAvif' => $this->second_image->dk_avif,
+                    'dkWebp' => $this->second_image->dk_webp,
+                    'tbAvif' => $this->second_image->tb_avif,
+                    'tbWebp' => $this->second_image->tb_webp,
+                    'mbAvif' => $this->second_image->mb_avif,
+                    'mbWebp' => $this->second_image->mb_webp,
+                    'tiny' => $this->second_image->tiny,
                     'alt' => [
-                        'ru' => $this->secondImage->alt_ru,
-                        'en' => $this->secondImage->alt_en,
+                        'ru' => $this->second_image->alt_ru,
+                        'en' => $this->second_image->alt_en,
                     ],
                 ]
             ),

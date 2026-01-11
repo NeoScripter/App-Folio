@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class ProjectModule extends Model
 {
@@ -18,7 +19,7 @@ class ProjectModule extends Model
     protected $casts = [
         'type' => ProjectModuleType::class,
     ];
-    protected $with = ['firstImage', 'secondImage'];
+    protected $with = ['first_image', 'second_image'];
 
     public function project(): BelongsTo
     {
@@ -30,15 +31,13 @@ class ProjectModule extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function firstImage(): MorphOne
+    public function first_image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')
-            ->where('type', 'first');
+        return $this->morphOne(Image::class, 'imageable')->oldestOfMany();
     }
 
-    public function secondImage(): MorphOne
+    public function second_image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')
-            ->where('type', 'second');
+        return $this->morphOne(Image::class, 'imageable')->latestOfMany();
     }
 }

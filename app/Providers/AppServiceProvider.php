@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             'video' => Video::class,
             'project' => Project::class,
             'stack' => Stack::class,
-            'module' => ProjectModule::class,
+            'projectModule' => ProjectModule::class,
         ]);
     }
 }
