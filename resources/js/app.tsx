@@ -18,7 +18,9 @@ const Home = lazy(() => import('./pages/user/home/home'));
 const Portfolio = lazy(() => import('./pages/user/portfolio/portfolio'));
 const Project = lazy(() => import('./pages/user/project/project'));
 const Dashboard = lazy(() => import('./pages/admin/dashboard'));
-const Reviews = lazy(() => import('./pages/admin/reviews'));
+const Reviews = lazy(() => import('./pages/admin/reviews/reviews'));
+const EditReview = lazy(() => import('./pages/admin/reviews/pages/edit-review'));
+const CreateReview = lazy(() => import('./pages/admin/reviews/pages/create-review'));
 const Faqs = lazy(() => import('./pages/admin/faqs/faqs'));
 const EditFaq = lazy(() => import('./pages/admin/faqs/pages/edit-faq'));
 const CreateFaq = lazy(() => import('./pages/admin/faqs/pages/create-faq'));
@@ -50,6 +52,8 @@ function App() {
                      {/* Admin Panel */}
                     <Route path="/dashboard" component={withAuth(Dashboard)} />
                     <Route path="/reviews" component={withAuth(Reviews)} />
+                    <Route path="/reviews/create" component={withAuth(CreateReview)} />
+                    <Route path="/reviews/:id" component={withAuth(EditReview)} />
                     <Route path="/faqs" component={withAuth(Faqs)} />
                     <Route path="/faqs/create" component={withAuth(CreateFaq)} />
                     <Route path="/faqs/:id" component={withAuth(EditFaq)} />

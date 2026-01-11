@@ -26,7 +26,7 @@ class ReviewResource extends JsonResource
                     'en' => $this->content_en,
                 ],
             ],
-            'image' => [
+            'image' => when($this->image != null, fn() => [
                 'dkAvif' => $this->image->dk_avif,
                 'dkWebp' => $this->image->dk_webp,
                 'tbAvif' => $this->image->tb_avif,
@@ -38,7 +38,7 @@ class ReviewResource extends JsonResource
                     'ru' => $this->image->alt_ru,
                     'en' => $this->image->alt_en,
                 ],
-            ],
+            ]),
         ];
     }
 }

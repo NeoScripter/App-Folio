@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\ProfileController;
@@ -18,13 +19,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
 
+    Route::prefix('admin')
+        ->group(function () {
+            Route::resource('faqs', FaqController::class)
+                ->only(['store', 'update', 'destroy']);
+            Route::resource('reviews', ReviewController::class)
+                ->only(['store', 'update', 'destroy']);
+        });
 });
-Route::prefix('admin')
-    ->middleware(['auth'])
-    ->group(function () {
-        Route::resource('faqs', FaqController::class)
-            ->only(['store', 'update', 'destroy']);
-    });
 
 Route::get('/{any}', fn() => view('app'))
     ->where('any', '^(?!api).*');

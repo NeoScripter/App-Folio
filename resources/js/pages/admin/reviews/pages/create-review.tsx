@@ -1,14 +1,15 @@
 import AdminLayout from '@/layouts/admin/admin-layout';
 import AdminShellLayout from '@/layouts/admin/admin-shell-layout';
+import ReviewUpsert from '../partials/review-upsert';
 
-const Reviews = () => {
+const CreateReview = () => {
     return (
-        <AdminLayout title="Reviews">
+        <AdminLayout title="Create Review">
             <AdminShellLayout>
-                <div className="text">This is the reviews page</div>
+                <ReviewUpsert />
             </AdminShellLayout>
         </AdminLayout>
     );
 };
 
-export default Reviews;
+export default CreateReview;

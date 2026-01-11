@@ -37,7 +37,7 @@ class ProjectResource extends JsonResource
                 'link' => $this->link,
                 'url' => url('/portfolio/' . $this->slug),
             ],
-            'image' => [
+            'image' => when($this->image != null, fn() => [
                 'dkAvif' => $this->image->dk_avif,
                 'dkWebp' => $this->image->dk_webp,
                 'tbAvif' => $this->image->tb_avif,
@@ -49,7 +49,7 @@ class ProjectResource extends JsonResource
                     'ru' => $this->image->alt_ru,
                     'en' => $this->image->alt_en,
                 ],
-            ],
+            ]),
             'links' => [
                 ['self' => route('projects.show', ['project' => $this->slug])]
             ],
