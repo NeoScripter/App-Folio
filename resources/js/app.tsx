@@ -20,17 +20,12 @@ const Project = lazy(() => import('./pages/user/project/project'));
 const Dashboard = lazy(() => import('./pages/admin/dashboard'));
 const Reviews = lazy(() => import('./pages/admin/reviews'));
 const Faqs = lazy(() => import('./pages/admin/faqs/faqs'));
-const Faq = lazy(() => import('./pages/admin/faqs/pages/edit-faq'));
+const EditFaq = lazy(() => import('./pages/admin/faqs/pages/edit-faq'));
+const CreateFaq = lazy(() => import('./pages/admin/faqs/pages/create-faq'));
 const Appearance = lazy(() => import('./pages/admin/appearance'));
 const Profile = lazy(() => import('./pages/admin/profile'));
 const Password = lazy(() => import('./pages/admin/password'));
 const NotFound = lazy(() => import('./pages/shared/404'));
-
-const withProtectedRoute = (Component) => (props) => (
-    <ProtectedRoute>
-        <Component {...props} />
-    </ProtectedRoute>
-);
 
 function App() {
     effect(() => {
@@ -56,7 +51,8 @@ function App() {
                     <Route path="/dashboard" component={withAuth(Dashboard)} />
                     <Route path="/reviews" component={withAuth(Reviews)} />
                     <Route path="/faqs" component={withAuth(Faqs)} />
-                    <Route path="/faqs/:id" component={withAuth(Faq)} />
+                    <Route path="/faqs/create" component={withAuth(CreateFaq)} />
+                    <Route path="/faqs/:id" component={withAuth(EditFaq)} />
                     <Route path="/settings/appearance" component={withAuth(Appearance)} />
                     <Route path="/settings/profile" component={withAuth(Profile)} />
                     <Route path="/settings/password" component={withAuth(Password)} />

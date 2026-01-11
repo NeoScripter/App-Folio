@@ -1,5 +1,5 @@
 import { useEscapeKey } from '@/hooks/use-escape-key';
-import { useModal } from '@/providers/modal-context';
+import { useDeleteModal } from '@/providers/delete-modal-context';
 import { cn } from '@/utils/cn';
 import { ComponentChildren } from 'preact';
 import { createPortal, FC, useEffect } from 'preact/compat';
@@ -8,26 +8,25 @@ const ModalLayout: FC<{
     className?: string;
     children?: ComponentChildren;
 }> = ({ className, children }) => {
-    const { showModal } = useModal();
+    const { itemToDelete } = useDeleteModal();
 
-    useEscapeKey(() => (showModal.value = false));
+    useEscapeKey(() => (itemToDelete.value = null));
 
     const handleClick = (e: Event) => {
         const target = e.target as HTMLElement;
         if (target.id === 'email-form-modal') {
-            showModal.value = false;
+            itemToDelete.value = null;
         }
     };
 
     useEffect(() => {
-        document.documentElement.style.overflowY = !showModal.value
-            ? 'auto'
-            : 'clip';
+        document.documentElement.style.overflowY =
+            itemToDelete.value == null ? 'auto' : 'clip';
 
         return () => {
             document.documentElement.style.overflowY = 'auto';
         };
-    }, [showModal.value]);
+    }, [itemToDelete.value]);
 
     return createPortal(
         <div
@@ -36,8 +35,8 @@ const ModalLayout: FC<{
             class={cn(
                 'size-screen fixed inset-0 z-20 flex flex-wrap overflow-y-auto bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out',
                 {
-                    'opacity-100': showModal.value,
-                    'pointer-events-none opacity-0': !showModal.value,
+                    'opacity-100': itemToDelete.value,
+                    'pointer-events-none opacity-0': itemToDelete.value == null,
                 },
             )}
         >
@@ -45,8 +44,8 @@ const ModalLayout: FC<{
                 class={cn(
                     'bg-user-background m-auto w-full rounded-sm',
                     {
-                        'animate-shrink': !showModal.value,
-                        'animate-expand': showModal.value,
+                        'animate-shrink': itemToDelete.value == null,
+                        'animate-expand': itemToDelete.value,
                     },
 
                     className,
