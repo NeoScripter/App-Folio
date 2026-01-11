@@ -9,10 +9,19 @@ import { FunctionalComponent } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import HeroSection from './partials/hero-section';
 import ProjectModule from './partials/project-module';
+import ProjectModuleSkeleton from './partials/project-module-skeleton';
 
 interface ProjectProps {
     slug: string;
 }
+
+const skeletonTypes = [
+    'only_text',
+    'two_image_block',
+    'one_image_split',
+    'two_image_split',
+];
+
 const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
     const { fetchData, loading, errors } = useFetch();
     const [project, setProject] = useState<ProjectType | null>(null);
@@ -48,16 +57,20 @@ const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
                 />
             )}
             <HeroSection loading={loading} project={project} />
-            {project?.modules?.map((module, idx) => (
-                <ProjectModule
-                    key={module.id}
-                    className={cn(
-                        idx % 2 !== 0 &&
-                            'bg-muted full-bleed full-bleed-padding',
-                    )}
-                    module={module}
-                />
-            ))}
+            {!loading
+                ? project?.modules?.map((module, idx) => (
+                      <ProjectModule
+                          key={module.id}
+                          className={cn(
+                              idx % 2 !== 0 &&
+                                  'bg-muted full-bleed full-bleed-padding',
+                          )}
+                          module={module}
+                      />
+                  ))
+                : skeletonTypes.map((type) => (
+                      <ProjectModuleSkeleton key={type} type={type} />
+                  ))}
             {project && (
                 <ProjectsSection
                     title="Другие проекты"
