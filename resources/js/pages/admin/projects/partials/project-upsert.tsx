@@ -11,6 +11,7 @@ import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
 import MockupPicker from './mockup-picker';
+import CategoryPicker from './category-picker';
 
 const projectSignal = createSessionSignal('project', {});
 
@@ -20,6 +21,8 @@ type ProjectUpsertState = {
     description_en: string;
     description_ru: string;
     link: string;
+    category_en: string;
+    category_ru: string;
     order: number;
     image: File | null;
     alt_en: string;
@@ -33,6 +36,8 @@ type Action =
     | { type: 'SET_DESCRIPTION_EN'; payload: string }
     | { type: 'SET_DESCRIPTION_RU'; payload: string }
     | { type: 'SET_LINK'; payload: string }
+    | { type: 'SET_CATEGORY_RU'; payload: string }
+    | { type: 'SET_CATEGORY_EN'; payload: string }
     | { type: 'SET_ORDER'; payload: number }
     | { type: 'SET_IMAGE'; payload: File | null }
     | { type: 'SET_ALT_EN'; payload: string }
@@ -61,6 +66,12 @@ function reducer(
             break;
         case 'SET_LINK':
             newState = { ...state, link: action.payload };
+            break;
+        case 'SET_CATEGORY_RU':
+            newState = { ...state, category_ru: action.payload };
+            break;
+        case 'SET_CATEGORY_EN':
+            newState = { ...state, category_en: action.payload };
             break;
         case 'SET_ORDER':
             newState = { ...state, order: action.payload };
@@ -98,6 +109,8 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
             description_en: project?.attributes.description.en ?? '',
             description_ru: project?.attributes.description.ru ?? '',
             link: project?.attributes.link ?? '',
+            category_ru: project?.attributes.category?.ru ?? '',
+            category_en: project?.attributes.category?.en ?? '',
             order: project?.attributes.order ?? 100,
             mockup: 1,
             image: null,
@@ -118,7 +131,9 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
     const { fetchData, loading, errors } = useFetch();
 
     const routeName =
-        project != null ? `/admin/projects/${project.id}` : '/admin/projects';
+        project != null
+            ? `/admin/projects/${project.attributes.slug}`
+            : '/admin/projects';
 
     async function submit() {
         const formData = new FormData();
@@ -126,6 +141,8 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
         formData.append('title_ru', state.title_ru);
         formData.append('description_en', state.description_en);
         formData.append('description_ru', state.description_ru);
+        formData.append('category_en', state.category_en);
+        formData.append('category_ru', state.category_ru);
         formData.append('link', state.link);
         formData.append('mockup', state.mockup.toString());
         formData.append('order', state.order.toString());
@@ -202,6 +219,39 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                 }
                 error={errors?.link?.[0]}
             />
+            <FormInput
+                key="category_en"
+                label="Category (EN)"
+                value={state.category_en}
+                onInput={(value) =>
+                    dispatch({ type: 'SET_CATEGORY_EN', payload: value })
+                }
+                error={errors?.category_en?.[0]}
+            />
+            <CategoryPicker
+                locale="en"
+                onSelect={({ en, ru }) => {
+                    dispatch({ type: 'SET_CATEGORY_EN', payload: en });
+                    dispatch({ type: 'SET_CATEGORY_RU', payload: ru });
+                }}
+            />
+            <FormInput
+                key="category_ru"
+                label="Category (RU)"
+                value={state.category_ru}
+                onInput={(value) =>
+                    dispatch({ type: 'SET_CATEGORY_RU', payload: value })
+                }
+                error={errors?.category_ru?.[0]}
+            />
+            <CategoryPicker
+                locale="ru"
+                onSelect={({ en, ru }) => {
+                    dispatch({ type: 'SET_CATEGORY_EN', payload: en });
+                    dispatch({ type: 'SET_CATEGORY_RU', payload: ru });
+                }}
+            />
+
             <FormInput
                 key="Order"
                 label="Order"

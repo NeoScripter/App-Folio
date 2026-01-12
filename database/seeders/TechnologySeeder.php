@@ -16,7 +16,7 @@ class TechnologySeeder extends Seeder
         $names = collect(['React', 'PHP', 'Laravel', 'TypeScript', 'HTML', 'CSS', 'Vue']);
 
         $names->each(function ($name) {
-            Technology::factory(['name_en' => $name, 'name_ru' => $name])->create();
+            Technology::factory(['name' => $name])->create();
         });
     }
 }

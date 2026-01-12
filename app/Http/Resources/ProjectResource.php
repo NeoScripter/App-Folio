@@ -25,14 +25,11 @@ class ProjectResource extends JsonResource
                     'ru' => $this->description_ru,
                     'en' => $this->description_en,
                 ],
-                'category' => [
+                'category' => when($this->category != null, fn() => [
                     'ru' => $this->category->name_ru,
                     'en' => $this->category->name_en,
-                ],
-                'stacks' => [
-                    'ru' => $this->technologies->pluck('name_ru')->toArray(),
-                    'en' => $this->technologies->pluck('name_en')->toArray(),
-                ],
+                ]),
+                'stacks' => $this->technologies->pluck('name')->toArray(),
                 'slug' => $this->slug,
                 'order' => $this->order,
                 'link' => $this->link,

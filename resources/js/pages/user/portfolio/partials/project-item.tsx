@@ -1,7 +1,5 @@
 import { Anchor } from '@/components/user/ui/anchor';
-import { Button } from '@/components/user/ui/button';
 import FluidImage from '@/components/user/ui/fluid-image';
-import LazyImage from '@/components/user/ui/lazy-image';
 import { NodeProps } from '@/lib/types/nodeProps';
 import { ProjectType } from '@/lib/types/projects';
 import { locale } from '@/signals/locale';
@@ -72,13 +70,13 @@ const ProjectInfo: FC<{ project: ProjectType; className?: string }> = ({
     return (
         <div className={cn('mt-7 mb-17.5 md:mt-0 md:mb-0', className)}>
             <span class="mb-4 block uppercase">
-                {project.attributes.category[lang]}
+                {project.attributes.category?.[lang]}
             </span>
             <h2 class="mb-6 text-3xl font-semibold hyphens-auto md:mb-5 xl:text-4xl">
                 {project.attributes.title[lang]}
             </h2>
             <ul class="flex flex-wrap gap-x-3 gap-y-3">
-                {project.attributes.stacks[lang].map((stack) => (
+                {project.attributes.stacks.map((stack) => (
                     <li
                         class="border-foreground flex items-center justify-center rounded-3xl border px-3 py-1"
                         key={stack}

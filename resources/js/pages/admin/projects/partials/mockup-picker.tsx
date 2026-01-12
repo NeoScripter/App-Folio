@@ -13,7 +13,7 @@ const MockupPicker: FC<MockupPickerProps> = ({ className, value, onChange, error
 
     return (
         <div className={cn('grid gap-4', className)}>
-            <label className="ml-1 text-base font-medium">Select Mockup</label>
+            <label className="ml-1 text-base font-medium">Mockup</label>
 
             <div className="grid grid-cols-3 gap-4">
                 {mockups.map((mockup) => (

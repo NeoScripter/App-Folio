@@ -56,6 +56,13 @@ export interface PaginationMeta<T> {
     total: number;
 }
 
+export interface ProjectCategoryType {
+    id: number;
+    name: {
+        ru: string;
+        en: string;
+    };
+}
 export interface ProjectType {
     id: number;
     attributes: {
@@ -71,10 +78,7 @@ export interface ProjectType {
             ru: string;
             en: string;
         };
-        stacks: {
-            ru: string[];
-            en: string[];
-        };
+        stacks: string[];
         slug: string;
         order: number;
         url: string;

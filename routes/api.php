@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\FaqController;
 use App\Http\Controllers\User\ProjectController;
 use App\Http\Controllers\User\ReviewController;
@@ -12,3 +13,4 @@ Route::apiResource('/videos', VideoController::class)->only(['index', 'show']);
 Route::apiResource('/faqs', FaqController::class)->only(['index', 'show']);
 Route::apiResource('/projects', ProjectController::class)->only(['index', 'show']);
 Route::apiResource('/stacks', StackController::class)->only(['index', 'show']);
+Route::apiResource('/categories', CategoryController::class)->only(['index']);

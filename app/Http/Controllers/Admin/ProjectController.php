@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\Project;
+use App\Services\Project\ProjectCategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class ProjectController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, ProjectCategoryService $categoryService)
     {
         $validated = $request->validate([
             'title_en' => 'required|string|max:255',
@@ -19,14 +20,21 @@ class ProjectController extends Controller
             'description_ru' => 'required|string',
             'link' => 'nullable|string',
             'order' => 'required|integer',
-            'category_id' => 'nullable|integer',
+            'category_en' => 'required|string',
+            'category_ru' => 'required|string',
             'mockup' => 'required_with:image|integer|between:1,6',
             'image' => 'nullable|image|max:4048',
             'alt_en' => 'required_with:image|string|max:255',
             'alt_ru' => 'required_with:image|string|max:255',
         ]);
 
-        $project = Project::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup']));
+        $project = Project::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+
+        $categoryService->sync(
+            $project,
+            $validated['category_en'] ?? null,
+            $validated['category_ru'] ?? null
+        );
 
         if ($request->hasFile('image')) {
             Image::insertMockupAndAttachTo(
@@ -44,7 +52,7 @@ class ProjectController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Project $project)
+    public function update(Request $request, Project $project, ProjectCategoryService $categoryService)
     {
         $validated = $request->validate([
             'title_en' => 'sometimes|required|string|max:255',
@@ -53,15 +61,21 @@ class ProjectController extends Controller
             'description_ru' => 'sometimes|required|string',
             'link' => 'sometimes|nullable|string',
             'order' => 'sometimes|required|integer',
-            'category_id' => 'sometimes|nullable|integer',
+            'category_en' => 'sometimes|required|string',
+            'category_ru' => 'sometimes|required|string',
             'image' => 'sometimes|image|max:4048',
             'mockup' => 'required_with:image|integer|between:1,6',
             'alt_en' => 'required_with:image|string|max:255',
             'alt_ru' => 'required_with:image|string|max:255',
         ]);
 
-        $project->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup']));
+        $project->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
 
+        $categoryService->sync(
+            $project,
+            $validated['category_en'] ?? null,
+            $validated['category_ru'] ?? null
+        );
         if ($request->hasFile('image')) {
             $project->image?->delete();
             Image::insertMockupAndAttachTo(
