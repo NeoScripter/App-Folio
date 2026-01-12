@@ -11,6 +11,7 @@ import { useLocation } from 'preact-iso';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import ProjectCard, { ProjectCardSkeleton } from './partials/project-card';
 import ProjectDelete from './partials/project-delete';
+import SearchBox from './partials/search-box';
 
 const Projects = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -22,9 +23,10 @@ const Projects = () => {
     const [currentPage, setCurrentPage] = useState(() =>
         query?.page == null ? 1 : query.page,
     );
-    const projectsRef = useRef<HTMLElement | null>(null);
+    const projectsRef = useRef<HTMLUListElement | null>(null);
 
     const handleInputChange = (val: string) => {
+        setCurrentPage(1);
         setSearchQuery(val);
     };
 
@@ -45,7 +47,7 @@ const Projects = () => {
     useEffect(() => {
         const fetchProjects = () => {
             fetchData({
-                url: `/api/projects?page=${currentPage}&latest=true`,
+                url: `/api/projects?page=${currentPage}&latest=true&search=${searchQuery}`,
                 onSuccess: (data) => {
                     setProjectData(data);
                 },
@@ -57,7 +59,7 @@ const Projects = () => {
         document.addEventListener('itemDeleted', fetchProjects);
 
         return () => document.removeEventListener('itemDeleted', fetchProjects);
-    }, [currentPage]);
+    }, [currentPage, searchQuery]);
 
     if (errors != null) {
         console.error(errors);
@@ -70,15 +72,20 @@ const Projects = () => {
                     <AdminShellNav href={'projects/create'} />
 
                     {projectData?.meta && (
-                        <Pagination
-                            className="sticky top-0"
-                            onClick={handlePageClick}
-                            meta={projectData.meta}
-                        />
+                        <div className="bg-background sticky top-0 z-10">
+                            <Pagination
+                                onClick={handlePageClick}
+                                meta={projectData.meta}
+                            />
+                            <SearchBox
+                                value={searchQuery}
+                                handleChange={handleInputChange}
+                            />
+                        </div>
                     )}
 
                     {loading ? (
-                        <ul className="space-y-6">
+                        <ul ref={projectsRef} className="space-y-6">
                             {range(0, 8).map((idx) => (
                                 <ProjectCardSkeleton key={idx} />
                             ))}

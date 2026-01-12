@@ -33,6 +33,15 @@ class ProjectController extends Controller
         } else {
             $query->orderBy('order', 'desc');
         }
+        if (request()->filled('search')) {
+            $search = request()->string('search');
+            $query->where(function ($q) use ($search) {
+                $q->whereRaw('title_ru LIKE ?', ["%{$search}%"])
+                    ->orWhereRaw('title_en LIKE ?', ["%{$search}%"])
+                    ->orWhereRaw('description_en LIKE ?', ["%{$search}%"])
+                    ->orWhereRaw('description_ru LIKE ?', ["%{$search}%"]);
+            });
+        }
 
         return ProjectResource::collection(
             $query->paginate(7)
