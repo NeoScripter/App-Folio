@@ -53,10 +53,10 @@ export const VideoCardSkeleton = () => {
 
             <div class="flex items-center gap-2">
                 <div class="skeleton w-fit rounded-xl px-3 py-1">
-                    Lorem Lorem
+                    Loremmm
                 </div>
                 <div class="skeleton w-fit rounded-xl px-3 py-1">
-                    Lorem Lorem
+                    Loremmm
                 </div>
             </div>
         </li>

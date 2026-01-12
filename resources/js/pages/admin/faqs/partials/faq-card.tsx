@@ -45,8 +45,8 @@ export const FaqCardSkeleton = () => {
                 consectetur adipisicing elit. Tempora, earum!
             </div>
             <div class="flex items-center gap-2">
-                <div class="w-fit skeleton rounded-xl px-3 py-1">Lorem Lorem</div>
-                <div class="w-fit skeleton rounded-xl px-3 py-1">Lorem Lorem</div>
+                <div class="w-fit skeleton rounded-xl px-3 py-1">Loremmm</div>
+                <div class="w-fit skeleton rounded-xl px-3 py-1">Loremmm</div>
             </div>
         </li>
     );

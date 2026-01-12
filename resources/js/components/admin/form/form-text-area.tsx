@@ -21,10 +21,10 @@ const FormTextArea: FC<FormTextAreaProps> = ({
     required = false,
     className,
 }) => {
-        const id = useId();
+    const id = useId();
 
     return (
-        <div class={cn("grid gap-2", className)}>
+        <div class={cn('grid gap-2', className)}>
             <Label class="ml-1 text-base" htmlFor={id}>
                 {label}
             </Label>

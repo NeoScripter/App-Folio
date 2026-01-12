@@ -63,8 +63,8 @@ export const ReviewCardSkeleton = () => {
             <div class="skeleton mb-6 size-40 shrink-0 rounded-xl" />
 
             <div class="flex items-center gap-2">
-                <div class="w-fit skeleton rounded-xl px-3 py-1">Lorem Lorem</div>
-                <div class="w-fit skeleton rounded-xl px-3 py-1">Lorem Lorem</div>
+                <div class="w-fit skeleton rounded-xl px-3 py-1">Loremmm</div>
+                <div class="w-fit skeleton rounded-xl px-3 py-1">Loremmm</div>
             </div>
         </li>
     );

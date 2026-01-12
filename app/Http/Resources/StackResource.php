@@ -22,6 +22,13 @@ class StackResource extends JsonResource
                     'ru' => $this->html_ru,
                     'en' => $this->html_en,
                 ],
+                'body' => when(
+                    $request->routeIs('show'),
+                    fn() => [
+                        'ru' => $this->body_ru,
+                        'en' => $this->body_en,
+                    ],
+                ),
                 'alt' => [
                     'ru' => $this->alt_ru,
                     'en' => $this->alt_en,

@@ -1,9 +1,8 @@
 import FormBtn from '@/components/admin/form/form-btn';
 import FormImage from '@/components/admin/form/form-image';
-import FormInput from '@/components/admin/form/form-input';
 import FormTextArea from '@/components/admin/form/form-text-area';
+import { FormWysiwyg } from '@/components/admin/form/form-wysiwyg';
 import { useFetch } from '@/hooks/use-fetch';
-import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { StackType } from '@/lib/types/stacks';
 import { createSessionSignal } from '@/signals/session-store';
@@ -15,20 +14,16 @@ import { toast } from 'sonner';
 const stackSignal = createSessionSignal('stack', {});
 
 type StackUpsertState = {
-    name_ru: string;
-    name_en: string;
-    content_en: string;
-    content_ru: string;
+    body_en: string;
+    body_ru: string;
     image: File | null;
     alt_en: string;
     alt_ru: string;
 };
 
 type Action =
-    | { type: 'SET_TITLE_EN'; payload: string }
-    | { type: 'SET_TITLE_RU'; payload: string }
-    | { type: 'SET_CONTENT_EN'; payload: string }
-    | { type: 'SET_CONTENT_RU'; payload: string }
+    | { type: 'SET_BODY_EN'; payload: string }
+    | { type: 'SET_BODY_RU'; payload: string }
     | { type: 'SET_IMAGE'; payload: File | null }
     | { type: 'SET_ALT_EN'; payload: string }
     | { type: 'SET_ALT_RU'; payload: string }
@@ -38,17 +33,11 @@ function reducer(state: StackUpsertState, action: Action): StackUpsertState {
     let newState: StackUpsertState;
 
     switch (action.type) {
-        case 'SET_TITLE_EN':
-            newState = { ...state, name_en: action.payload };
+        case 'SET_BODY_EN':
+            newState = { ...state, body_en: action.payload };
             break;
-        case 'SET_TITLE_RU':
-            newState = { ...state, name_ru: action.payload };
-            break;
-        case 'SET_CONTENT_EN':
-            newState = { ...state, content_en: action.payload };
-            break;
-        case 'SET_CONTENT_RU':
-            newState = { ...state, content_ru: action.payload };
+        case 'SET_BODY_RU':
+            newState = { ...state, body_ru: action.payload };
             break;
         case 'SET_IMAGE':
             newState = { ...state, image: action.payload };
@@ -75,13 +64,11 @@ const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            name_en: stack?.attributes.author.en ?? '',
-            name_ru: stack?.attributes.author.ru ?? '',
-            content_en: stack?.attributes.description.en ?? '',
-            content_ru: stack?.attributes.description.ru ?? '',
+            body_en: stack?.attributes.body.en ?? '',
+            body_ru: stack?.attributes.body.ru ?? '',
             image: null,
-            alt_en: stack?.image?.alt.en ?? '',
-            alt_ru: stack?.image?.alt.ru ?? '',
+            alt_en: stack?.attributes.alt.en ?? '',
+            alt_ru: stack?.attributes.alt.ru ?? '',
         }),
         [stack],
     );
@@ -101,10 +88,8 @@ const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
 
     async function submit() {
         const formData = new FormData();
-        formData.append('name_en', state.name_en);
-        formData.append('name_ru', state.name_ru);
-        formData.append('content_en', state.content_en);
-        formData.append('content_ru', state.content_ru);
+        formData.append('body_en', state.body_en);
+        formData.append('body_ru', state.body_ru);
         formData.append('alt_en', state.alt_en);
         formData.append('alt_ru', state.alt_ru);
 
@@ -133,41 +118,23 @@ const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
             hasFileUpload={true}
             onSubmit={submit}
         >
-            <FormInput
-                key="name_en"
-                label="Author (EN)"
-                value={state.name_en}
-                onInput={(value) =>
-                    dispatch({ type: 'SET_TITLE_EN', payload: value })
-                }
-                error={errors?.name_en?.[0]}
-            />
-            <FormInput
-                key="name_ru"
-                label="Author (RU)"
-                value={state.name_ru}
-                onInput={(value) =>
-                    dispatch({ type: 'SET_TITLE_RU', payload: value })
-                }
-                error={errors?.name_ru?.[0]}
-            />
-            <FormTextArea
-                key="content_en"
+            <FormWysiwyg
+                key="body_en"
                 label="Stack (EN)"
-                value={state.content_en}
+                value={state.body_en}
                 onInput={(value) =>
-                    dispatch({ type: 'SET_CONTENT_EN', payload: value })
+                    dispatch({ type: 'SET_BODY_EN', payload: value })
                 }
-                error={errors?.content_en?.[0]}
+                error={errors?.body_en?.[0]}
             />
-            <FormTextArea
-                key="content_ru"
+            <FormWysiwyg
+                key="body_ru"
                 label="Stack (RU)"
-                value={state.content_ru}
+                value={state.body_ru}
                 onInput={(value) =>
-                    dispatch({ type: 'SET_CONTENT_RU', payload: value })
+                    dispatch({ type: 'SET_BODY_RU', payload: value })
                 }
-                error={errors?.content_ru?.[0]}
+                error={errors?.body_ru?.[0]}
             />
             <FormImage
                 key="image-input"
