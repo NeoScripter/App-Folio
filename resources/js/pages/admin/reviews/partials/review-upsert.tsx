@@ -6,12 +6,13 @@ import { useFetch } from '@/hooks/use-fetch';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { ReviewType } from '@/lib/types/reviews';
+import { createSessionSignal } from '@/signals/session-store';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
 
-const BACKUP_KEY = 'review';
+const reviewSignal = createSessionSignal('review', {});
 
 type ReviewUpsertState = {
     name_ru: string;
@@ -34,30 +35,40 @@ type Action =
     | { type: 'RESTORE_FROM_BACKUP'; payload: ReviewUpsertState };
 
 function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
-    if (action.type !== 'RESTORE_FROM_BACKUP') {
-        const { image, ...stateWithoutImage } = state;
-        sessionStorage.setItem(BACKUP_KEY, JSON.stringify(stateWithoutImage));
-    }
+    let newState: ReviewUpsertState;
+
     switch (action.type) {
         case 'SET_TITLE_EN':
-            return { ...state, name_en: action.payload };
+            newState = { ...state, name_en: action.payload };
+            break;
         case 'SET_TITLE_RU':
-            return { ...state, name_ru: action.payload };
+            newState = { ...state, name_ru: action.payload };
+            break;
         case 'SET_CONTENT_EN':
-            return { ...state, content_en: action.payload };
+            newState = { ...state, content_en: action.payload };
+            break;
         case 'SET_CONTENT_RU':
-            return { ...state, content_ru: action.payload };
+            newState = { ...state, content_ru: action.payload };
+            break;
         case 'SET_IMAGE':
-            return { ...state, image: action.payload };
+            newState = { ...state, image: action.payload };
+            break;
         case 'SET_ALT_EN':
-            return { ...state, alt_en: action.payload };
+            newState = { ...state, alt_en: action.payload };
+            break;
         case 'SET_ALT_RU':
-            return { ...state, alt_ru: action.payload };
+            newState = { ...state, alt_ru: action.payload };
+            break;
         case 'RESTORE_FROM_BACKUP':
-            return { ...state, ...action.payload };
+            return { ...state, ...action.payload, image: null };
         default:
             throw new Error('Unexpected action type');
     }
+
+    const { image, ...stateWithoutImage } = newState;
+    reviewSignal.value = stateWithoutImage;
+
+    return newState;
 }
 
 const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
@@ -74,11 +85,13 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
         }),
         [review],
     );
-    const [backup,] = useSessionStorage(BACKUP_KEY, initialState);
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const handleBackupClick = () => {
-        dispatch({ type: 'RESTORE_FROM_BACKUP', payload: { image: null, ...backup } });
+        dispatch({
+            type: 'RESTORE_FROM_BACKUP',
+            payload: reviewSignal.value as ReviewUpsertState,
+        });
     };
 
     const { fetchData, loading, errors } = useFetch();

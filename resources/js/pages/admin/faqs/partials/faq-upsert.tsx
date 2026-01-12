@@ -2,9 +2,9 @@ import FormBtn from '@/components/admin/form/form-btn';
 import FormInput from '@/components/admin/form/form-input';
 import FormTextArea from '@/components/admin/form/form-text-area';
 import { useFetch } from '@/hooks/use-fetch';
-import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { FaqType } from '@/lib/types/faqs';
+import { createSessionSignal } from '@/signals/session-store';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
@@ -17,35 +17,39 @@ type FaqUpsertState = {
     content_ru: string;
 };
 
-const BACKUP_KEY = 'faq';
+const faqSignal = createSessionSignal('faq', {});
 
 type Action =
     | { type: 'SET_TITLE_EN'; payload: string }
     | { type: 'SET_TITLE_RU'; payload: string }
-    | { type: 'SET_content_EN'; payload: string }
-    | { type: 'SET_content_RU'; payload: string }
+    | { type: 'SET_CONTENT_EN'; payload: string }
+    | { type: 'SET_CONTENT_RU'; payload: string }
     | { type: 'RESTORE_FROM_BACKUP'; payload: FaqUpsertState };
 
 function reducer(state: FaqUpsertState, action: Action): FaqUpsertState {
-    if (action.type !== 'RESTORE_FROM_BACKUP') {
-        const { ...backupState } = state;
-        sessionStorage.setItem(BACKUP_KEY, JSON.stringify(backupState));
-    }
+    let newState: FaqUpsertState;
 
     switch (action.type) {
         case 'SET_TITLE_EN':
-            return { ...state, title_en: action.payload };
+            newState = { ...state, title_en: action.payload };
+            break;
         case 'SET_TITLE_RU':
-            return { ...state, title_ru: action.payload };
-        case 'SET_content_EN':
-            return { ...state, content_en: action.payload };
-        case 'SET_content_RU':
-            return { ...state, content_ru: action.payload };
+            newState = { ...state, title_ru: action.payload };
+            break;
+        case 'SET_CONTENT_EN':
+            newState = { ...state, content_en: action.payload };
+            break;
+        case 'SET_CONTENT_RU':
+            newState = { ...state, content_ru: action.payload };
+            break;
         case 'RESTORE_FROM_BACKUP':
-            return { ...state, ...action.payload };
+            return action.payload;
         default:
             throw new Error('Unexpected action type');
     }
+
+    faqSignal.value = newState;
+    return newState;
 }
 
 const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
@@ -61,12 +65,10 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
     );
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const [backup] = useSessionStorage(BACKUP_KEY, initialState);
-
     const handleBackupClick = () => {
         dispatch({
             type: 'RESTORE_FROM_BACKUP',
-            payload: { image: null, ...backup },
+            payload: faqSignal.value as FaqUpsertState,
         });
     };
     const { fetchData, loading, errors } = useFetch();
@@ -112,7 +114,7 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
                 label="Answer (EN)"
                 value={state.content_en}
                 onInput={(value) =>
-                    dispatch({ type: 'SET_content_EN', payload: value })
+                    dispatch({ type: 'SET_CONTENT_EN', payload: value })
                 }
                 error={errors?.content_en?.[0]}
             />
@@ -121,7 +123,7 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
                 label="Answer (RU)"
                 value={state.content_ru}
                 onInput={(value) =>
-                    dispatch({ type: 'SET_content_RU', payload: value })
+                    dispatch({ type: 'SET_CONTENT_RU', payload: value })
                 }
                 error={errors?.content_ru?.[0]}
             />
