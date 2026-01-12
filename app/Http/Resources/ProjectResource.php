@@ -34,6 +34,7 @@ class ProjectResource extends JsonResource
                     'en' => $this->technologies->pluck('name_en')->toArray(),
                 ],
                 'slug' => $this->slug,
+                'order' => $this->order,
                 'link' => $this->link,
                 'url' => url('/portfolio/' . $this->slug),
             ],

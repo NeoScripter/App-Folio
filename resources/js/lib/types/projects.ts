@@ -76,6 +76,7 @@ export interface ProjectType {
             en: string[];
         };
         slug: string;
+        order: number;
         url: string;
         link: string;
     };
