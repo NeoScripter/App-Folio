@@ -6,8 +6,9 @@ import ModalLayout from '@/layouts/admin/modal-layout';
 import { FaqType } from '@/lib/types/faqs';
 import { DeleteModalProvider } from '@/providers/delete-modal-context';
 import { useEffect, useState } from 'preact/hooks';
-import FaqCard from './partials/faq-card';
+import FaqCard, { FaqCardSkeleton } from './partials/faq-card';
 import FaqDelete from './partials/faq-delete';
+import { range } from '@/utils/range';
 
 const Faqs = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -40,7 +41,7 @@ const Faqs = () => {
                 <AdminShellLayout>
                     <AdminShellNav href={'faqs/create'} />
                     {loading ? (
-                        'Loading...'
+                        range(0, 8).map((idx) => <FaqCardSkeleton key={idx} />)
                     ) : (
                         <ul className="space-y-6">
                             {faqs &&

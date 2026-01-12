@@ -5,8 +5,9 @@ import AdminShellLayout from '@/layouts/admin/admin-shell-layout';
 import ModalLayout from '@/layouts/admin/modal-layout';
 import { ReviewType } from '@/lib/types/reviews';
 import { DeleteModalProvider } from '@/providers/delete-modal-context';
+import { range } from '@/utils/range';
 import { useEffect, useState } from 'preact/hooks';
-import ReviewCard from './partials/review-card';
+import ReviewCard, { ReviewCardSkeleton } from './partials/review-card';
 import ReviewDelete from './partials/review-delete';
 
 const Reviews = () => {
@@ -40,12 +41,17 @@ const Reviews = () => {
                 <AdminShellLayout>
                     <AdminShellNav href={'reviews/create'} />
                     {loading ? (
-                        'Loading...'
+                        range(0, 8).map((idx) => (
+                            <ReviewCardSkeleton key={idx} />
+                        ))
                     ) : (
                         <ul className="space-y-6">
                             {reviews &&
                                 reviews.map((review) => (
-                                    <ReviewCard key={review.id} review={review} />
+                                    <ReviewCard
+                                        key={review.id}
+                                        review={review}
+                                    />
                                 ))}
                         </ul>
                     )}
