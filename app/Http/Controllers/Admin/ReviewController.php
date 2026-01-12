@@ -17,7 +17,7 @@ class ReviewController extends Controller
             'name_ru' => 'required|string|max:255',
             'content_en' => 'required|string',
             'content_ru' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:4048',
             'alt_en' => 'required|string|max:255',
             'alt_ru' => 'required|string|max:255',
         ]);
@@ -40,7 +40,7 @@ class ReviewController extends Controller
             'name_ru' => 'sometimes|required|string|max:255',
             'content_en' => 'sometimes|required|string',
             'content_ru' => 'sometimes|required|string',
-            'image' => 'sometimes|image|max:2048',
+            'image' => 'sometimes|image|max:4048',
             'alt_en' => 'sometimes|required|string|max:255',
             'alt_ru' => 'sometimes|required|string|max:255',
         ]);

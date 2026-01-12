@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\StackController;
+use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\ProfileController;
@@ -24,6 +26,10 @@ Route::middleware('auth')->group(function () {
             Route::resource('faqs', FaqController::class)
                 ->only(['store', 'update', 'destroy']);
             Route::resource('reviews', ReviewController::class)
+                ->only(['store', 'update', 'destroy']);
+            Route::resource('videos', VideoController::class)
+                ->only(['store', 'update', 'destroy']);
+            Route::resource('stacks', StackController::class)
                 ->only(['store', 'update', 'destroy']);
         });
 });

@@ -1,5 +1,6 @@
 import { StackType } from '@/lib/types/stacks';
-import { appearance, effectiveTheme } from '@/signals/appearance';
+import { effectiveTheme } from '@/signals/appearance';
+import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 
@@ -26,7 +27,7 @@ const StackBtn: FC<{
             >
                 <img
                     src={stack.attributes.image}
-                    alt="php"
+                    alt={stack.attributes.alt[locale.value]}
                     class="m-auto size-3/4 object-contain"
                 />
             </button>

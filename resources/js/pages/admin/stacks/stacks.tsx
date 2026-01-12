@@ -3,32 +3,32 @@ import { useFetch } from '@/hooks/use-fetch';
 import AdminLayout from '@/layouts/admin/admin-layout';
 import AdminShellLayout from '@/layouts/admin/admin-shell-layout';
 import ModalLayout from '@/layouts/admin/modal-layout';
-import { FaqType } from '@/lib/types/faqs';
+import { StackType } from '@/lib/types/stacks';
 import { DeleteModalProvider } from '@/providers/delete-modal-context';
 import { range } from '@/utils/range';
 import { useEffect, useState } from 'preact/hooks';
-import FaqCard, { FaqCardSkeleton } from './partials/faq-card';
-import FaqDelete from './partials/faq-delete';
+import StackCard, { StackCardSkeleton } from './partials/stack-card';
+import StackDelete from './partials/stack-delete';
 
-const Faqs = () => {
+const Stacks = () => {
     const { fetchData, loading, errors } = useFetch();
-    const [faqs, setFaqs] = useState<FaqType[] | null>(null);
+    const [stacks, setStacks] = useState<StackType[] | null>(null);
 
     useEffect(() => {
-        const fetchFaqs = () => {
+        const fetchStacks = () => {
             fetchData({
-                url: '/api/faqs?latest=true',
+                url: '/api/stacks?latest=true',
                 onSuccess: (data) => {
-                    setFaqs(data.data);
+                    setStacks(data.data);
                 },
             });
         };
 
-        fetchFaqs();
+        fetchStacks();
 
-        document.addEventListener('itemDeleted', fetchFaqs);
+        document.addEventListener('itemDeleted', fetchStacks);
 
-        return () => document.removeEventListener('itemDeleted', fetchFaqs);
+        return () => document.removeEventListener('itemDeleted', fetchStacks);
     }, []);
 
     if (errors != null) {
@@ -37,25 +37,25 @@ const Faqs = () => {
 
     return (
         <DeleteModalProvider>
-            <AdminLayout title="Faqs">
+            <AdminLayout title="Stacks">
                 <AdminShellLayout>
-                    <AdminShellNav href={'faqs/create'} />
+                    <AdminShellNav href={'stacks/create'} />
                     {loading ? (
                         <ul className="space-y-6">
                             {range(0, 8).map((idx) => (
-                                <FaqCardSkeleton key={idx} />
+                                <StackCardSkeleton key={idx} />
                             ))}
                         </ul>
                     ) : (
                         <ul className="space-y-6">
-                            {faqs &&
-                                faqs.map((faq) => (
-                                    <FaqCard key={faq.id} faq={faq} />
+                            {stacks &&
+                                stacks.map((stack) => (
+                                    <StackCard key={stack.id} stack={stack} />
                                 ))}
                         </ul>
                     )}
                     <ModalLayout className="max-w-9/10 px-10 py-14 sm:max-w-100 lg:max-w-160">
-                        <FaqDelete />
+                        <StackDelete />
                     </ModalLayout>
                 </AdminShellLayout>
             </AdminLayout>
@@ -63,4 +63,4 @@ const Faqs = () => {
     );
 };
 
-export default Faqs;
+export default Stacks;

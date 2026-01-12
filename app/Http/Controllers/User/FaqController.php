@@ -10,7 +10,11 @@ class FaqController extends Controller
 {
     public function index()
     {
-        return FaqResource::collection(Faq::all());
+        $query = Faq::query();
+        if (request()->filled('latest')) {
+            $query->latest();
+        }
+        return FaqResource::collection($query->get());
     }
 
     public function show(Faq $faq)

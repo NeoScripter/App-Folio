@@ -7,8 +7,8 @@ use App\Http\Controllers\User\StackController;
 use App\Http\Controllers\User\VideoController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('/reviews', ReviewController::class);
-Route::get('/videos', [VideoController::class, 'index']);
-Route::apiResource('/faqs', FaqController::class);
-Route::apiResource('/projects', ProjectController::class);
-Route::get('/stacks', [StackController::class, 'index']);
+Route::apiResource('/reviews', ReviewController::class)->only(['index', 'show']);
+Route::apiResource('/videos', VideoController::class)->only(['index', 'show']);
+Route::apiResource('/faqs', FaqController::class)->only(['index', 'show']);
+Route::apiResource('/projects', ProjectController::class)->only(['index', 'show']);
+Route::apiResource('/stacks', StackController::class)->only(['index', 'show']);

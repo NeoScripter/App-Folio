@@ -10,6 +10,15 @@ class VideoController extends Controller
 {
     public function index()
     {
-        return VideoResource::collection(Video::all());
+        $query = Video::query();
+        if (request()->filled('latest')) {
+            $query->latest();
+        }
+        return VideoResource::collection($query->get());
+    }
+
+    public function show(Video $video)
+    {
+        return new VideoResource($video);
     }
 }

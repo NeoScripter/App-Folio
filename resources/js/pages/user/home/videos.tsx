@@ -38,6 +38,11 @@ const Videos = () => {
             <ApiError resourceRu="видео проектов" resourceEn="video projects" />
         );
 
+    const slides =
+        carouselSlides.length < 6
+            ? [...carouselSlides, ...carouselSlides]
+            : carouselSlides;
+
     return (
         <div>
             <div
@@ -50,12 +55,12 @@ const Videos = () => {
                     className={cn(
                         'flex w-max items-start md:-ml-5 lg:-ml-27 xl:-ml-47',
                         {
-                            'gap-2 sm:gap-5 md:gap-8 xl:gap-10' : loading
-                        }
+                            'gap-2 sm:gap-5 md:gap-8 xl:gap-10': loading,
+                        },
                     )}
                 >
                     {!loading
-                        ? carouselSlides?.map((video, idx) => (
+                        ? slides.map((video, idx) => (
                               <VideoCard
                                   key={video.id}
                                   active={idx === animatingSlide}

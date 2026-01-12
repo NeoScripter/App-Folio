@@ -18,8 +18,10 @@ class StackFactory extends Factory
     {
         return [
             'image' => fake()->url(),
-            'body_ru' => fake()->word(),
             'body_en' => fake()->word(),
+            'body_ru' => fake()->word(),
+            'alt_en' => fake()->word(),
+            'alt_ru' => fake()->word(),
         ];
     }
 }

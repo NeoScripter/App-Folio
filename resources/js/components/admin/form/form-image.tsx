@@ -65,12 +65,12 @@ export default function FormImage({
                 <div>
                     <div
                         onClick={() => setShowPopup(true)}
-                        className="transition-transform relative flex size-50 cursor-pointer items-center justify-center duration-200 ease hover:scale-110"
+                        className="transition-transform relative flex h-50 cursor-pointer items-center justify-center duration-200 ease hover:scale-110"
                     >
                         <img
                             src={preview ?? Placeholder}
                             alt="Preview"
-                            className="h-full w-full rounded object-cover"
+                            className="h-full w-full rounded object-contain"
                         />
                     </div>
                     {error && (

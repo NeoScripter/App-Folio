@@ -23,10 +23,15 @@ class ProjectController extends Controller
                 $query->where('id', '!=', $excluded);
             }
             return ProjectResource::collection(
-                $query->orderBy('order')
+                $query->orderBy('order', 'desc')
                     ->limit($limit)
                     ->get()
             );
+        }
+        if (request()->filled('latest')) {
+            $query->latest();
+        } else {
+            $query->orderBy('order', 'desc');
         }
 
         return ProjectResource::collection(

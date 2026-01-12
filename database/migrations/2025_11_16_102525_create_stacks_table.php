@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('stacks', function (Blueprint $table) {
             $table->id();
             $table->string('image');
+            $table->text('alt_ru');
+            $table->text('alt_en');
             $table->text('body_ru');
             $table->text('body_en');
             $table->text('html_ru');

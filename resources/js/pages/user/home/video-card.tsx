@@ -40,8 +40,8 @@ const VideoCard: FC<{
                         imgClass="object-top-left"
                         alt={video.image.alt[lang]}
                         tiny={video.image.tiny}
-                        dkWebp={video.image.tbWebp}
-                        dkAvif={video.image.tbAvif}
+                        dkWebp={video.image.dkWebp}
+                        dkAvif={video.image.dkAvif}
                         tbWebp={video.image.tbWebp}
                         tbAvif={video.image.tbAvif}
                         mbWebp={video.image.mbWebp}

@@ -10,7 +10,11 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        return ReviewResource::collection(Review::all());
+        $query = Review::query();
+        if (request()->filled('latest')) {
+            $query->latest();
+        }
+        return ReviewResource::collection($query->get());
     }
 
     public function show(Review $review)

@@ -9,6 +9,10 @@ export interface StackType {
             ru: string;
             en: string;
         };
+        alt: {
+            ru: string;
+            en: string;
+        };
         image: string;
     };
 };

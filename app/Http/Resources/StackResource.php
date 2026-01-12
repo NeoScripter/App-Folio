@@ -21,6 +21,10 @@ class StackResource extends JsonResource
                 'html' => [
                     'ru' => $this->html_ru,
                     'en' => $this->html_en,
+                ],
+                'alt' => [
+                    'ru' => $this->alt_ru,
+                    'en' => $this->alt_en,
                 ]
             ]
         ];

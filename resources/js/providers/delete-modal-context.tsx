@@ -1,11 +1,13 @@
 import { FaqType } from '@/lib/types/faqs';
 import { ReviewType } from '@/lib/types/reviews';
+import { StackType } from '@/lib/types/stacks';
+import { VideoType } from '@/lib/types/videos';
 import { Signal, signal } from '@preact/signals';
 import { createContext } from 'preact';
 import { useContext } from 'preact/hooks';
 
 interface DeleteModalContext {
-    itemToDelete: Signal<FaqType | ReviewType | null>;
+    itemToDelete: Signal<FaqType | ReviewType | VideoType | StackType | null>;
 }
 
 const DeleteModalContext = createContext<DeleteModalContext | null>(null);

@@ -8,7 +8,6 @@ import {
     Router,
 } from 'preact-iso';
 import '../css/app.css';
-import ProtectedRoute from './layouts/auth/protected-route';
 import { appearance } from './signals/appearance';
 import withAuth from './components/shared/auth/withAuth';
 
@@ -24,6 +23,12 @@ const CreateReview = lazy(() => import('./pages/admin/reviews/pages/create-revie
 const Faqs = lazy(() => import('./pages/admin/faqs/faqs'));
 const EditFaq = lazy(() => import('./pages/admin/faqs/pages/edit-faq'));
 const CreateFaq = lazy(() => import('./pages/admin/faqs/pages/create-faq'));
+const Videos = lazy(() => import('./pages/admin/videos/videos'));
+const EditVideo = lazy(() => import('./pages/admin/videos/pages/edit-video'));
+const CreateVideo = lazy(() => import('./pages/admin/videos/pages/create-video'));
+const Stacks = lazy(() => import('./pages/admin/stacks/stacks'));
+const EditStack = lazy(() => import('./pages/admin/stacks/pages/edit-stack'));
+const CreateStack = lazy(() => import('./pages/admin/stacks/pages/create-stack'));
 const Appearance = lazy(() => import('./pages/admin/appearance'));
 const Profile = lazy(() => import('./pages/admin/profile'));
 const Password = lazy(() => import('./pages/admin/password'));
@@ -57,6 +62,12 @@ function App() {
                     <Route path="/faqs" component={withAuth(Faqs)} />
                     <Route path="/faqs/create" component={withAuth(CreateFaq)} />
                     <Route path="/faqs/:id" component={withAuth(EditFaq)} />
+                    <Route path="/videos" component={withAuth(Videos)} />
+                    <Route path="/videos/create" component={withAuth(CreateVideo)} />
+                    <Route path="/videos/:id" component={withAuth(EditVideo)} />
+                    <Route path="/stacks" component={withAuth(Stacks)} />
+                    <Route path="/stacks/create" component={withAuth(CreateStack)} />
+                    <Route path="/stacks/:id" component={withAuth(EditStack)} />
                     <Route path="/settings/appearance" component={withAuth(Appearance)} />
                     <Route path="/settings/profile" component={withAuth(Profile)} />
                     <Route path="/settings/password" component={withAuth(Password)} />

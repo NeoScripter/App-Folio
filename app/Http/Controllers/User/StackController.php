@@ -10,6 +10,15 @@ class StackController extends Controller
 {
     public function index()
     {
-        return StackResource::collection(Stack::all());
+        $query = Stack::query();
+        if (request()->filled('latest')) {
+            $query->latest();
+        }
+        return StackResource::collection($query->get());
+    }
+
+    public function show(Stack $stack)
+    {
+        return new StackResource($stack);
     }
 }

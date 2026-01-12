@@ -5,16 +5,16 @@ import FormTextArea from '@/components/admin/form/form-text-area';
 import { useFetch } from '@/hooks/use-fetch';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
-import { ReviewType } from '@/lib/types/reviews';
+import { StackType } from '@/lib/types/stacks';
 import { createSessionSignal } from '@/signals/session-store';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
 
-const reviewSignal = createSessionSignal('review', {});
+const stackSignal = createSessionSignal('stack', {});
 
-type ReviewUpsertState = {
+type StackUpsertState = {
     name_ru: string;
     name_en: string;
     content_en: string;
@@ -32,10 +32,10 @@ type Action =
     | { type: 'SET_IMAGE'; payload: File | null }
     | { type: 'SET_ALT_EN'; payload: string }
     | { type: 'SET_ALT_RU'; payload: string }
-    | { type: 'RESTORE_FROM_BACKUP'; payload: ReviewUpsertState };
+    | { type: 'RESTORE_FROM_BACKUP'; payload: StackUpsertState };
 
-function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
-    let newState: ReviewUpsertState;
+function reducer(state: StackUpsertState, action: Action): StackUpsertState {
+    let newState: StackUpsertState;
 
     switch (action.type) {
         case 'SET_TITLE_EN':
@@ -66,38 +66,38 @@ function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
     }
 
     const { image, ...stateWithoutImage } = newState;
-    reviewSignal.value = stateWithoutImage;
+    stackSignal.value = stateWithoutImage;
 
     return newState;
 }
 
-const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
+const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            name_en: review?.attributes.author.en ?? '',
-            name_ru: review?.attributes.author.ru ?? '',
-            content_en: review?.attributes.description.en ?? '',
-            content_ru: review?.attributes.description.ru ?? '',
+            name_en: stack?.attributes.author.en ?? '',
+            name_ru: stack?.attributes.author.ru ?? '',
+            content_en: stack?.attributes.description.en ?? '',
+            content_ru: stack?.attributes.description.ru ?? '',
             image: null,
-            alt_en: review?.image?.alt.en ?? '',
-            alt_ru: review?.image?.alt.ru ?? '',
+            alt_en: stack?.image?.alt.en ?? '',
+            alt_ru: stack?.image?.alt.ru ?? '',
         }),
-        [review],
+        [stack],
     );
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const handleBackupClick = () => {
         dispatch({
             type: 'RESTORE_FROM_BACKUP',
-            payload: reviewSignal.value as ReviewUpsertState,
+            payload: stackSignal.value as StackUpsertState,
         });
     };
 
     const { fetchData, loading, errors } = useFetch();
 
     const routeName =
-        review != null ? `/admin/reviews/${review.id}` : '/admin/reviews';
+        stack != null ? `/admin/stacks/${stack.id}` : '/admin/stacks';
 
     async function submit() {
         const formData = new FormData();
@@ -111,7 +111,7 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
         if (state.image) {
             formData.append('image', state.image);
         }
-        if (review) {
+        if (stack) {
             formData.append('_method', 'PUT');
         }
 
@@ -120,7 +120,7 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             method: 'POST',
             payload: formData,
             onSuccess: () => {
-                route('/reviews');
+                route('/stacks');
                 toast.success('Success!');
             },
             onError: () => toast.error('Error'),
@@ -153,7 +153,7 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             />
             <FormTextArea
                 key="content_en"
-                label="Review (EN)"
+                label="Stack (EN)"
                 value={state.content_en}
                 onInput={(value) =>
                     dispatch({ type: 'SET_CONTENT_EN', payload: value })
@@ -162,7 +162,7 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             />
             <FormTextArea
                 key="content_ru"
-                label="Review (RU)"
+                label="Stack (RU)"
                 value={state.content_ru}
                 onInput={(value) =>
                     dispatch({ type: 'SET_CONTENT_RU', payload: value })
@@ -171,13 +171,13 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             />
             <FormImage
                 key="image-input"
-                src={review?.image?.dkWebp}
+                src={stack?.attributes.image}
                 isEdited={true}
                 onChange={(file) =>
                     dispatch({ type: 'SET_IMAGE', payload: file })
                 }
                 error={errors?.image?.[0]}
-                label="Review Image"
+                label="Stack Image"
             />
             <FormTextArea
                 key="alt_en"
@@ -198,9 +198,9 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
                 error={errors?.alt_ru?.[0]}
             />
 
-            <FormBtn cancelLink="/reviews" loading={loading} />
+            <FormBtn cancelLink="/stacks" loading={loading} />
         </FormLayout>
     );
 };
 
-export default ReviewUpsert;
+export default StackUpsert;

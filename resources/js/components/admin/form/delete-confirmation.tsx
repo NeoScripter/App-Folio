@@ -24,7 +24,7 @@ const DeleteConfirmation: FC<DeleteConfirmationProps> = ({
                     {itemName.toLowerCase()}? This action cannot be undone.
                 </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex justify-end items-center gap-4">
                 <Button
                     key="delete"
                     type="submit"

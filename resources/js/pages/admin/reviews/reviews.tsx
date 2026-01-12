@@ -17,7 +17,7 @@ const Reviews = () => {
     useEffect(() => {
         const fetchReviews = () => {
             fetchData({
-                url: '/api/reviews',
+                url: '/api/reviews?latest=true',
                 onSuccess: (data) => {
                     setReviews(data.data);
                 },
@@ -41,9 +41,11 @@ const Reviews = () => {
                 <AdminShellLayout>
                     <AdminShellNav href={'reviews/create'} />
                     {loading ? (
-                        range(0, 8).map((idx) => (
-                            <ReviewCardSkeleton key={idx} />
-                        ))
+                        <ul className="space-y-6">
+                            {range(0, 8).map((idx) => (
+                                <ReviewCardSkeleton key={idx} />
+                            ))}
+                        </ul>
                     ) : (
                         <ul className="space-y-6">
                             {reviews &&

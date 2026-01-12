@@ -5,20 +5,19 @@ import FormTextArea from '@/components/admin/form/form-text-area';
 import { useFetch } from '@/hooks/use-fetch';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
-import { ReviewType } from '@/lib/types/reviews';
+import { VideoType } from '@/lib/types/videos';
 import { createSessionSignal } from '@/signals/session-store';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
 
-const reviewSignal = createSessionSignal('review', {});
+const videoSignal = createSessionSignal('video', {});
 
-type ReviewUpsertState = {
-    name_ru: string;
-    name_en: string;
-    content_en: string;
-    content_ru: string;
+type VideoUpsertState = {
+    title_ru: string;
+    title_en: string;
+    url: string;
     image: File | null;
     alt_en: string;
     alt_ru: string;
@@ -27,28 +26,24 @@ type ReviewUpsertState = {
 type Action =
     | { type: 'SET_TITLE_EN'; payload: string }
     | { type: 'SET_TITLE_RU'; payload: string }
-    | { type: 'SET_CONTENT_EN'; payload: string }
-    | { type: 'SET_CONTENT_RU'; payload: string }
+    | { type: 'SET_URL'; payload: string }
     | { type: 'SET_IMAGE'; payload: File | null }
     | { type: 'SET_ALT_EN'; payload: string }
     | { type: 'SET_ALT_RU'; payload: string }
-    | { type: 'RESTORE_FROM_BACKUP'; payload: ReviewUpsertState };
+    | { type: 'RESTORE_FROM_BACKUP'; payload: VideoUpsertState };
 
-function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
-    let newState: ReviewUpsertState;
+function reducer(state: VideoUpsertState, action: Action): VideoUpsertState {
+    let newState: VideoUpsertState;
 
     switch (action.type) {
         case 'SET_TITLE_EN':
-            newState = { ...state, name_en: action.payload };
+            newState = { ...state, title_en: action.payload };
             break;
         case 'SET_TITLE_RU':
-            newState = { ...state, name_ru: action.payload };
+            newState = { ...state, title_ru: action.payload };
             break;
-        case 'SET_CONTENT_EN':
-            newState = { ...state, content_en: action.payload };
-            break;
-        case 'SET_CONTENT_RU':
-            newState = { ...state, content_ru: action.payload };
+        case 'SET_URL':
+            newState = { ...state, url: action.payload };
             break;
         case 'SET_IMAGE':
             newState = { ...state, image: action.payload };
@@ -66,52 +61,50 @@ function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
     }
 
     const { image, ...stateWithoutImage } = newState;
-    reviewSignal.value = stateWithoutImage;
+    videoSignal.value = stateWithoutImage;
 
     return newState;
 }
 
-const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
+const VideoUpsert: FC<{ video?: VideoType }> = ({ video }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            name_en: review?.attributes.author.en ?? '',
-            name_ru: review?.attributes.author.ru ?? '',
-            content_en: review?.attributes.description.en ?? '',
-            content_ru: review?.attributes.description.ru ?? '',
+            title_en: video?.attributes.title.en ?? '',
+            title_ru: video?.attributes.title.ru ?? '',
+            url: video?.attributes.url ?? '',
             image: null,
-            alt_en: review?.image?.alt.en ?? '',
-            alt_ru: review?.image?.alt.ru ?? '',
+            alt_en: video?.image?.alt.en ?? '',
+            alt_ru: video?.image?.alt.ru ?? '',
         }),
-        [review],
+        [video],
     );
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const handleBackupClick = () => {
         dispatch({
             type: 'RESTORE_FROM_BACKUP',
-            payload: reviewSignal.value as ReviewUpsertState,
+            payload: videoSignal.value as VideoUpsertState,
         });
     };
 
     const { fetchData, loading, errors } = useFetch();
 
     const routeName =
-        review != null ? `/admin/reviews/${review.id}` : '/admin/reviews';
+        video != null ? `/admin/videos/${video.id}` : '/admin/videos';
 
     async function submit() {
         const formData = new FormData();
-        formData.append('name_en', state.name_en);
-        formData.append('name_ru', state.name_ru);
-        formData.append('content_en', state.content_en);
-        formData.append('content_ru', state.content_ru);
+        formData.append('title_en', state.title_en);
+        formData.append('title_ru', state.title_ru);
+        formData.append('url', state.url);
         formData.append('alt_en', state.alt_en);
         formData.append('alt_ru', state.alt_ru);
 
         if (state.image) {
             formData.append('image', state.image);
         }
-        if (review) {
+        if (video) {
             formData.append('_method', 'PUT');
         }
 
@@ -120,7 +113,7 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             method: 'POST',
             payload: formData,
             onSuccess: () => {
-                route('/reviews');
+                route('/videos');
                 toast.success('Success!');
             },
             onError: () => toast.error('Error'),
@@ -134,50 +127,41 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
             onSubmit={submit}
         >
             <FormInput
-                key="name_en"
-                label="Author (EN)"
-                value={state.name_en}
+                key="title_en"
+                label="Title (EN)"
+                value={state.title_en}
                 onInput={(value) =>
                     dispatch({ type: 'SET_TITLE_EN', payload: value })
                 }
-                error={errors?.name_en?.[0]}
+                error={errors?.title_en?.[0]}
             />
             <FormInput
-                key="name_ru"
-                label="Author (RU)"
-                value={state.name_ru}
+                key="title_ru"
+                label="Title (RU)"
+                value={state.title_ru}
                 onInput={(value) =>
                     dispatch({ type: 'SET_TITLE_RU', payload: value })
                 }
-                error={errors?.name_ru?.[0]}
+                error={errors?.title_ru?.[0]}
             />
-            <FormTextArea
-                key="content_en"
-                label="Review (EN)"
-                value={state.content_en}
+            <FormInput
+                key="url"
+                label="Url"
+                value={state.url}
                 onInput={(value) =>
-                    dispatch({ type: 'SET_CONTENT_EN', payload: value })
+                    dispatch({ type: 'SET_URL', payload: value })
                 }
-                error={errors?.content_en?.[0]}
-            />
-            <FormTextArea
-                key="content_ru"
-                label="Review (RU)"
-                value={state.content_ru}
-                onInput={(value) =>
-                    dispatch({ type: 'SET_CONTENT_RU', payload: value })
-                }
-                error={errors?.content_ru?.[0]}
+                error={errors?.url?.[0]}
             />
             <FormImage
                 key="image-input"
-                src={review?.image?.dkWebp}
+                src={video?.image?.dkWebp}
                 isEdited={true}
                 onChange={(file) =>
                     dispatch({ type: 'SET_IMAGE', payload: file })
                 }
                 error={errors?.image?.[0]}
-                label="Review Image"
+                label="Video Image"
             />
             <FormTextArea
                 key="alt_en"
@@ -198,9 +182,9 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
                 error={errors?.alt_ru?.[0]}
             />
 
-            <FormBtn cancelLink="/reviews" loading={loading} />
+            <FormBtn cancelLink="/videos" loading={loading} />
         </FormLayout>
     );
 };
 
-export default ReviewUpsert;
+export default VideoUpsert;
