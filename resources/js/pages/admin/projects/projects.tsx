@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import ProjectCard, { ProjectCardSkeleton } from './partials/project-card';
 import ProjectDelete from './partials/project-delete';
 import SearchBox from './partials/search-box';
+import { useDebounce } from '@/hooks/use-debounce';
 
 const Projects = () => {
     const { fetchData, loading, errors } = useFetch();
@@ -20,6 +21,7 @@ const Projects = () => {
     );
     const { query } = useLocation();
     const [searchQuery, setSearchQuery] = useState('');
+    const debouncedQuery = useDebounce(searchQuery, 400);
     const [currentPage, setCurrentPage] = useState(() =>
         query?.page == null ? 1 : query.page,
     );
@@ -47,7 +49,7 @@ const Projects = () => {
     useEffect(() => {
         const fetchProjects = () => {
             fetchData({
-                url: `/api/projects?page=${currentPage}&latest=true&search=${searchQuery}`,
+                url: `/api/projects?page=${currentPage}&latest=true&search=${debouncedQuery}`,
                 onSuccess: (data) => {
                     setProjectData(data);
                 },
@@ -59,7 +61,7 @@ const Projects = () => {
         document.addEventListener('itemDeleted', fetchProjects);
 
         return () => document.removeEventListener('itemDeleted', fetchProjects);
-    }, [currentPage, searchQuery]);
+    }, [currentPage, debouncedQuery]);
 
     if (errors != null) {
         console.error(errors);
