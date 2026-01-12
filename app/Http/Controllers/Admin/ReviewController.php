@@ -52,6 +52,8 @@ class ReviewController extends Controller
                 $review->image->delete();
             }
             Image::attachTo($review, $request->file('image'), $validated['alt_ru'], $validated['alt_en']);
+        } elseif ($review->image && ($validated['alt_ru'] ?? $validated['alt_en'] ?? false)) {
+            $review->image->update(Arr::only($validated, ['alt_ru', 'alt_en']));
         }
         return response()->json([
             'message' => 'Review updated successfully',

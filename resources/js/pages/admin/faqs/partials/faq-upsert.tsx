@@ -2,6 +2,7 @@ import FormBtn from '@/components/admin/form/form-btn';
 import FormInput from '@/components/admin/form/form-input';
 import FormTextArea from '@/components/admin/form/form-text-area';
 import { useFetch } from '@/hooks/use-fetch';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { FaqType } from '@/lib/types/faqs';
 import { useLocation } from 'preact-iso';
@@ -16,13 +17,21 @@ type FaqUpsertState = {
     content_ru: string;
 };
 
+const BACKUP_KEY = 'faq';
+
 type Action =
     | { type: 'SET_TITLE_EN'; payload: string }
     | { type: 'SET_TITLE_RU'; payload: string }
     | { type: 'SET_content_EN'; payload: string }
-    | { type: 'SET_content_RU'; payload: string };
+    | { type: 'SET_content_RU'; payload: string }
+    | { type: 'RESTORE_FROM_BACKUP'; payload: FaqUpsertState };
 
 function reducer(state: FaqUpsertState, action: Action): FaqUpsertState {
+    if (action.type !== 'RESTORE_FROM_BACKUP') {
+        const { ...backupState } = state;
+        sessionStorage.setItem(BACKUP_KEY, JSON.stringify(backupState));
+    }
+
     switch (action.type) {
         case 'SET_TITLE_EN':
             return { ...state, title_en: action.payload };
@@ -32,6 +41,8 @@ function reducer(state: FaqUpsertState, action: Action): FaqUpsertState {
             return { ...state, content_en: action.payload };
         case 'SET_content_RU':
             return { ...state, content_ru: action.payload };
+        case 'RESTORE_FROM_BACKUP':
+            return { ...state, ...action.payload };
         default:
             throw new Error('Unexpected action type');
     }
@@ -50,6 +61,14 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
     );
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    const [backup] = useSessionStorage(BACKUP_KEY, initialState);
+
+    const handleBackupClick = () => {
+        dispatch({
+            type: 'RESTORE_FROM_BACKUP',
+            payload: { image: null, ...backup },
+        });
+    };
     const { fetchData, loading, errors } = useFetch();
 
     const routeName = faq != null ? `/admin/faqs/${faq.id}` : '/admin/faqs';
@@ -61,7 +80,7 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
             method: method,
             payload: state,
             onSuccess: () => {
-                route('/faqs')
+                route('/faqs');
                 toast.success('Success!');
             },
             onError: () => toast.error('Error'),
@@ -69,7 +88,7 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
     }
 
     return (
-        <FormLayout onSubmit={submit}>
+        <FormLayout handleBackupClick={handleBackupClick} onSubmit={submit}>
             <FormInput
                 key="title_en"
                 label="Question (EN)"

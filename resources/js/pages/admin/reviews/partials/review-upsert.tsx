@@ -3,12 +3,15 @@ import FormImage from '@/components/admin/form/form-image';
 import FormInput from '@/components/admin/form/form-input';
 import FormTextArea from '@/components/admin/form/form-text-area';
 import { useFetch } from '@/hooks/use-fetch';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { ReviewType } from '@/lib/types/reviews';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
+
+const BACKUP_KEY = 'review';
 
 type ReviewUpsertState = {
     name_ru: string;
@@ -27,9 +30,14 @@ type Action =
     | { type: 'SET_CONTENT_RU'; payload: string }
     | { type: 'SET_IMAGE'; payload: File | null }
     | { type: 'SET_ALT_EN'; payload: string }
-    | { type: 'SET_ALT_RU'; payload: string };
+    | { type: 'SET_ALT_RU'; payload: string }
+    | { type: 'RESTORE_FROM_BACKUP'; payload: ReviewUpsertState };
 
 function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
+    if (action.type !== 'RESTORE_FROM_BACKUP') {
+        const { image, ...stateWithoutImage } = state;
+        sessionStorage.setItem(BACKUP_KEY, JSON.stringify(stateWithoutImage));
+    }
     switch (action.type) {
         case 'SET_TITLE_EN':
             return { ...state, name_en: action.payload };
@@ -45,6 +53,8 @@ function reducer(state: ReviewUpsertState, action: Action): ReviewUpsertState {
             return { ...state, alt_en: action.payload };
         case 'SET_ALT_RU':
             return { ...state, alt_ru: action.payload };
+        case 'RESTORE_FROM_BACKUP':
+            return { ...state, ...action.payload };
         default:
             throw new Error('Unexpected action type');
     }
@@ -64,7 +74,12 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
         }),
         [review],
     );
+    const [backup,] = useSessionStorage(BACKUP_KEY, initialState);
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    const handleBackupClick = () => {
+        dispatch({ type: 'RESTORE_FROM_BACKUP', payload: { image: null, ...backup } });
+    };
 
     const { fetchData, loading, errors } = useFetch();
 
@@ -100,7 +115,11 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
     }
 
     return (
-        <FormLayout hasFileUpload={true} onSubmit={submit}>
+        <FormLayout
+            handleBackupClick={handleBackupClick}
+            hasFileUpload={true}
+            onSubmit={submit}
+        >
             <FormInput
                 key="name_en"
                 label="Author (EN)"
