@@ -13,7 +13,7 @@ import SearchBar from './search-bar';
 
 const ProjectList: FC<NodeProps> = ({ className }) => {
     const { fetchData, loading, errors } = useFetch();
-    const [projectData, setProjects] = useState<ProjectResource | null>(null);
+    const [projectData, setProjectData] = useState<ProjectResource | null>(null);
     const { query } = useLocation();
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(() =>
@@ -43,7 +43,7 @@ const ProjectList: FC<NodeProps> = ({ className }) => {
         fetchData({
             url: `/api/projects?page=${currentPage}`,
             onSuccess: (data) => {
-                setProjects(data);
+                setProjectData(data);
             },
         });
     }, [currentPage]);

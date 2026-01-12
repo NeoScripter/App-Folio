@@ -29,6 +29,9 @@ const CreateVideo = lazy(() => import('./pages/admin/videos/pages/create-video')
 const Stacks = lazy(() => import('./pages/admin/stacks/stacks'));
 const EditStack = lazy(() => import('./pages/admin/stacks/pages/edit-stack'));
 const CreateStack = lazy(() => import('./pages/admin/stacks/pages/create-stack'));
+const Projects = lazy(() => import('./pages/admin/projects/projects'));
+const EditProject = lazy(() => import('./pages/admin/projects/pages/edit-project'));
+const CreateProject = lazy(() => import('./pages/admin/projects/pages/create-project'));
 const Appearance = lazy(() => import('./pages/admin/appearance'));
 const Profile = lazy(() => import('./pages/admin/profile'));
 const Password = lazy(() => import('./pages/admin/password'));
@@ -68,6 +71,9 @@ function App() {
                     <Route path="/stacks" component={withAuth(Stacks)} />
                     <Route path="/stacks/create" component={withAuth(CreateStack)} />
                     <Route path="/stacks/:id" component={withAuth(EditStack)} />
+                    <Route path="/projects" component={withAuth(Projects)} />
+                    <Route path="/projects/create" component={withAuth(CreateProject)} />
+                    <Route path="/projects/:slug" component={withAuth(EditProject)} />
                     <Route path="/settings/appearance" component={withAuth(Appearance)} />
                     <Route path="/settings/profile" component={withAuth(Profile)} />
                     <Route path="/settings/password" component={withAuth(Password)} />

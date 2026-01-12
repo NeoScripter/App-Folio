@@ -5,7 +5,7 @@ import { useEscapeKey } from '@/hooks/use-escape-key';
 import { currentUser } from '@/signals/auth';
 import { hide, isHidden, isMini, isWide } from '@/signals/sidebar-state';
 import { cn } from '@/utils/cn';
-import { ChevronsUpDown, Keyboard, LayoutGrid, MessageSquareCode, TableOfContents, Video } from 'lucide-preact';
+import { BriefcaseBusiness, ChevronsUpDown, Keyboard, LayoutGrid, MessageSquareCode, TableOfContents, Video } from 'lucide-preact';
 import { ComponentChildren } from 'preact';
 import { useId } from 'preact/hooks';
 import AccountMenu from './account-menu';
@@ -98,6 +98,7 @@ const SidebarNav = () => {
                 <SidebarLink url="/reviews" icon={MessageSquareCode} label="Reviews" />
                 <SidebarLink url="/videos" icon={Video} label="Videos" />
                 <SidebarLink url="/stacks" icon={Keyboard} label="Stacks" />
+                <SidebarLink url="/projects" icon={BriefcaseBusiness} label="Projects" />
             </ul>
         </div>
     );

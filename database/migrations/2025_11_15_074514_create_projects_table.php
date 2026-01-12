@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description_ru');
             $table->text('description_en');
-            $table->string('link');
+            $table->string('link')->nullable();
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
