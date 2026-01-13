@@ -12,7 +12,6 @@ const ProjectModuleDelete = () => {
     async function submit() {
         if (module.value == null) return;
 
-        console.log(module.value)
         await fetchData({
             url: `/admin/project-modules/${module.value.id}`,
             method: 'DELETE',

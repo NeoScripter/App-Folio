@@ -58,6 +58,13 @@ class ProjectModuleController extends Controller
         $validated = $request->validated();
         $module = ProjectModule::findOrFail($id);
 
+        if (($new = $validated['order'] ?? null) !== null && $new !== $module->order) {
+            ProjectModule::where('project_id', $module->project_id)
+                ->where('order', $new)
+                ->whereKeyNot($module->id)
+                ->update(['order' => $module->order]);
+        }
+
         $module->update(
             $request->safe()->except([
                 'first_image',
