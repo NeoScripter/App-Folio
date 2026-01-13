@@ -11,46 +11,28 @@ class ProjectController extends Controller
 {
     public function index(ProjectFilter $filters)
     {
-
-        $query = Project::filter($filters)
-            ->with(['category', 'technologies']);
+        $projects = Project::filter($filters)
+            ->with(['category', 'technologies'])
+            ->when(
+                !request()->filled('latest'),
+                fn($q) => $q->orderByDesc('order')
+            );
 
         if (request()->filled('limit')) {
-            $limit = request()->integer('limit');
-
-            if (request()->filled('exclude')) {
-                $excluded = request()->integer('exclude');
-                $query->where('id', '!=', $excluded);
-            }
-            return ProjectResource::collection(
-                $query->orderBy('order', 'desc')
-                    ->limit($limit)
-                    ->get()
-            );
-        }
-        if (request()->filled('latest')) {
-            $query->latest();
-        } else {
-            $query->orderBy('order', 'desc');
-        }
-        if (request()->filled('search')) {
-            $search = request()->string('search');
-            $query->where(function ($q) use ($search) {
-                $q->whereRaw('title_ru LIKE ?', ["%{$search}%"])
-                    ->orWhereRaw('title_en LIKE ?', ["%{$search}%"])
-                    ->orWhereRaw('description_en LIKE ?', ["%{$search}%"])
-                    ->orWhereRaw('description_ru LIKE ?', ["%{$search}%"]);
-            });
+            return $projects->get()->toResourceCollection();
         }
 
-        return ProjectResource::collection(
-            $query->paginate(7)
-        );
+        return $projects->paginate(7)->toResourceCollection();
     }
 
     public function show(Project $project)
     {
-        $project->load(['category', 'technologies', 'modules' => fn($q) => $q->orderBy('order')]);
-        return new ProjectResource($project);
+        return new ProjectResource(
+            $project->load([
+                'category',
+                'technologies',
+                'modules' => fn($q) => $q->orderBy('order')
+            ])
+        );
     }
 }

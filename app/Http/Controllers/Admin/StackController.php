@@ -48,7 +48,7 @@ class StackController extends Controller
 
         if ($request->hasFile('image')) {
             if ($stack->image) {
-                Storage::disk('public')->delete($stack->image);
+                Storage::disk('public')->delete($stack->attributes['image']);
             }
             $stackData['image'] = $request->file('image')->store('stacks', 'public');
         }

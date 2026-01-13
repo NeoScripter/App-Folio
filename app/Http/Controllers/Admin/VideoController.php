@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\Video;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class VideoController extends Controller
 {
+    public function __construct(
+        private ImageService $imageService,
+    ) {}
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -23,9 +28,13 @@ class VideoController extends Controller
 
         $video = Video::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
 
-        if ($request->hasFile('image')) {
-            Image::attachTo($video, $request->file('image'), $validated['alt_ru'], $validated['alt_en']);
-        }
+        $this->imageService->sync(
+            $video,
+            $request->file('image'),
+            $validated['alt_ru'] ?? null,
+            $validated['alt_en'] ?? null
+        );
+
         return response()->json([
             'message' => 'Video created successfully',
             'data' => $video
@@ -45,14 +54,13 @@ class VideoController extends Controller
 
         $video->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
 
-        if ($request->hasFile('image')) {
-            if ($video->image) {
-                $video->image->delete();
-            }
-            Image::attachTo($video, $request->file('image'), $validated['alt_ru'], $validated['alt_en']);
-        } elseif ($video->image && ($validated['alt_ru'] ?? $validated['alt_en'] ?? false)) {
-            $video->image->update(Arr::only($validated, ['alt_ru', 'alt_en']));
-        }
+        $this->imageService->sync(
+            $video,
+            $request->file('image'),
+            $validated['alt_ru'] ?? null,
+            $validated['alt_en'] ?? null
+        );
+
         return response()->json([
             'message' => 'Video updated successfully',
             'data' => $video

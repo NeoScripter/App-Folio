@@ -16,4 +16,11 @@ class Stack extends Model
     {
         return Storage::disk('public')->url($this->attributes['image']);
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Stack $stack) {
+            Storage::disk('public')->delete($stack->attributes['image']);
+        });
+    }
 }

@@ -5,13 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\Project;
+use App\Services\ImageService;
 use App\Services\Project\ProjectCategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class ProjectController extends Controller
 {
-    public function store(Request $request, ProjectCategoryService $categoryService)
+    public function __construct(
+        private ImageService $imageService,
+        private ProjectCategoryService $categoryService
+    ) {}
+
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'title_en' => 'required|string|max:255',
@@ -30,21 +36,19 @@ class ProjectController extends Controller
 
         $project = Project::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
 
-        $categoryService->sync(
+        $this->categoryService->sync(
             $project,
             $validated['category_en'] ?? null,
             $validated['category_ru'] ?? null
         );
 
-        if ($request->hasFile('image')) {
-            Image::insertMockupAndAttachTo(
-                $project,
-                $request->file('image'),
-                $validated['alt_ru'],
-                $validated['alt_en'],
-                $validated['mockup']
-            );
-        }
+        $this->imageService->sync(
+            $project,
+            $request->file('image'),
+            $validated['alt_ru'] ?? null,
+            $validated['alt_en'] ?? null,
+            $validated['mockup'] ?? null
+        );
 
         return response()->json([
             'message' => 'Project created successfully',
@@ -52,7 +56,7 @@ class ProjectController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Project $project, ProjectCategoryService $categoryService)
+    public function update(Request $request, Project $project)
     {
         $validated = $request->validate([
             'title_en' => 'sometimes|required|string|max:255',
@@ -71,23 +75,19 @@ class ProjectController extends Controller
 
         $project->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
 
-        $categoryService->sync(
+        $this->categoryService->sync(
             $project,
             $validated['category_en'] ?? null,
             $validated['category_ru'] ?? null
         );
-        if ($request->hasFile('image')) {
-            $project->image?->delete();
-            Image::insertMockupAndAttachTo(
-                $project,
-                $request->file('image'),
-                $validated['alt_ru'],
-                $validated['alt_en'],
-                $validated['mockup']
-            );
-        } elseif ($project->image && ($validated['alt_ru'] ?? $validated['alt_en'] ?? false)) {
-            $project->image->update(Arr::only($validated, ['alt_ru', 'alt_en']));
-        }
+
+        $this->imageService->sync(
+            $project,
+            $request->file('image'),
+            $validated['alt_ru'] ?? null,
+            $validated['alt_en'] ?? null,
+            $validated['mockup'] ?? null
+        );
 
         return response()->json([
             'message' => 'Project updated successfully',

@@ -64,4 +64,11 @@ class Project extends Model
     {
         return 'slug';
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Project $project) {
+            $project->image?->delete();
+        });
+    }
 }
