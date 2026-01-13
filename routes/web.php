@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ProjectModuleController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\StackController;
 use App\Http\Controllers\Admin\VideoController;
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
             Route::resource('stacks', StackController::class)
                 ->only(['store', 'update', 'destroy']);
             Route::resource('projects', ProjectController::class)
+                ->only(['store', 'update', 'destroy']);
+            Route::resource('projectModules', ProjectModuleController::class)
                 ->only(['store', 'update', 'destroy']);
         });
 });

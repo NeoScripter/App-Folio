@@ -6,11 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\CreateProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
-use App\Models\Technology;
 use App\Services\ImageService;
 use App\Services\Project\ProjectCategoryService;
 use App\Services\Project\ProjectTechnologyService;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
