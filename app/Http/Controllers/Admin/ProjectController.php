@@ -34,7 +34,7 @@ class ProjectController extends Controller
             'alt_ru' => 'required_with:image|string|max:255',
         ]);
 
-        $project = Project::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+        $project = Project::create($request->safe()->except(['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
 
         $this->categoryService->sync(
             $project,
@@ -73,7 +73,7 @@ class ProjectController extends Controller
             'alt_ru' => 'required_with:image|string|max:255',
         ]);
 
-        $project->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+        $project->update($request->safe()->except(['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
 
         $this->categoryService->sync(
             $project,

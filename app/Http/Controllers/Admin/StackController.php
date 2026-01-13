@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Stack\CreateStackRequest;
+use App\Http\Requests\Stack\UpdateStackRequest;
 use App\Models\Stack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -10,17 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class StackController extends Controller
 {
-    public function store(Request $request)
+    public function store(CreateStackRequest $request)
     {
-        $validated = $request->validate([
-            'body_en' => 'required|string',
-            'body_ru' => 'required|string',
-            'image' => 'required|image|max:4048',
-            'alt_en' => 'required|string|max:255',
-            'alt_ru' => 'required|string|max:255',
-        ]);
+        $request->validated();
 
-        $stackData = Arr::except($validated, ['image']);
+        $stackData = $request->safe()->except(['image']);
 
         if ($request->hasFile('image')) {
             $stackData['image'] = $request->file('image')->store('stacks', 'public');
@@ -34,17 +30,11 @@ class StackController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Stack $stack)
+    public function update(UpdateStackRequest $request, Stack $stack)
     {
-        $validated = $request->validate([
-            'body_en' => 'sometimes|required|string',
-            'body_ru' => 'sometimes|required|string',
-            'image' => 'sometimes|image|max:4048',
-            'alt_en' => 'sometimes|required|string|max:255',
-            'alt_ru' => 'sometimes|required|string|max:255',
-        ]);
+        $request->validated();
 
-        $stackData = Arr::except($validated, ['image']);
+        $stackData = $request->safe()->except(['image']);
 
         if ($request->hasFile('image')) {
             if ($stack->image) {

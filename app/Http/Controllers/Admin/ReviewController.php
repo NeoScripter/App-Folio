@@ -7,7 +7,6 @@ use App\Http\Requests\Review\CreateReviewRequest;
 use App\Http\Requests\Review\UpdateReviewRequest;
 use App\Models\Review;
 use App\Services\ImageService;
-use Illuminate\Support\Arr;
 
 class ReviewController extends Controller
 {
@@ -19,7 +18,7 @@ class ReviewController extends Controller
     {
         $validated = $request->validated();
 
-        $review = Review::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
+        $review = Review::create($request->safe()->except(['image', 'alt_ru', 'alt_en']));
 
         $this->imageService->sync(
             $review,
@@ -38,7 +37,7 @@ class ReviewController extends Controller
     {
         $validated = $request->validated();
 
-        $review->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
+        $review->update($request->safe()->except(['image', 'alt_ru', 'alt_en']));
 
         $this->imageService->sync(
             $review,

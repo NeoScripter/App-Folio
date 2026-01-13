@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Image;
+use App\Http\Requests\Video\CreateVideoRequest;
+use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Models\Video;
 use App\Services\ImageService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class VideoController extends Controller
 {
@@ -15,18 +14,11 @@ class VideoController extends Controller
         private ImageService $imageService,
     ) {}
 
-    public function store(Request $request)
+    public function store(CreateVideoRequest $request)
     {
-        $validated = $request->validate([
-            'title_en' => 'required|string',
-            'title_ru' => 'required|string',
-            'url' => 'required|string',
-            'image' => 'nullable|image|max:4048',
-            'alt_en' => 'required|string|max:255',
-            'alt_ru' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        $video = Video::create(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
+        $video = Video::create($request->safe()->except(['image', 'alt_ru', 'alt_en']));
 
         $this->imageService->sync(
             $video,
@@ -41,18 +33,11 @@ class VideoController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Video $video)
+    public function update(UpdateVideoRequest $request, Video $video)
     {
-        $validated = $request->validate([
-            'title_en' => 'sometimes|required|string',
-            'title_ru' => 'sometimes|required|string',
-            'url' => 'sometimes|required|string',
-            'image' => 'sometimes|image|max:4048',
-            'alt_en' => 'sometimes|required|string|max:255',
-            'alt_ru' => 'sometimes|required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        $video->update(Arr::except($validated, ['image', 'alt_ru', 'alt_en']));
+        $video->update($request->safe()->except(['image', 'alt_ru', 'alt_en']));
 
         $this->imageService->sync(
             $video,
