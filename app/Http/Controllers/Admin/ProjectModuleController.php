@@ -53,9 +53,10 @@ class ProjectModuleController extends Controller
         ], 201);
     }
 
-    public function update(UpdateProjectModuleRequest $request, ProjectModule $module)
+    public function update(UpdateProjectModuleRequest $request, int $id)
     {
         $validated = $request->validated();
+        $module = ProjectModule::findOrFail($id);
 
         $module->update(
             $request->safe()->except([
@@ -91,9 +92,11 @@ class ProjectModuleController extends Controller
         ]);
     }
 
-    public function destroy(ProjectModule $module)
+    public function destroy(int $id)
     {
+        $module = ProjectModule::find($id);
         $module->delete();
+
         return response()->json([
             'message' => 'Project module deleted successfully',
         ]);

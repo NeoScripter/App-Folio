@@ -163,6 +163,7 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
             payload: formData,
             onSuccess: () => {
                 toast.success('Success!');
+                document.dispatchEvent(new Event('itemDeleted'));
             },
             onError: () => toast.error('Error'),
         });
@@ -295,7 +296,7 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
             <FormBtn loading={loading}>
                 {module && (
                     <Button
-                        type='button'
+                        type="button"
                         class="rounded-xl"
                         onClick={() => (itemToDelete.value = module)}
                         variant="destructive"
