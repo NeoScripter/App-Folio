@@ -49,4 +49,9 @@ class ProjectModule extends Model
             $module->second_image?->delete();
         });
     }
+
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\ProjectModule\CreateProjectModuleRequest;
 use App\Http\Requests\ProjectModule\UpdateProjectModuleRequest;
 use App\Models\ProjectModule;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\DB;
 
 class ProjectModuleController extends Controller
 {
@@ -93,7 +94,6 @@ class ProjectModuleController extends Controller
     public function destroy(ProjectModule $module)
     {
         $module->delete();
-
         return response()->json([
             'message' => 'Project module deleted successfully',
         ]);

@@ -33,9 +33,9 @@ Route::middleware('auth')->group(function () {
                 ->only(['store', 'update', 'destroy']);
             Route::resource('stacks', StackController::class)
                 ->only(['store', 'update', 'destroy']);
-            Route::resource('projects', ProjectController::class)
+            Route::resource('project-modules', ProjectModuleController::class)
                 ->only(['store', 'update', 'destroy']);
-            Route::resource('projectModules', ProjectModuleController::class)
+            Route::resource('projects', ProjectController::class)
                 ->only(['store', 'update', 'destroy']);
         });
 });

@@ -17,16 +17,12 @@ class UpdateProjectModuleRequest extends FormRequest
     {
         return [
             'type' => ['sometimes', 'required', new Enum(ProjectModuleType::class)],
-
-            'title_en' => 'sometimes|required|string|max:255',
-            'title_ru' => 'sometimes|required|string|max:255',
-            'description_en' => 'sometimes|required|string',
-            'description_ru' => 'sometimes|required|string',
-            'link' => 'sometimes|nullable|string',
+            'project_id' => 'sometimes|required|integer|exists:projects,id',
+            'heading_en' => 'sometimes|required|string|max:255',
+            'heading_ru' => 'sometimes|required|string|max:255',
+            'body_en' => 'sometimes|required|string',
+            'body_ru' => 'sometimes|required|string',
             'order' => 'sometimes|required|integer',
-
-            'technologies' => 'nullable|array',
-            'technologies.*' => 'string|min:1',
 
             'first_image' => 'sometimes|image|max:4048',
             'first_alt_en' => 'required_with:first_image|nullable|string|max:255',

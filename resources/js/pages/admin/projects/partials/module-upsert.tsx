@@ -3,9 +3,11 @@ import FormImage from '@/components/admin/form/form-image';
 import FormInput from '@/components/admin/form/form-input';
 import FormTextArea from '@/components/admin/form/form-text-area';
 import { FormWysiwyg } from '@/components/admin/form/form-wysiwyg';
+import { Button } from '@/components/auth/form/button';
 import { useFetch } from '@/hooks/use-fetch';
 import FormLayout from '@/layouts/admin/form-layout';
 import { ProjectModuleType } from '@/lib/types/project-module';
+import { useDeleteModal } from '@/providers/delete-modal-context';
 import { createSessionSignal } from '@/signals/session-store';
 import { buildFormData } from '@/utils/form-data';
 import { useLocation } from 'preact-iso';
@@ -131,6 +133,8 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
         [module],
     );
 
+    const { itemToDelete } = useDeleteModal();
+
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const handleBackupClick = () => {
@@ -143,7 +147,9 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
     const { fetchData, loading, errors } = useFetch();
 
     const routeName =
-        module != null ? `/admin/modules/${module.id}` : '/admin/modules';
+        module != null
+            ? `/admin/project-modules/${module.id}`
+            : '/admin/project-modules';
 
     async function submit() {
         const formData = buildFormData({
@@ -156,7 +162,6 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
             method: 'POST',
             payload: formData,
             onSuccess: () => {
-                route('/modules');
                 toast.success('Success!');
             },
             onError: () => toast.error('Error'),
@@ -189,7 +194,7 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
             />
             <FormWysiwyg
                 key="body_en"
-                label="body (EN)"
+                label="Content (EN)"
                 value={state.body_en}
                 onInput={(value) =>
                     dispatch({ type: 'SET_BODY_EN', payload: value })
@@ -199,7 +204,7 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
 
             <FormWysiwyg
                 key="body_ru"
-                label="body (RU)"
+                label="Content (RU)"
                 value={state.body_ru}
                 onInput={(value) =>
                     dispatch({ type: 'SET_BODY_RU', payload: value })
@@ -287,7 +292,18 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
                 </>
             )}
 
-            <FormBtn cancelLink="/modules" loading={loading} />
+            <FormBtn loading={loading}>
+                {module && (
+                    <Button
+                        type='button'
+                        class="rounded-xl"
+                        onClick={() => (itemToDelete.value = module)}
+                        variant="destructive"
+                    >
+                        Delete
+                    </Button>
+                )}
+            </FormBtn>
         </FormLayout>
     );
 };

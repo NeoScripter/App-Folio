@@ -3,12 +3,14 @@ import { cn } from '@/utils/cn';
 import { LoaderCircle } from 'lucide-preact';
 import { FC } from 'preact/compat';
 import { Anchor } from '../ui/anchor';
+import { ComponentChildren } from 'preact';
 
 const FormBtn: FC<{
     loading: boolean;
     className?: string;
     cancelLink?: string;
-}> = ({ className, loading, cancelLink }) => {
+    children?: ComponentChildren;
+}> = ({ className, loading, cancelLink, children }) => {
     return (
         <div class="flex items-center gap-2">
             <Button
@@ -24,6 +26,7 @@ const FormBtn: FC<{
                     Cancel
                 </Anchor>
             )}
+            {children}
         </div>
     );
 };

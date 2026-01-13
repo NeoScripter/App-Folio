@@ -20,7 +20,7 @@ const Projects = () => {
     };
 
     const { projectData, errors, loading, projectsRef, handlePageClick } =
-        useFetchProjects({ searchQuery });
+        useFetchProjects({ searchQuery, isLatest: true });
 
     if (errors != null) {
         console.error(errors);
@@ -53,14 +53,20 @@ const Projects = () => {
                         </ul>
                     ) : (
                         <ul className="space-y-6">
-                            {projectData?.data && projectData.data.length > 0
-                                ? projectData.data.map((project) => (
-                                      <ProjectCard
-                                          key={project.id}
-                                          project={project}
-                                      />
-                                  ))
-                                : <p class="ml-4">No projects matching your search have been found</p>}
+                            {projectData?.data &&
+                            projectData.data.length > 0 ? (
+                                projectData.data.map((project) => (
+                                    <ProjectCard
+                                        key={project.id}
+                                        project={project}
+                                    />
+                                ))
+                            ) : (
+                                <p class="ml-4">
+                                    No projects matching your search have been
+                                    found
+                                </p>
+                            )}
                         </ul>
                     )}
                     <ModalLayout className="max-w-9/10 px-10 py-14 sm:max-w-100 lg:max-w-160">

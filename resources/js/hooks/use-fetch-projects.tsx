@@ -6,8 +6,9 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 
 type FetchProjectsArgs = {
     searchQuery: string;
+    isLatest?: boolean;
 };
-const useFetchProjects = ({ searchQuery }: FetchProjectsArgs) => {
+const useFetchProjects = ({ searchQuery, isLatest }: FetchProjectsArgs) => {
     const { fetchData, loading, errors } = useFetch();
     const [projectData, setProjectData] = useState<ProjectResource | null>(
         null,
@@ -35,8 +36,12 @@ const useFetchProjects = ({ searchQuery }: FetchProjectsArgs) => {
 
     useEffect(() => {
         const fetchProjects = () => {
+            let url = `/api/projects?page=${currentPage}&search=${debouncedQuery}`;
+            if (isLatest) {
+                url += '&latest=true';
+            }
             fetchData({
-                url: `/api/projects?page=${currentPage}&latest=true&search=${debouncedQuery}`,
+                url: url,
                 onSuccess: (data) => {
                     setProjectData(data);
                 },

@@ -18,15 +18,12 @@ class CreateProjectModuleRequest extends FormRequest
         return [
             'type' => ['required', new Enum(ProjectModuleType::class)],
 
-            'title_en' => 'required|string|max:255',
-            'title_ru' => 'required|string|max:255',
-            'description_en' => 'required|string',
-            'description_ru' => 'required|string',
-            'link' => 'nullable|string',
+            'project_id' => 'required|integer|exists:projects,id',
+            'heading_en' => 'required|string|max:255',
+            'heading_ru' => 'required|string|max:255',
+            'body_en' => 'required|string',
+            'body_ru' => 'required|string',
             'order' => 'required|integer',
-
-            'technologies' => 'nullable|array',
-            'technologies.*' => 'string|min:1',
 
             'first_image' => 'nullable|image|max:4048',
             'first_alt_en' => 'required_with:first_image|nullable|string|max:255',
@@ -38,4 +35,3 @@ class CreateProjectModuleRequest extends FormRequest
         ];
     }
 }
-

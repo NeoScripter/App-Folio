@@ -4,14 +4,15 @@ import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 
 const AccordionWrapper: FC<
-    NodeProps<{ show?: boolean; handleClick: () => void }>
-> = ({ children, show = false, handleClick }) => {
+    NodeProps<{ label: string, show?: boolean; handleClick: () => void }>
+> = ({ children, label, show = false, handleClick }) => {
     return (
         <div>
-            <Button onClick={handleClick}>{show ? 'Hide' : 'Show'}</Button>
+            <Button class="w-35" variant='outline' onClick={handleClick}>{show ? 'Hide' : label}</Button>
             <div
+                inert={!show}
                 class={cn(
-                    'mt-4 grid w-fit transition-[grid-template-rows,padding] duration-500 ease-in-out',
+                    'mt-4 grid transition-[grid-template-rows,padding] duration-500 ease-in-out',
                     show
                         ? 'border-input grid-rows-[1fr] rounded-md border p-4'
                         : 'grid-rows-[0fr]',

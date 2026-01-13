@@ -25,8 +25,8 @@ class ProjectModuleResource extends JsonResource
                     'ru' => $this->html_ru,
                     'en' => $this->html_en,
                 ],
-                'body' => when(
-                    $request->routeIs('show'),
+                'body' => $this->when(
+                    $request->routeIs('projects.show'),
                     fn() => [
                         'ru' => $this->body_ru,
                         'en' => $this->body_en,

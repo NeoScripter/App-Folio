@@ -4,19 +4,20 @@ import FormLayout from '@/layouts/admin/form-layout';
 import { useDeleteModal } from '@/providers/delete-modal-context';
 import { toast } from 'sonner';
 
-const ProjectDelete = () => {
-    const { itemToDelete: project } = useDeleteModal();
+const ProjectModuleDelete = () => {
+    const { itemToDelete: module } = useDeleteModal();
 
     const { fetchData, loading } = useFetch();
 
     async function submit() {
-        if (project.value == null) return;
+        if (module.value == null) return;
 
+        console.log(module.value)
         await fetchData({
-            url: `/admin/projects/${project.value.attributes.slug}`,
+            url: `/admin/project-modules/${module.value.id}`,
             method: 'DELETE',
             onSuccess: () => {
-                project.value = null;
+                module.value = null;
                 toast.success('Deleted!');
                 document.dispatchEvent(new Event('itemDeleted'));
             },
@@ -27,12 +28,12 @@ const ProjectDelete = () => {
     return (
         <FormLayout onSubmit={submit}>
             <DeleteConfirmation
-                itemName="project"
-                onCancel={() => (project.value = null)}
+                itemName="module"
+                onCancel={() => (module.value = null)}
                 loading={loading}
             />
         </FormLayout>
     );
 };
 
-export default ProjectDelete;
+export default ProjectModuleDelete;
