@@ -10,8 +10,9 @@ import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
-import MockupPicker from './mockup-picker';
+import useFetchCategories from '../hooks/use-fetch-categories';
 import CategoryPicker from './category-picker';
+import MockupPicker from './mockup-picker';
 
 const projectSignal = createSessionSignal('project', {});
 
@@ -121,6 +122,12 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
     );
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    const {
+        categories,
+        loading: categoriesLoading,
+        errors: categoriesErrors,
+    } = useFetchCategories();
+
     const handleBackupClick = () => {
         dispatch({
             type: 'RESTORE_FROM_BACKUP',
@@ -229,6 +236,9 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                 error={errors?.category_en?.[0]}
             />
             <CategoryPicker
+                categories={categories}
+                loading={categoriesLoading}
+                errors={categoriesErrors}
                 locale="en"
                 onSelect={({ en, ru }) => {
                     dispatch({ type: 'SET_CATEGORY_EN', payload: en });
@@ -245,6 +255,9 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                 error={errors?.category_ru?.[0]}
             />
             <CategoryPicker
+                categories={categories}
+                loading={categoriesLoading}
+                errors={categoriesErrors}
                 locale="ru"
                 onSelect={({ en, ru }) => {
                     dispatch({ type: 'SET_CATEGORY_EN', payload: en });
