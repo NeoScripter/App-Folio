@@ -12,6 +12,7 @@ const SearchBox: FC<
                 class="border-primary/50 h-10 text-lg!"
                 type="search"
                 value={value}
+                placeholder="Enter project name"
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     handleChange(e.currentTarget.value)
                 }

@@ -19,6 +19,7 @@ class ProjectModule extends Model
     protected $casts = [
         'type' => ProjectModuleType::class,
     ];
+
     protected $with = ['first_image', 'second_image'];
 
     public function project(): BelongsTo
@@ -39,5 +40,13 @@ class ProjectModule extends Model
     public function second_image(): MorphOne
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', 'second');
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (ProjectModule $module) {
+            $module->first_image?->delete();
+            $module->second_image?->delete();
+        });
     }
 }

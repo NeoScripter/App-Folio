@@ -1,7 +1,6 @@
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
-import Error from '../svgs/error';
 import CuteSearch from '../svgs/cute-search';
 
 const EmptySearch: FC<{

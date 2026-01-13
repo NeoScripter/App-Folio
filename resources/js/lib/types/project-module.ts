@@ -17,6 +17,7 @@ export type ImageFormats = {
 export type ProjectModuleAttributes = {
     heading: LocalizedText;
     html: LocalizedText;
+    body?: LocalizedText;
     order: number;
     type:
         | 'only_text'

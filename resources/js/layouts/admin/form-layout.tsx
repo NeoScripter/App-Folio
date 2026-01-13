@@ -1,12 +1,12 @@
 import { Button } from '@/components/auth/form/button';
 import { cn } from '@/utils/cn';
-import { Save, SaveAll } from 'lucide-preact';
-import { JSX } from 'preact';
+import { Save } from 'lucide-preact';
+import { ComponentChildren, JSX } from 'preact';
 import { FC } from 'preact/compat';
 
 interface FormLayoutProps {
     onSubmit: () => void | Promise<void>;
-    children: JSX.Element | JSX.Element[];
+    children: ComponentChildren;
     className?: string;
     hasFileUpload?: boolean;
     handleBackupClick?: () => void;
