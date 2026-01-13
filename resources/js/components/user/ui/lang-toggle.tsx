@@ -9,7 +9,7 @@ const LangToggle: FC<{ className?: string }> = ({ className }) => {
     return (
         <div
             class={cn(
-                'divide-foreground flex items-center divide-x-2 text-sm lg:divide-none lg:rounded-full lg:border lg:px-4 lg:py-1',
+                'divide-foreground flex items-center divide-x-2 text-base lg:divide-none lg:border-input lg:rounded-full lg:border lg:px-4 lg:py-1',
                 { 'lg:border-white/30': variant === 'primary' },
                 className,
             )}

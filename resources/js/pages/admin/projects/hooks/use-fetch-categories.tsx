@@ -2,7 +2,7 @@ import { useFetch } from '@/hooks/use-fetch';
 import { ProjectCategoryType } from '@/lib/types/projects';
 import { useEffect, useState } from 'preact/hooks';
 
-type UseFetchCategoriesArgs = {
+type FetchCategoriesArgs = {
     categoryEn: string;
     categoryRu: string;
 };
@@ -10,7 +10,7 @@ type UseFetchCategoriesArgs = {
 const useFetchCategories = ({
     categoryEn,
     categoryRu,
-}: UseFetchCategoriesArgs) => {
+}: FetchCategoriesArgs) => {
     const { fetchData, loading, errors } = useFetch();
     const [categories, setCategories] = useState<ProjectCategoryType[]>([]);
 

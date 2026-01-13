@@ -1,74 +1,63 @@
 import ApiError from '@/components/user/ui/api-error';
+import EmptySearch from '@/components/user/ui/empty-search';
 import Pagination from '@/components/user/ui/pagination';
-import { useFetch } from '@/hooks/use-fetch';
+import useFetchProjects from '@/hooks/use-fetch-projects';
 import { NodeProps } from '@/lib/types/nodeProps';
-import { ProjectResource } from '@/lib/types/projects';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
-import { useLocation } from 'preact-iso';
-import { FC, useEffect, useRef, useState } from 'preact/compat';
+import { FC, JSX, useState } from 'preact/compat';
 import ProjectItem from './project-item';
 import ProjectItemSkeleton from './project-item-skeleton';
 import SearchBar from './search-bar';
 
 const ProjectList: FC<NodeProps> = ({ className }) => {
-    const { fetchData, loading, errors } = useFetch();
-    const [projectData, setProjectData] = useState<ProjectResource | null>(null);
-    const { query } = useLocation();
     const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(() =>
-        query?.page == null ? 1 : query.page,
-    );
-    const projectsRef = useRef<HTMLElement | null>(null);
+    const [debounceQuery, setDebounceQuery] = useState('');
+
+    const { projectData, errors, loading, projectsRef, handlePageClick } =
+        useFetchProjects({ searchQuery: debounceQuery });
 
     const handleInputChange = (val: string) => {
         setSearchQuery(val);
     };
 
-    const handlePageClick = (newPage: number) => {
-        if (projectData?.meta == null) return;
-        const lastPage = projectData.meta.last_page;
-
-        if (newPage > lastPage || newPage < 1) return;
-        setCurrentPage(newPage);
-
-        if (!projectsRef.current) return;
-
-        projectsRef.current.scrollIntoView({
-            block: 'start',
-        });
+    const handleSeachSubmit = (
+        e: JSX.TargetedEvent<HTMLFormElement, Event>,
+    ) => {
+        e.preventDefault();
+        handlePageClick(1);
+        setDebounceQuery(searchQuery);
     };
-
-    useEffect(() => {
-        fetchData({
-            url: `/api/projects?page=${currentPage}`,
-            onSuccess: (data) => {
-                setProjectData(data);
-            },
-        });
-    }, [currentPage]);
 
     if (errors != null)
         return <ApiError resourceRu="проектов" resourceEn="projectData" />;
 
     return (
         <div className={cn(className)}>
-            <SearchBar value={searchQuery} handleChange={handleInputChange} />
+            <SearchBar
+                handleSubmit={handleSeachSubmit}
+                value={searchQuery}
+                handleChange={handleInputChange}
+            />
             <section ref={projectsRef} className="scroll-m-80">
                 {projectData?.data != null && !loading ? (
-                    <ul>
-                        {projectData.data.map((project, idx) => (
-                            <ProjectItem
-                                key={project.id}
-                                className={cn(
-                                    idx % 2 === 0
-                                        ? 'bg-muted'
-                                        : 'flex-row-reverse [&>*]:md:flex-row-reverse [&>*]:lg:flex-col',
-                                )}
-                                project={project}
-                            />
-                        ))}
-                    </ul>
+                    projectData.data.length > 0 ? (
+                        <ul>
+                            {projectData.data.map((project, idx) => (
+                                <ProjectItem
+                                    key={project.id}
+                                    className={cn(
+                                        idx % 2 === 0
+                                            ? 'bg-muted'
+                                            : 'flex-row-reverse [&>*]:md:flex-row-reverse [&>*]:lg:flex-col',
+                                    )}
+                                    project={project}
+                                />
+                            ))}
+                        </ul>
+                    ) : (
+                        <EmptySearch />
+                    )
                 ) : (
                     <ul>
                         {range(0, 7).map((idx) => (

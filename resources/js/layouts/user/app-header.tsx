@@ -85,18 +85,21 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         <header
             inert={showModal.value}
             class={cn(
-                'fixed inset-x-0 top-0 isolate z-10',
+                'fixed inset-x-0 top-0 isolate z-10 transition-transform',
                 isBelowPadding ? 'md:top-0' : 'md:top-4',
                 !isBelowHero && 'md:inset-x-4 xl:inset-x-24',
+                {
+                    '-translate-y-full': hide,
+                },
             )}
         >
             <div
                 class={cn(
-                    'mx-auto flex max-w-480 bg-background/50 items-center justify-between overflow-x-clip px-7 py-8 backdrop-blur-sm transition-transform duration-300 ease-in sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
+                    'bg-background/50 mx-auto flex max-w-480 items-center justify-between overflow-x-clip px-7 py-8 backdrop-blur-sm duration-300 ease-in sm:px-15 sm:pt-11 sm:pb-9 lg:px-24 xl:pb-12',
                     className,
                     {
-                        'xl:max-w-432 md:rounded-t-xl 2xl:max-w-432': !isBelowHero,
-                        '-translate-y-full': hide,
+                        'md:rounded-t-xl xl:max-w-432 2xl:max-w-432':
+                            !isBelowHero,
                         'bg-home-hero-bg/40 text-white': variant === 'primary',
                         'bg-muted': variant === 'secondary',
                         'text-foreground': variant === 'ghost',
