@@ -126,7 +126,11 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
         categories,
         loading: categoriesLoading,
         errors: categoriesErrors,
-    } = useFetchCategories();
+        invalidCategoryId,
+    } = useFetchCategories({
+        categoryRu: state.category_ru,
+        categoryEn: state.category_en,
+    });
 
     const handleBackupClick = () => {
         dispatch({
@@ -143,6 +147,10 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
             : '/admin/projects';
 
     async function submit() {
+        if (invalidCategoryId != null) {
+            toast.error('Invalid categories!');
+            return;
+        }
         const formData = new FormData();
         formData.append('title_en', state.title_en);
         formData.append('title_ru', state.title_ru);
@@ -239,6 +247,7 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                 categories={categories}
                 loading={categoriesLoading}
                 errors={categoriesErrors}
+                invalidId={invalidCategoryId}
                 locale="en"
                 onSelect={({ en, ru }) => {
                     dispatch({ type: 'SET_CATEGORY_EN', payload: en });
@@ -258,6 +267,7 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                 categories={categories}
                 loading={categoriesLoading}
                 errors={categoriesErrors}
+                invalidId={invalidCategoryId}
                 locale="ru"
                 onSelect={({ en, ru }) => {
                     dispatch({ type: 'SET_CATEGORY_EN', payload: en });

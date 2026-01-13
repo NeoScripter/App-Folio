@@ -11,6 +11,7 @@ type Props = NodeProps & {
     errors: ValidationErrors | null;
     categories: ProjectCategoryType[] | null;
     onSelect: (category: { en: string; ru: string }) => void;
+    invalidId: number | null;
 };
 
 const CategoryPicker: FC<Props> = ({
@@ -20,6 +21,7 @@ const CategoryPicker: FC<Props> = ({
     loading,
     errors,
     categories,
+    invalidId,
 }) => {
     if (loading) {
         return (
@@ -47,7 +49,11 @@ const CategoryPicker: FC<Props> = ({
                 <button
                     type="button"
                     key={category.id}
-                    class="hover:border-ring hover:ring-ring/50 rounded border px-3 py-1 transition-[color,box-shadow] hover:shadow-sm hover:ring-[3px]"
+                    class={cn(
+                        'hover:border-ring hover:ring-ring/50 border-foreground/20 rounded border px-3 py-1 transition-[color,box-shadow] hover:shadow-sm hover:ring-[3px]',
+                        invalidId === category.id &&
+                            'bg-red-600 font-medium text-white',
+                    )}
                     onClick={() =>
                         onSelect({
                             en: category.name.en,

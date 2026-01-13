@@ -2,9 +2,28 @@ import { useFetch } from '@/hooks/use-fetch';
 import { ProjectCategoryType } from '@/lib/types/projects';
 import { useEffect, useState } from 'preact/hooks';
 
-const useFetchCategories = () => {
+type UseFetchCategoriesArgs = {
+    categoryEn: string;
+    categoryRu: string;
+};
+
+const useFetchCategories = ({
+    categoryEn,
+    categoryRu,
+}: UseFetchCategoriesArgs) => {
     const { fetchData, loading, errors } = useFetch();
     const [categories, setCategories] = useState<ProjectCategoryType[]>([]);
+
+    let invalidCategoryId = null;
+
+    for (const { id, name } of categories) {
+        if (
+            (categoryEn === name.en || categoryRu === name.ru) &&
+            (categoryEn !== name.en || categoryRu !== name.ru)
+        ) {
+            invalidCategoryId = id;
+        }
+    }
 
     useEffect(() => {
         fetchData({
@@ -13,7 +32,7 @@ const useFetchCategories = () => {
         });
     }, []);
 
-    return { categories, loading, errors };
+    return { categories, loading, errors, invalidCategoryId };
 };
 
 export default useFetchCategories;
