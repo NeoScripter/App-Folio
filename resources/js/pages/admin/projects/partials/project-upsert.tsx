@@ -8,9 +8,10 @@ import { ProjectType } from '@/lib/types/projects';
 import { createSessionSignal } from '@/signals/session-store';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
-import { useMemo, useReducer } from 'preact/hooks';
+import { useMemo, useReducer, useState } from 'preact/hooks';
 import { toast } from 'sonner';
 import useFetchCategories from '../hooks/use-fetch-categories';
+import useFetchStacks from '../hooks/use-fetch-stacks';
 import CategoryPicker from './category-picker';
 import MockupPicker from './mockup-picker';
 
@@ -24,6 +25,7 @@ type ProjectUpsertState = {
     link: string;
     category_en: string;
     category_ru: string;
+    technologies: string[];
     order: number;
     image: File | null;
     alt_en: string;
@@ -39,6 +41,8 @@ type Action =
     | { type: 'SET_LINK'; payload: string }
     | { type: 'SET_CATEGORY_RU'; payload: string }
     | { type: 'SET_CATEGORY_EN'; payload: string }
+    | { type: 'ADD_STACK'; payload: string }
+    | { type: 'REMOVE_STACK'; payload: string }
     | { type: 'SET_ORDER'; payload: number }
     | { type: 'SET_IMAGE'; payload: File | null }
     | { type: 'SET_ALT_EN'; payload: string }
@@ -73,6 +77,24 @@ function reducer(
             break;
         case 'SET_CATEGORY_EN':
             newState = { ...state, category_en: action.payload };
+            break;
+        case 'ADD_STACK':
+            if (state.technologies.includes(action.payload)) {
+                return state;
+            }
+
+            newState = {
+                ...state,
+                technologies: [...state.technologies, action.payload],
+            };
+            break;
+        case 'REMOVE_STACK':
+            newState = {
+                ...state,
+                technologies: state.technologies.filter(
+                    (tech) => tech !== action.payload,
+                ),
+            };
             break;
         case 'SET_ORDER':
             newState = { ...state, order: action.payload };
@@ -114,6 +136,7 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
             category_en: project?.attributes.category?.en ?? '',
             order: project?.attributes.order ?? 100,
             mockup: 1,
+            technologies: project?.attributes.stacks ?? [],
             image: null,
             alt_en: project?.image?.alt.en ?? '',
             alt_ru: project?.image?.alt.ru ?? '',
@@ -121,6 +144,7 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
         [project],
     );
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [newStack, setNewStack] = useState('');
 
     const {
         categories,
@@ -131,6 +155,13 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
         categoryRu: state.category_ru,
         categoryEn: state.category_en,
     });
+    const {
+        stacks,
+        loading: stacksLoading,
+        errors: stacksErrors,
+    } = useFetchStacks();
+
+    console.log(stacks);
 
     const handleBackupClick = () => {
         dispatch({
@@ -233,6 +264,12 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                     dispatch({ type: 'SET_LINK', payload: value })
                 }
                 error={errors?.link?.[0]}
+            />
+            <FormInput
+                key="stack"
+                label="Stack"
+                value={newStack}
+                onInput={(value) => setNewStack(value)}
             />
             <FormInput
                 key="category_en"

@@ -63,6 +63,11 @@ export interface ProjectCategoryType {
         en: string;
     };
 }
+
+export interface ProjectTechnologyType {
+    name: string;
+}
+
 export interface ProjectType {
     id: number;
     attributes: {
