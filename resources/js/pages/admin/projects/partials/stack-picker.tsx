@@ -35,6 +35,9 @@ const StackPicker: FC<StackPickerProps> = ({
         if (
             availableStacks
                 .map((t) => t.toLowerCase())
+                .includes(searchValue.trim().toLowerCase()) ||
+            selectedStacks
+                .map((t) => t.toLowerCase())
                 .includes(searchValue.trim().toLowerCase())
         ) {
             setIsError((o) => !o);

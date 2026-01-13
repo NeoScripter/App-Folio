@@ -7,6 +7,7 @@ import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { ReviewType } from '@/lib/types/reviews';
 import { createSessionSignal } from '@/signals/session-store';
+import { buildFormData } from '@/utils/form-data';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
@@ -100,20 +101,10 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
         review != null ? `/admin/reviews/${review.id}` : '/admin/reviews';
 
     async function submit() {
-        const formData = new FormData();
-        formData.append('name_en', state.name_en);
-        formData.append('name_ru', state.name_ru);
-        formData.append('content_en', state.content_en);
-        formData.append('content_ru', state.content_ru);
-        formData.append('alt_en', state.alt_en);
-        formData.append('alt_ru', state.alt_ru);
-
-        if (state.image) {
-            formData.append('image', state.image);
-        }
-        if (review) {
-            formData.append('_method', 'PUT');
-        }
+        const formData = buildFormData({
+            ...state,
+            ...(review && { _method: 'PUT' }),
+        });
 
         await fetchData({
             url: routeName,

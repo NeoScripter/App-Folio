@@ -3,10 +3,10 @@ import FormImage from '@/components/admin/form/form-image';
 import FormInput from '@/components/admin/form/form-input';
 import FormTextArea from '@/components/admin/form/form-text-area';
 import { useFetch } from '@/hooks/use-fetch';
-import { useSessionStorage } from '@/hooks/use-session-storage';
 import FormLayout from '@/layouts/admin/form-layout';
 import { VideoType } from '@/lib/types/videos';
 import { createSessionSignal } from '@/signals/session-store';
+import { buildFormData } from '@/utils/form-data';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
@@ -94,19 +94,10 @@ const VideoUpsert: FC<{ video?: VideoType }> = ({ video }) => {
         video != null ? `/admin/videos/${video.id}` : '/admin/videos';
 
     async function submit() {
-        const formData = new FormData();
-        formData.append('title_en', state.title_en);
-        formData.append('title_ru', state.title_ru);
-        formData.append('url', state.url);
-        formData.append('alt_en', state.alt_en);
-        formData.append('alt_ru', state.alt_ru);
-
-        if (state.image) {
-            formData.append('image', state.image);
-        }
-        if (video) {
-            formData.append('_method', 'PUT');
-        }
+        const formData = buildFormData({
+            ...state,
+            ...(video && { _method: 'PUT' }),
+        });
 
         await fetchData({
             url: routeName,

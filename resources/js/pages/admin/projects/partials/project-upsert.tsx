@@ -6,6 +6,7 @@ import { useFetch } from '@/hooks/use-fetch';
 import FormLayout from '@/layouts/admin/form-layout';
 import { ProjectType } from '@/lib/types/projects';
 import { createSessionSignal } from '@/signals/session-store';
+import { buildFormData } from '@/utils/form-data';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
@@ -180,25 +181,11 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
             toast.error('Invalid categories!');
             return;
         }
-        const formData = new FormData();
-        formData.append('title_en', state.title_en);
-        formData.append('title_ru', state.title_ru);
-        formData.append('description_en', state.description_en);
-        formData.append('description_ru', state.description_ru);
-        formData.append('category_en', state.category_en);
-        formData.append('category_ru', state.category_ru);
-        formData.append('link', state.link);
-        formData.append('mockup', state.mockup.toString());
-        formData.append('order', state.order.toString());
-        formData.append('alt_en', state.alt_en);
-        formData.append('alt_ru', state.alt_ru);
 
-        if (state.image) {
-            formData.append('image', state.image);
-        }
-        if (project) {
-            formData.append('_method', 'PUT');
-        }
+        const formData = buildFormData({
+            ...state,
+            ...(project && { _method: 'PUT' }),
+        });
 
         await fetchData({
             url: routeName,

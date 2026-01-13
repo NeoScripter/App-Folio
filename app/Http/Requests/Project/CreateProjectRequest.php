@@ -11,7 +11,7 @@ class CreateProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class CreateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title_en' => 'required|string|max:255',
+            'title_ru' => 'required|string|max:255',
+            'description_en' => 'required|string',
+            'description_ru' => 'required|string',
+            'link' => 'nullable|string',
+            'order' => 'required|integer',
+            'technologies' => 'nullable|array',
+            'technologies*' => 'string|min:1',
+            'category_en' => 'required|string',
+            'category_ru' => 'required|string',
+            'mockup' => 'required_with:image|integer|between:1,6',
+            'image' => 'nullable|image|max:4048',
+            'alt_en' => 'required_with:image|nullable|string|max:255',
+            'alt_ru' => 'required_with:image|nullable|string|max:255',
         ];
     }
 }

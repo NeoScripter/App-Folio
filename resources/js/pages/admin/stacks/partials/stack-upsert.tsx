@@ -6,6 +6,7 @@ import { useFetch } from '@/hooks/use-fetch';
 import FormLayout from '@/layouts/admin/form-layout';
 import { StackType } from '@/lib/types/stacks';
 import { createSessionSignal } from '@/signals/session-store';
+import { buildFormData } from '@/utils/form-data';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
@@ -87,18 +88,10 @@ const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
         stack != null ? `/admin/stacks/${stack.id}` : '/admin/stacks';
 
     async function submit() {
-        const formData = new FormData();
-        formData.append('body_en', state.body_en);
-        formData.append('body_ru', state.body_ru);
-        formData.append('alt_en', state.alt_en);
-        formData.append('alt_ru', state.alt_ru);
-
-        if (state.image) {
-            formData.append('image', state.image);
-        }
-        if (stack) {
-            formData.append('_method', 'PUT');
-        }
+        const formData = buildFormData({
+            ...state,
+            ...(stack && { _method: 'PUT' }),
+        });
 
         await fetchData({
             url: routeName,

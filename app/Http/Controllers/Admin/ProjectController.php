@@ -3,38 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Image;
+use App\Http\Requests\Project\CreateProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Services\ImageService;
 use App\Services\Project\ProjectCategoryService;
+use App\Services\Project\ProjectTechnologyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class ProjectController extends Controller
 {
     public function __construct(
         private ImageService $imageService,
-        private ProjectCategoryService $categoryService
+        private ProjectCategoryService $categoryService,
+        private ProjectTechnologyService $technologyService
     ) {}
 
-    public function store(Request $request)
+    public function store(CreateProjectRequest $request)
     {
-        $validated = $request->validate([
-            'title_en' => 'required|string|max:255',
-            'title_ru' => 'required|string|max:255',
-            'description_en' => 'required|string',
-            'description_ru' => 'required|string',
-            'link' => 'nullable|string',
-            'order' => 'required|integer',
-            'category_en' => 'required|string',
-            'category_ru' => 'required|string',
-            'mockup' => 'required_with:image|integer|between:1,6',
-            'image' => 'nullable|image|max:4048',
-            'alt_en' => 'required_with:image|string|max:255',
-            'alt_ru' => 'required_with:image|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        $project = Project::create($request->safe()->except(['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+        $project = Project::create($request->safe()
+            ->except(['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+
+        $this->technologyService->sync(
+            $project,
+            $validated['technologies'] ?? []
+        );
 
         $this->categoryService->sync(
             $project,
@@ -56,24 +52,16 @@ class ProjectController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        $validated = $request->validate([
-            'title_en' => 'sometimes|required|string|max:255',
-            'title_ru' => 'sometimes|required|string|max:255',
-            'description_en' => 'sometimes|required|string',
-            'description_ru' => 'sometimes|required|string',
-            'link' => 'sometimes|nullable|string',
-            'order' => 'sometimes|required|integer',
-            'category_en' => 'sometimes|required|string',
-            'category_ru' => 'sometimes|required|string',
-            'image' => 'sometimes|image|max:4048',
-            'mockup' => 'required_with:image|integer|between:1,6',
-            'alt_en' => 'required_with:image|string|max:255',
-            'alt_ru' => 'required_with:image|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        $project->update($request->safe()->except(['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+        $project->update($request->safe()->except(['image', 'technologies', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+
+        $this->technologyService->sync(
+            $project,
+            $validated['technologies'] ?? []
+        );
 
         $this->categoryService->sync(
             $project,
