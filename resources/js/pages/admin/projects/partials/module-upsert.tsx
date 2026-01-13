@@ -14,10 +14,11 @@ import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
+import LayoutPicker from './layout-picker';
 
 const moduleSignal = createSessionSignal('module', {});
 
-type ModuleTypeOptions =
+export type ModuleTypeOptions =
     | 'only_text'
     | 'two_image_split'
     | 'two_image_block'
@@ -211,6 +212,13 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
                     dispatch({ type: 'SET_BODY_RU', payload: value })
                 }
                 error={errors?.body_ru?.[0]}
+            />
+            <LayoutPicker
+                value={state.type}
+                onChange={(type) =>
+                    dispatch({ type: 'SET_TYPE', payload: type })
+                }
+                error={errors?.type?.[0]}
             />
 
             <FormInput

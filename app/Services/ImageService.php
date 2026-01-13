@@ -49,7 +49,7 @@ class ImageService
         ], fn($value) => $value !== null);
 
         if (!empty($updates)) {
-            $model->image->update($updates);
+            $model->image?->update($updates);
         }
     }
 }
