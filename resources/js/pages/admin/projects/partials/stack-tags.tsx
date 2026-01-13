@@ -1,27 +1,22 @@
 import { ValidationErrors } from '@/hooks/use-fetch';
 import { NodeProps } from '@/lib/types/nodeProps';
-import { ProjectCategoryType } from '@/lib/types/projects';
 import { cn } from '@/utils/cn';
 import { range } from '@/utils/range';
 import { FC } from 'preact/compat';
 
 type Props = NodeProps & {
-    locale: 'en' | 'ru';
-    loading: boolean;
-    errors: ValidationErrors | null;
-    categories: ProjectCategoryType[] | null;
-    onSelect: (category: { en: string; ru: string }) => void;
-    invalidId: number | null;
+    loading?: boolean;
+    errors?: ValidationErrors | null;
+    stacks: string[] | null;
+    onClick: (stack: string) => void;
 };
 
-const CategoryPicker: FC<Props> = ({
+const StackTags: FC<Props> = ({
     className,
-    locale,
-    onSelect,
+    onClick,
     loading,
     errors,
-    categories,
-    invalidId,
+    stacks,
 }) => {
     if (loading) {
         return (
@@ -41,30 +36,23 @@ const CategoryPicker: FC<Props> = ({
         return null;
     }
 
-    if (!categories || categories.length === 0) return null;
+    if (!stacks || stacks.length === 0) return null;
 
     return (
         <div class={cn('flex flex-wrap gap-2', className)}>
-            {categories.map((category) => (
+            {stacks.map((stack) => (
                 <button
                     type="button"
-                    key={category.id}
+                    key={stack}
                     class={cn(
                         'hover:border-ring hover:ring-ring/50 border-foreground/20 rounded border px-3 py-1 transition-[color,box-shadow,border] hover:shadow-sm hover:ring-[3px]',
-                        invalidId === category.id &&
-                            'border-red-600 text-red-600 hover:border-red-600',
                     )}
-                    onClick={() =>
-                        onSelect({
-                            en: category.name.en,
-                            ru: category.name.ru,
-                        })
-                    }
+                    onClick={() => onClick(stack)}
                 >
-                    {locale === 'en' ? category.name.en : category.name.ru}
+                    {stack}
                 </button>
             ))}
         </div>
     );
 };
-export default CategoryPicker;
+export default StackTags;

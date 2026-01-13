@@ -8,12 +8,13 @@ import { ProjectType } from '@/lib/types/projects';
 import { createSessionSignal } from '@/signals/session-store';
 import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
-import { useMemo, useReducer, useState } from 'preact/hooks';
+import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
 import useFetchCategories from '../hooks/use-fetch-categories';
 import useFetchStacks from '../hooks/use-fetch-stacks';
 import CategoryPicker from './category-picker';
 import MockupPicker from './mockup-picker';
+import StackPicker from './stack-picker';
 
 const projectSignal = createSessionSignal('project', {});
 
@@ -79,7 +80,11 @@ function reducer(
             newState = { ...state, category_en: action.payload };
             break;
         case 'ADD_STACK':
-            if (state.technologies.includes(action.payload)) {
+            if (
+                state.technologies
+                    .map((t) => t.toLowerCase())
+                    .includes(action.payload.trim().toLowerCase())
+            ) {
                 return state;
             }
 
@@ -144,7 +149,6 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
         [project],
     );
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [newStack, setNewStack] = useState('');
 
     const {
         categories,
@@ -155,13 +159,7 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
         categoryRu: state.category_ru,
         categoryEn: state.category_en,
     });
-    const {
-        stacks,
-        loading: stacksLoading,
-        errors: stacksErrors,
-    } = useFetchStacks();
-
-    console.log(stacks);
+    const { stacks, loading: stacksLoading } = useFetchStacks();
 
     const handleBackupClick = () => {
         dispatch({
@@ -265,11 +263,19 @@ const ProjectUpsert: FC<{ project?: ProjectType }> = ({ project }) => {
                 }
                 error={errors?.link?.[0]}
             />
-            <FormInput
-                key="stack"
-                label="Stack"
-                value={newStack}
-                onInput={(value) => setNewStack(value)}
+
+            <StackPicker
+                selectedStacks={state.technologies}
+                availableStacks={stacks.map((s) => s.name)}
+                onAdd={(stack) =>
+                    dispatch({ type: 'ADD_STACK', payload: stack })
+                }
+                onRemove={(stack) =>
+                    dispatch({ type: 'REMOVE_STACK', payload: stack })
+                }
+                loading={stacksLoading}
+                errors={errors?.technologies?.[0]}
+                label="Stacks"
             />
             <FormInput
                 key="category_en"
