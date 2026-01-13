@@ -23,7 +23,7 @@ class ProjectController extends Controller
         $validated = $request->validated();
 
         $project = Project::create($request->safe()
-            ->except(['image', 'alt_ru', 'alt_en', 'mockup', 'category_ru', 'category_en']));
+            ->except(['image', 'alt_ru', 'alt_en', 'technologies', 'mockup', 'category_ru', 'category_en']));
 
         $this->technologyService->sync(
             $project,
