@@ -65,8 +65,8 @@ const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            body_en: stack?.attributes.body.en ?? '',
-            body_ru: stack?.attributes.body.ru ?? '',
+            body_en: stack?.attributes.body?.en ?? '',
+            body_ru: stack?.attributes.body?.ru ?? '',
             image: null,
             alt_en: stack?.attributes.alt.en ?? '',
             alt_ru: stack?.attributes.alt.ru ?? '',
