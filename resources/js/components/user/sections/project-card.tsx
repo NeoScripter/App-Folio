@@ -29,7 +29,7 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
                         tiny={project.image.tiny}
                     />
                     <a
-                        href={project.attributes?.url}
+                        href={`/portfolio/${project.attributes?.slug}`}
                         class="absolute inset-0 z-1 block size-full focus:outline-none"
                     ></a>
                     <span

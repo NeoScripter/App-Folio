@@ -127,6 +127,7 @@ const ProjectDetails: FC<{ project: ProjectType; className?: string }> = ({
             <Anchor
                 class="ml-auto xl:ml-0"
                 href={project.attributes.link}
+                target='_blank'
                 variant="primary"
             >
                 {lang === 'ru' ? 'Перейти на сайт' : 'Visit website'}
