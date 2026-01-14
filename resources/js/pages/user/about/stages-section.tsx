@@ -3,7 +3,7 @@ import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import AppSection from '@/layouts/user/app-section';
 import { stages, StageType } from '@/lib/data/about/stages';
 import { useModal } from '@/providers/modal-context';
-import { appearance, effectiveTheme } from '@/signals/appearance';
+import { effectiveTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC, useState } from 'preact/compat';
@@ -14,6 +14,7 @@ const StagesSection: FC<{ className?: string }> = ({ className }) => {
             className={cn(
                 'bg-muted relative isolate py-12 sm:py-22.5 lg:py-27 xl:flex xl:items-center xl:gap-19 xl:px-0 xl:py-26 2xl:gap-21',
                 className,
+                'content-vis-default',
             )}
         >
             <span
@@ -95,7 +96,7 @@ const Stage: FC<{
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             class={cn(
-                'bg-user-background max-w-110 rounded-md ring-accent-foreground/15 ring-1 p-8 transition-[shadow,scale]',
+                'bg-user-background ring-accent-foreground/15 max-w-110 rounded-md p-8 ring-1 transition-[shadow,scale]',
                 {
                     'shadow-video scale-102': active,
                     'md:mt-8': isEven,
@@ -104,15 +105,14 @@ const Stage: FC<{
             )}
         >
             <div
-                class={cn(
-                    'mb-8 size-18 rounded-sm p-5',
-                    {
-                        'bg-foreground text-white': active && effectiveTheme() === 'light',
-                        'bg-gray-300 text-background': active && effectiveTheme() === 'dark',
-                        'bg-gray-300/50': !active && effectiveTheme() === 'light',
-                        'bg-footer-bg': !active && effectiveTheme() === 'dark',
-                    },
-                )}
+                class={cn('mb-8 size-18 rounded-sm p-5', {
+                    'bg-foreground text-white':
+                        active && effectiveTheme() === 'light',
+                    'text-background bg-gray-300':
+                        active && effectiveTheme() === 'dark',
+                    'bg-gray-300/50': !active && effectiveTheme() === 'light',
+                    'bg-footer-bg': !active && effectiveTheme() === 'dark',
+                })}
             >
                 <stage.icon class="size-8" />
             </div>

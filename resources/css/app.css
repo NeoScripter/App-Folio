@@ -506,6 +506,9 @@
 .content-vis-auto {
     content-visibility: auto;
 }
+.content-vis-default {
+    content-visibility: visible;
+}
 
 .full-bleed-wrapper {
     --padding: 1.125rem;
