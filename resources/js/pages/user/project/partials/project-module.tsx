@@ -34,16 +34,16 @@ const ProjectModule: FC<{ className?: string; module: ProjectModuleType }> = ({
                             'lg:mb-0':
                                 type === 'one_image_split' ||
                                 type === 'two_image_split',
-                            'lg:basis-1/3 lg:order-2':
+                            'lg:order-2 lg:basis-1/3':
                                 type === 'one_image_split',
-                            'lg:flex-[1_0_0]':
+                            'items-stretch lg:flex-[1_0_0]':
                                 type === 'two_image_split',
                         })}
                     >
                         {module.firstImage && (
                             <FluidImage
-                                parentClass={cn('w-full rounded-sm', {
-                                })}
+                                parentClass={cn('w-full rounded-sm', {})}
+                                imgClass="size-full object-contain"
                                 alt={module.firstImage.alt[locale.value]}
                                 tiny={module.firstImage.tiny}
                                 dkWebp={module.firstImage.tbWebp}
@@ -57,6 +57,7 @@ const ProjectModule: FC<{ className?: string; module: ProjectModuleType }> = ({
                         {module.secondImage && (
                             <FluidImage
                                 parentClass="rounded-sm w-full"
+                                imgClass="size-full object-contain"
                                 alt={module.secondImage.alt[locale.value]}
                                 tiny={module.secondImage.tiny}
                                 dkWebp={module.secondImage.tbWebp}
@@ -71,10 +72,8 @@ const ProjectModule: FC<{ className?: string; module: ProjectModuleType }> = ({
                 )}
                 <div
                     className={cn({
-                        'lg:basis-2/3':
-                            type === 'one_image_split',
-                        'lg:flex-[1_0_0]':
-                            type === 'two_image_split',
+                        'lg:basis-2/3': type === 'one_image_split',
+                        'lg:flex-[1_0_0]': type === 'two_image_split',
                     })}
                 >
                     {module.attributes.heading && (
@@ -84,6 +83,7 @@ const ProjectModule: FC<{ className?: string; module: ProjectModuleType }> = ({
                     )}
 
                     <div
+                        class="[&>p]:mb-[1.5em]"
                         dangerouslySetInnerHTML={{
                             __html: module.attributes.html[locale.value],
                         }}
