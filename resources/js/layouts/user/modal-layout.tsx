@@ -1,6 +1,7 @@
 import { useEscapeKey } from '@/hooks/use-escape-key';
 import { useModal } from '@/providers/modal-context';
 import { cn } from '@/utils/cn';
+import { X } from 'lucide-preact';
 import { ComponentChildren } from 'preact';
 import { createPortal, FC, useEffect } from 'preact/compat';
 
@@ -43,7 +44,7 @@ const ModalLayout: FC<{
         >
             <div
                 class={cn(
-                    'bg-user-background m-auto w-full rounded-sm',
+                    'bg-user-background relative m-auto w-full rounded-sm',
                     {
                         'animate-shrink': !showModal.value,
                         'animate-expand': showModal.value,
@@ -52,6 +53,14 @@ const ModalLayout: FC<{
                     className,
                 )}
             >
+                <button
+                    onClick={() => (showModal.value = false)}
+                    type="button"
+                    class="absolute top-5 right-5 flex size-6 sm:size-8 items-center justify-center"
+                >
+                    <span aria-hidden="true" class='absolute -inset-2'/ >
+                    <X  class='size-full'/>
+                </button>
                 {children}
             </div>
         </div>,

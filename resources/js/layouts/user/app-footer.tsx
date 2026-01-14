@@ -88,7 +88,7 @@ const FooterLink: FC<{
                 className,
             )}
         >
-            <div class="size-5 sm:size-6 xl:size-7">{children}</div>
+            <div class="size-5 shrink-0 sm:size-6 xl:size-7">{children}</div>
             <span>{label}</span>
         </a>
     );
