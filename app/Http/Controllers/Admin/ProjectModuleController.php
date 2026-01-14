@@ -7,7 +7,6 @@ use App\Http\Requests\ProjectModule\CreateProjectModuleRequest;
 use App\Http\Requests\ProjectModule\UpdateProjectModuleRequest;
 use App\Models\ProjectModule;
 use App\Services\ImageService;
-use Illuminate\Support\Facades\DB;
 
 class ProjectModuleController extends Controller
 {
@@ -30,23 +29,18 @@ class ProjectModuleController extends Controller
             ])
         );
 
-        if ($request->hasFile('first_image')) {
-            $this->imageService->sync(
-                $module,
-                $request->file('first_image'),
-                $validated['first_alt_ru'] ?? null,
-                $validated['first_alt_en'] ?? null,
-            );
-        }
-
-        if ($request->hasFile('second_image')) {
-            $this->imageService->sync(
-                $module,
-                $request->file('second_image'),
-                $validated['second_alt_ru'] ?? null,
-                $validated['second_alt_en'] ?? null,
-            );
-        }
+        $this->imageService->syncMultiple($module, [
+            'first_image' => [
+                'file' => $request->file('first_image'),
+                'alt_ru' => $validated['first_alt_ru'] ?? null,
+                'alt_en' => $validated['first_alt_en'] ?? null,
+            ],
+            'second_image' => [
+                'file' => $request->file('second_image'),
+                'alt_ru' => $validated['second_alt_ru'] ?? null,
+                'alt_en' => $validated['second_alt_en'] ?? null,
+            ],
+        ]);
 
         return response()->json([
             'message' => 'Project module created successfully',
@@ -76,23 +70,18 @@ class ProjectModuleController extends Controller
             ])
         );
 
-        if ($request->hasFile('first_image')) {
-            $this->imageService->sync(
-                $module,
-                $request->file('first_image'),
-                $validated['first_alt_ru'] ?? null,
-                $validated['first_alt_en'] ?? null,
-            );
-        }
-
-        if ($request->hasFile('second_image')) {
-            $this->imageService->sync(
-                $module,
-                $request->file('second_image'),
-                $validated['second_alt_ru'] ?? null,
-                $validated['second_alt_en'] ?? null,
-            );
-        }
+        $this->imageService->syncMultiple($module, [
+            'first_image' => [
+                'file' => $request->file('first_image'),
+                'alt_ru' => $validated['first_alt_ru'] ?? null,
+                'alt_en' => $validated['first_alt_en'] ?? null,
+            ],
+            'second_image' => [
+                'file' => $request->file('second_image'),
+                'alt_ru' => $validated['second_alt_ru'] ?? null,
+                'alt_en' => $validated['second_alt_en'] ?? null,
+            ],
+        ]);
 
         return response()->json([
             'message' => 'Project module updated successfully',

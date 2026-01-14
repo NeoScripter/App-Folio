@@ -18,8 +18,8 @@ class UpdateProjectModuleRequest extends FormRequest
         return [
             'type' => ['sometimes', 'required', new Enum(ProjectModuleType::class)],
             'project_id' => 'sometimes|required|integer|exists:projects,id',
-            'heading_en' => 'sometimes|required|string|max:255',
-            'heading_ru' => 'sometimes|required|string|max:255',
+            'heading_en' => 'sometimes|nullable|string|max:255',
+            'heading_ru' => 'sometimes|nullable|string|max:255',
             'body_en' => 'sometimes|required|string',
             'body_ru' => 'sometimes|required|string',
             'order' => 'sometimes|required|integer',

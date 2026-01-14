@@ -17,10 +17,13 @@ class ProjectModuleResource extends JsonResource
         return [
             'id' => $this->id,
             'attributes' => [
-                'heading' => [
-                    'ru' => $this->heading_ru,
-                    'en' => $this->heading_en,
-                ],
+                'heading' => $this->when(
+                    $this->heading_ru != null && $this->heading_en != null,
+                    fn() => [
+                        'ru' => $this->heading_ru,
+                        'en' => $this->heading_en,
+                    ],
+                ),
                 'html' => [
                     'ru' => $this->html_ru,
                     'en' => $this->html_en,

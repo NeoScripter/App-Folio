@@ -59,7 +59,8 @@ class Image extends Model
         Model $model,
         UploadedFile|string $file,
         string $altRu,
-        string $altEn
+        string $altEn,
+        ?string $type = 'image'
     ): self {
         if (is_string($file)) {
             $absolute = Storage::disk('public')->path($file);
@@ -85,9 +86,16 @@ class Image extends Model
             'tb_avif' => $paths['tbAvif'],
             'mb_avif' => $paths['mbAvif'],
             'tiny'  => $paths['tiny'],
+            'type'  => $type,
         ]);
 
-        $model->image()->save($image);
+        if ($type === 'image') {
+            $model->image()->save($image);
+        } elseif ($type === 'first') {
+            $model->first_image()->save($image);
+        } elseif ($type === 'second') {
+            $model->second_image()->save($image);
+        }
 
         return $image;
     }
@@ -97,20 +105,22 @@ class Image extends Model
         UploadedFile $file,
         string $altRu,
         string $altEn,
-        int $mockupNumber
+        int $mockupNumber,
+        ?string $type = null
     ): self {
         $inserted = app(ImageInserter::class)->handle($file, $mockupNumber);
 
-        return static::processAndAttach($model, $inserted, $altRu, $altEn);
+        return static::processAndAttach($model, $inserted, $altRu, $altEn, $type);
     }
 
     public static function attachTo(
         Model $model,
         UploadedFile $file,
         string $altRu,
-        string $altEn
+        string $altEn,
+        ?string $type = null
     ): self {
-        return static::processAndAttach($model, $file, $altRu, $altEn);
+        return static::processAndAttach($model, $file, $altRu, $altEn, $type);
     }
 
     protected static function booted(): void

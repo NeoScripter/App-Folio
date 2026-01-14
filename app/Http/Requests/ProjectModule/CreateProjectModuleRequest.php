@@ -19,8 +19,8 @@ class CreateProjectModuleRequest extends FormRequest
             'type' => ['required', new Enum(ProjectModuleType::class)],
 
             'project_id' => 'required|integer|exists:projects,id',
-            'heading_en' => 'required|string|max:255',
-            'heading_ru' => 'required|string|max:255',
+            'heading_en' => 'nullable|string|max:255',
+            'heading_ru' => 'nullable|string|max:255',
             'body_en' => 'required|string',
             'body_ru' => 'required|string',
             'order' => 'required|integer',
