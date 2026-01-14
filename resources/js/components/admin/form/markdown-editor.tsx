@@ -23,7 +23,7 @@ export default function MarkdownEditor({
         extensions: [StarterKit, Markdown],
         editorProps: {
             attributes: {
-                class: 'prose prose-md min-h-40 max-w-full outline-none transition-[color,box-shadow] selection:bg-foreground/50 selection:text-white placeholder:text-gray-500 disabled:opacity-50',
+                class: 'prose prose-md leading-2! [&>p>strong,h2,h3,h4]:text-foreground! [&>blockquote,a]:text-foreground! min-h-40 max-w-full outline-none transition-[color,box-shadow] text-foreground! bg-background selection:bg-foreground selection:text-background placeholder:text-gray-500 disabled:opacity-50',
             },
         },
         content: value,
@@ -44,7 +44,7 @@ export default function MarkdownEditor({
             editor.commands.setContent(value);
             setTimeout(() => {
                 isExternalUpdate.current = false;
-            }, 0);
+            }, 50);
         }
     }, [editor, value]);
 
@@ -53,11 +53,11 @@ export default function MarkdownEditor({
     return (
         <div
             className={cn(
-                'focus-within:border-ring border-text-black focus-within:ring-accent/80 rounded-lg border bg-white px-3 py-2 text-base shadow-xs focus-within:ring-[1px]',
+                'focus-within:border-ring border-input focus-within:ring-accent/80 rounded-lg border bg-background px-3 py-2 text-base shadow-xs focus-within:ring-[1px]',
                 className,
             )}
         >
-            <menu className="sticky top-15 z-10 mb-8 flex flex-wrap items-center gap-1 rounded-md bg-white p-2 shadow-md sm:top-25 md:top-30">
+            <menu className="sticky top-15 z-10 mb-8 flex flex-wrap items-center gap-1 rounded-md bg-background p-2 shadow-md sm:top-25 md:top-30">
                 {markdownBtns.map((btn, i) => (
                     <MarkdownBtn
                         key={btn.title}
@@ -97,7 +97,7 @@ function MarkdownBtn({
                 onClick={() => onClick(editor)}
                 className={cn(
                     'hover:bg-accent-foreground/30 cursor-pointer rounded p-2 transition-colors',
-                    isActive && 'bg-accent-foreground text-white',
+                    isActive && 'bg-accent-foreground text-background',
                 )}
             >
                 <i className={icon} />
