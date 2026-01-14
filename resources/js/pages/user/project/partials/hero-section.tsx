@@ -68,7 +68,7 @@ const ProjectInfo: FC<{ project: ProjectType; className?: string }> = ({
             <span class="mb-4 block text-xl uppercase sm:mb-4.5 sm:text-2xl xl:mb-5 xl:text-3xl">
                 {project.attributes.category?.[lang]}
             </span>
-            <h2 class="mb-7 text-4xl font-semibold hyphens-auto sm:mb-7.5 sm:text-6xl xl:mb-5.5 xl:text-7xl 2xl:mb-8">
+            <h2 class="mb-7 text-4xl font-semibold hyphens-auto sm:mb-7.5 sm:text-6xl xl:text-7xl 2xl:mb-8">
                 {project.attributes.title[lang]}
             </h2>
             <ul class="flex flex-wrap gap-3 xl:gap-4">
@@ -90,7 +90,7 @@ const ProjectInfoSkeleton = () => {
             <span class="skeleton mb-4 block w-fit rounded-sm text-xl uppercase sm:mb-4.5 sm:text-2xl xl:mb-5 xl:text-3xl">
                 Lorem ipsum
             </span>
-            <h2 class="skeleton mb-7 rounded-sm text-4xl font-semibold hyphens-auto sm:mb-7.5 sm:text-6xl xl:mb-5.5 xl:text-7xl 2xl:mb-8">
+            <h2 class="skeleton mb-7 rounded-sm text-4xl font-semibold hyphens-auto sm:mb-7.5 sm:text-6xl xl:text-7xl 2xl:mb-8">
                 Lorem ipsum dummy text
             </h2>
             <ul class="flex flex-wrap gap-3 xl:gap-4">
