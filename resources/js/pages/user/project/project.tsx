@@ -33,7 +33,7 @@ const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
                 setProject(data.data);
             },
         });
-    }, []);
+    }, [slug]);
 
     console.log(project);
 
