@@ -118,8 +118,8 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
     const initialState = useMemo<ModuleUpsertState>(
         () => ({
             project_id: projectId,
-            heading_en: module?.attributes.heading.en ?? '',
-            heading_ru: module?.attributes.heading.ru ?? '',
+            heading_en: module?.attributes.heading?.en ?? '',
+            heading_ru: module?.attributes.heading?.ru ?? '',
             body_en: module?.attributes.body?.en ?? '',
             body_ru: module?.attributes.body?.ru ?? '',
             order: module?.attributes.order ?? 1,
@@ -305,7 +305,7 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
                 {module && (
                     <Button
                         type="button"
-                        class="rounded-xl"
+                        class="rounded-md"
                         onClick={() => (itemToDelete.value = module)}
                         variant="destructive"
                     >
