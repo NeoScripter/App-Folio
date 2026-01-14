@@ -16,9 +16,7 @@ const ProjectModule: FC<{ className?: string; module: ProjectModuleType }> = ({
         >
             <div
                 className={cn('pt-15 pb-13.5 sm:pt-20 sm:pb-18', {
-                    'lg:items-start': type === 'two_image_split',
-                    'lg:items-center': type === 'one_image_split',
-                    'lg:flex lg:gap-19 2xl:gap-21':
+                    'lg:flex lg:items-center lg:gap-19 2xl:gap-21':
                         type === 'one_image_split' ||
                         type === 'two_image_split',
                 })}
