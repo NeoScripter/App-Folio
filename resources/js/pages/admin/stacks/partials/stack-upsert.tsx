@@ -68,8 +68,8 @@ const StackUpsert: FC<{ stack?: StackType }> = ({ stack }) => {
             body_en: stack?.attributes.body?.en ?? '',
             body_ru: stack?.attributes.body?.ru ?? '',
             image: null,
-            alt_en: stack?.attributes.alt.en ?? '',
-            alt_ru: stack?.attributes.alt.ru ?? '',
+            alt_en: stack?.attributes?.alt?.en ?? '',
+            alt_ru: stack?.attributes?.alt?.ru ?? '',
         }),
         [stack],
     );

@@ -70,12 +70,12 @@ const VideoUpsert: FC<{ video?: VideoType }> = ({ video }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            title_en: video?.attributes.title.en ?? '',
-            title_ru: video?.attributes.title.ru ?? '',
-            url: video?.attributes.url ?? '',
+            title_en: video?.attributes?.title?.en ?? '',
+            title_ru: video?.attributes?.title?.ru ?? '',
+            url: video?.attributes?.url ?? '',
             image: null,
-            alt_en: video?.image?.alt.en ?? '',
-            alt_ru: video?.image?.alt.ru ?? '',
+            alt_en: video?.image?.alt?.en ?? '',
+            alt_ru: video?.image?.alt?.ru ?? '',
         }),
         [video],
     );

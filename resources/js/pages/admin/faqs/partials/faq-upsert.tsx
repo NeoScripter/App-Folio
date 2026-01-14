@@ -56,10 +56,10 @@ const FaqUpsert: FC<{ faq?: FaqType }> = ({ faq }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            title_en: faq?.attributes.title.en ?? '',
-            title_ru: faq?.attributes.title.ru ?? '',
-            content_en: faq?.attributes.description.en ?? '',
-            content_ru: faq?.attributes.description.ru ?? '',
+            title_en: faq?.attributes.title?.en ?? '',
+            title_ru: faq?.attributes.title?.ru ?? '',
+            content_en: faq?.attributes.description?.en ?? '',
+            content_ru: faq?.attributes.description?.ru ?? '',
         }),
         [faq],
     );

@@ -10,7 +10,6 @@ import { ProjectModuleType } from '@/lib/types/project-module';
 import { useDeleteModal } from '@/providers/delete-modal-context';
 import { createSessionSignal } from '@/signals/session-store';
 import { buildFormData } from '@/utils/form-data';
-import { useLocation } from 'preact-iso';
 import { FC } from 'preact/compat';
 import { useMemo, useReducer } from 'preact/hooks';
 import { toast } from 'sonner';
@@ -114,7 +113,6 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
     module,
     projectId,
 }) => {
-    const { route } = useLocation();
     const initialState = useMemo<ModuleUpsertState>(
         () => ({
             project_id: projectId,
@@ -126,10 +124,10 @@ const ModuleUpsert: FC<{ module?: ProjectModuleType; projectId: number }> = ({
             type: module?.attributes.type ?? 'only_text',
             first_image: null,
             second_image: null,
-            first_alt_en: module?.firstImage?.alt.en ?? '',
-            first_alt_ru: module?.firstImage?.alt.ru ?? '',
-            second_alt_en: module?.secondImage?.alt.en ?? '',
-            second_alt_ru: module?.secondImage?.alt.ru ?? '',
+            first_alt_en: module?.firstImage?.alt?.en ?? '',
+            first_alt_ru: module?.firstImage?.alt?.ru ?? '',
+            second_alt_en: module?.secondImage?.alt?.en ?? '',
+            second_alt_ru: module?.secondImage?.alt?.ru ?? '',
         }),
         [module],
     );

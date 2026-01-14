@@ -76,13 +76,13 @@ const ReviewUpsert: FC<{ review?: ReviewType }> = ({ review }) => {
     const { route } = useLocation();
     const initialState = useMemo(
         () => ({
-            name_en: review?.attributes.author.en ?? '',
-            name_ru: review?.attributes.author.ru ?? '',
-            content_en: review?.attributes.description.en ?? '',
-            content_ru: review?.attributes.description.ru ?? '',
+            name_en: review?.attributes?.author?.en ?? '',
+            name_ru: review?.attributes?.author?.ru ?? '',
+            content_en: review?.attributes.description?.en ?? '',
+            content_ru: review?.attributes.description?.ru ?? '',
             image: null,
-            alt_en: review?.image?.alt.en ?? '',
-            alt_ru: review?.image?.alt.ru ?? '',
+            alt_en: review?.image?.alt?.en ?? '',
+            alt_ru: review?.image?.alt?.ru ?? '',
         }),
         [review],
     );
