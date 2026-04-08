@@ -3,19 +3,12 @@ import { buildSrcSet } from '@/utils/buildSrcSet';
 import { cn } from '@/utils/cn';
 import { useState } from 'preact/hooks';
 
-type FluidImageProps = {
-    parentClass?: string;
-    imgClass?: string;
+type BgMediaProps = {
     srcs: ImageSrcSet | undefined;
-    alt?: string;
+    className?: string;
 };
 
-export default function FluidImage({
-    parentClass,
-    imgClass,
-    alt,
-    srcs,
-}: FluidImageProps) {
+export default function BgMedia({ srcs, className }: BgMediaProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     if (!srcs) {
@@ -24,10 +17,19 @@ export default function FluidImage({
 
     return (
         <div
-            className={cn('relative overflow-clip', parentClass)}
-            {...(alt == null && { 'aria-hidden': 'true' })}
+            aria-hidden="true"
+            className={cn(
+                'pointer-events-none absolute inset-0 -z-5 overflow-clip select-none',
+                className,
+            )}
         >
-            <picture className="block size-full">
+            {/* Main high-quality images */}
+            <picture
+                className={cn(
+                    'block size-full transition-all duration-500 ease-in-out',
+                    isLoading && 'opacity-0',
+                )}
+            >
                 {srcs.dkAvif && (
                     <source
                         type="image/avif"
@@ -78,7 +80,6 @@ export default function FluidImage({
                         ])}
                     />
                 )}
-
                 <img
                     onLoad={() => setIsLoading(false)}
                     srcSet={buildSrcSet([
@@ -87,32 +88,26 @@ export default function FluidImage({
                         [srcs.mb3x, '3x'],
                     ])}
                     alt=""
-                    loading="lazy"
-                    className={cn(
-                        'size-full object-cover object-center transition-all duration-500 ease-in-out',
-                        imgClass,
-                        isLoading && 'opacity-0',
-                    )}
-                    aria-hidden={isLoading}
+                    className="block size-full object-cover object-bottom-right"
                 />
             </picture>
 
+            {/* Loading state with tiny placeholder */}
             {isLoading && (
                 <div
                     role="status"
                     aria-label="Фото загружается"
-                    className="absolute inset-0 z-10 flex items-center justify-center"
+                    className="absolute inset-0 -z-5 flex h-full max-h-screen w-full items-center justify-center"
                 >
                     <div
                         aria-hidden="true"
-                        className="absolute inset-0 z-10 size-full animate-pulse bg-gray-200/50"
-                    ></div>
-
+                        className="absolute inset-0 size-full animate-pulse bg-gray-200/50"
+                    />
                     <img
-                        aria-hidden={!isLoading}
+                        aria-hidden="true"
                         src={srcs.mbTiny}
-                        alt={alt}
-                        className="size-full object-cover object-center"
+                        alt=""
+                        className="block size-full object-cover object-bottom-right"
                     />
                 </div>
             )}

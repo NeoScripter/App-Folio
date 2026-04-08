@@ -15,6 +15,7 @@ import { ProjectType } from '@/lib/types/projects';
 import { effectiveTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
+import { featuredBgSrcSet } from './data';
 
 const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
     const { fetchData, loading, errors } = useFetch();
@@ -41,13 +42,7 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 class="absolute inset-0 isolate -z-5 h-fit overflow-clip md:rounded-xl"
             >
                 <FluidImage
-                    dkAvif={FeaturedBgDkAvif}
-                    tiny={FeaturedBgTiny}
-                    tbWebp={FeaturedBgTbWebp}
-                    tbAvif={FeaturedBgTbAvif}
-                    mbAvif={FeaturedBgMbAvif}
-                    mbWebp={FeaturedBgMbWebp}
-                    dkWebp={FeaturedBgDkWebp}
+                    srcs={featuredBgSrcSet}
                     imgClass="w-full object-contain"
                 />
                 <div

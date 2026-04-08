@@ -13,7 +13,7 @@ import AvatarTbWebp from '@/assets/images/about/avatar-tb.webp';
 import AvatarTiny from '@/assets/images/about/avatar-tb-tiny.webp';
 import { Button } from '@/components/user/ui/button';
 import FluidImage from '@/components/user/ui/fluid-image';
-import HeroBackground from '@/components/user/ui/hero-background';
+import BgMedia from '@/components/user/ui/bg-media';
 import HeroLayout from '@/layouts/user/hero-layout';
 import { useModal } from '@/providers/modal-context';
 import { effectiveTheme } from '@/signals/appearance';
@@ -24,7 +24,7 @@ const HeroSection = () => {
 
     return (
         <HeroLayout>
-            <HeroBackground
+            <BgMedia
                 className="-inset-1 -z-5"
                 desktopImg={isLight ? DesktopBgLight : DesktopBgDark}
                 tinyDesktopImg={

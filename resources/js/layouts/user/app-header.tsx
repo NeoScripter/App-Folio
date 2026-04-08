@@ -11,7 +11,7 @@ import { LG } from '@/lib/constants/breakpoints';
 import { useHeaderVariant } from '@/providers/app-header-context';
 import { useModal } from '@/providers/modal-context';
 import { cn } from '@/utils/cn';
-import { createPortal, FC, useEffect, useRef, useState } from 'preact/compat';
+import { createPortal, FC, useEffect, useState } from 'preact/compat';
 
 const heroBaseOffsets = {
     mobile: 840,
@@ -64,7 +64,7 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         <header
             inert={showModal.value}
             class={cn(
-                'fixed inset-x-0 top-0 isolate z-10 transition-transform',
+                'fixed inset-x-0 top-0 isolate z-10 transition-all',
                 isBelowPadding ? 'md:top-0' : 'md:top-4',
                 !isBelowHero && 'md:inset-x-4 xl:inset-x-24',
                 {

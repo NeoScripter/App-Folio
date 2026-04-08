@@ -1,29 +1,15 @@
-import DkAvif from '@/assets/images/home/hero-dk.avif';
-import TbAvif from '@/assets/images/home/hero-tb.avif';
-import MbAvif from '@/assets/images/home/hero-mb.avif';
-import DesktopBg from '@/assets/images/home/hero-desktop.webp';
-import TinyMobileBg from '@/assets/images/home/hero-mb-tiny.webp';
-import MobileBg from '@/assets/images/home/hero-mb.webp';
-import TinyTabletBg from '@/assets/images/home/hero-tablet-tiny.webp';
-import TabletBg from '@/assets/images/home/hero-tablet.webp';
-import HeroBackground from '@/components/user/ui/hero-background';
+import BgMedia from '@/components/user/ui/bg-media';
 import HeroLayout from '@/layouts/user/hero-layout';
 import HeroActions from './hero-actions';
+import { heroSrcSet } from './data';
 
 const HeroSection = () => {
     return (
         <HeroLayout className="min-h-210 text-white sm:min-h-291 md:min-h-212">
-            <HeroBackground
+
+            <BgMedia
                 className="bg-home-hero-bg -z-5"
-                dkAvif={DkAvif}
-                tbAvif={TbAvif}
-                mbAvif={MbAvif}
-                desktopImg={DesktopBg}
-                tinyDesktopImg={TinyTabletBg}
-                tabletImg={TabletBg}
-                tinyTabletImg={TinyTabletBg}
-                mobileImg={MobileBg}
-                tinyMobileImg={TinyMobileBg}
+                srcs={heroSrcSet}
             />
 
             <span
