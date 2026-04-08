@@ -541,3 +541,7 @@
 .full-bleed-padding > *:not(.full-bleed) {
     margin-inline: var(--padding);
 }
+
+p {
+    line-height: 165% !important;
+}

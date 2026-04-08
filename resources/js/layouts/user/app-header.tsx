@@ -3,6 +3,7 @@ import BurgerMenu from '@/components/user/ui/burger-menu';
 import LangToggle from '@/components/user/ui/lang-toggle';
 import Logo from '@/components/user/ui/logo';
 import ThemeToggle from '@/components/user/ui/theme-toggle';
+import useAutoHideOnScroll from '@/hooks/use-auto-hide-on-scroll';
 import { useClickOutside } from '@/hooks/use-click-outside';
 import { useEscapeKey } from '@/hooks/use-escape-key';
 import useScrollOffset from '@/hooks/use-scroll-offset';
@@ -26,10 +27,9 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
         '#nav-drawer',
         '#burger-menu',
     ]);
-    const [hide, setHide] = useState(false);
-    const lastScrollTopRef = useRef(0);
 
     const { isBelow: isBelowPadding } = useScrollOffset(16);
+    const hide = useAutoHideOnScroll();
 
     const screenWidth = window.innerWidth;
 
@@ -59,27 +59,6 @@ const AppHeader: FC<{ className?: string }> = ({ className }) => {
 
         return () => mq.removeEventListener('change', updateDrawerStatus);
     }, [mq]);
-
-    useEffect(() => {
-        const handleScrollDown = () => {
-            const currentScrollTop =
-                window.scrollY || document.documentElement.scrollTop;
-
-            if (currentScrollTop > lastScrollTopRef.current + 30) {
-                // User is scrolling down
-                setHide(true);
-            } else if (currentScrollTop < lastScrollTopRef.current) {
-                // User is scrolling up
-                setHide(false);
-            }
-
-            lastScrollTopRef.current = currentScrollTop;
-        };
-
-        window.addEventListener('scroll', handleScrollDown);
-
-        return () => window.removeEventListener('scroll', handleScrollDown);
-    }, []);
 
     return (
         <header
