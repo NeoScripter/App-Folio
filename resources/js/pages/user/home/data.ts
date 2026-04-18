@@ -43,6 +43,28 @@ import BgTb2xWebp from "@/assets/images/home/featured/bg-tb2x.webp";
 import BgTb3xAvif from "@/assets/images/home/featured/bg-tb3x.avif";
 import BgTb3xWebp from "@/assets/images/home/featured/bg-tb3x.webp";
 
+import BgDarkDkTinyWebp from "@/assets/images/home/featured/bg-dark-dk-tiny.webp";
+import BgDarkDkAvif from "@/assets/images/home/featured/bg-dark-dk.avif";
+import BgDarkDkWebp from "@/assets/images/home/featured/bg-dark-dk.webp";
+import BgDarkDk2xAvif from "@/assets/images/home/featured/bg-dark-dk2x.avif";
+import BgDarkDk2xWebp from "@/assets/images/home/featured/bg-dark-dk2x.webp";
+import BgDarkDk3xAvif from "@/assets/images/home/featured/bg-dark-dk3x.avif";
+import BgDarkDk3xWebp from "@/assets/images/home/featured/bg-dark-dk3x.webp";
+import BgDarkMbTinyWebp from "@/assets/images/home/featured/bg-dark-mb-tiny.webp";
+import BgDarkMbAvif from "@/assets/images/home/featured/bg-dark-mb.avif";
+import BgDarkMbWebp from "@/assets/images/home/featured/bg-dark-mb.webp";
+import BgDarkMb2xAvif from "@/assets/images/home/featured/bg-dark-mb2x.avif";
+import BgDarkMb2xWebp from "@/assets/images/home/featured/bg-dark-mb2x.webp";
+import BgDarkMb3xAvif from "@/assets/images/home/featured/bg-dark-mb3x.avif";
+import BgDarkMb3xWebp from "@/assets/images/home/featured/bg-dark-mb3x.webp";
+import BgDarkTbTinyWebp from "@/assets/images/home/featured/bg-dark-tb-tiny.webp";
+import BgDarkTbAvif from "@/assets/images/home/featured/bg-dark-tb.avif";
+import BgDarkTbWebp from "@/assets/images/home/featured/bg-dark-tb.webp";
+import BgDarkTb2xAvif from "@/assets/images/home/featured/bg-dark-tb2x.avif";
+import BgDarkTb2xWebp from "@/assets/images/home/featured/bg-dark-tb2x.webp";
+import BgDarkTb3xAvif from "@/assets/images/home/featured/bg-dark-tb3x.avif";
+import BgDarkTb3xWebp from "@/assets/images/home/featured/bg-dark-tb3x.webp";
+
 export const heroSrcSet: ImageSrcSet = {
     dk: HeroDkWebp,
     dkAvif: HeroDkAvif,
@@ -89,5 +111,29 @@ export const featuredBgSrcSet: ImageSrcSet = {
     mb3x: BgMb3xWebp,
     mbAvif3x: BgMb3xAvif,
     mbTiny: BgMbTinyWebp,
+};
+
+export const featuredBgDarkSrcSet: ImageSrcSet = {
+    dk: BgDarkDkWebp,
+    dkAvif: BgDarkDkAvif,
+    dk2x: BgDarkDk2xWebp,
+    dkAvif2x: BgDarkDk2xAvif,
+    dk3x: BgDarkDk3xWebp,
+    dkAvif3x: BgDarkDk3xAvif,
+    dkTiny: BgDarkDkTinyWebp,
+    tb: BgDarkTbWebp,
+    tbAvif: BgDarkTbAvif,
+    tb2x: BgDarkTb2xWebp,
+    tbAvif2x: BgDarkTb2xAvif,
+    tb3x: BgDarkTb3xWebp,
+    tbAvif3x: BgDarkTb3xAvif,
+    tbTiny: BgDarkTbTinyWebp,
+    mb: BgDarkMbWebp,
+    mbAvif: BgDarkMbAvif,
+    mb2x: BgDarkMb2xWebp,
+    mbAvif2x: BgDarkMb2xAvif,
+    mb3x: BgDarkMb3xWebp,
+    mbAvif3x: BgDarkMb3xAvif,
+    mbTiny: BgDarkMbTinyWebp,
 };
 

@@ -1,10 +1,3 @@
-import FeaturedBgDkAvif from '@/assets/images/home/featured-bg-dk.avif';
-import FeaturedBgDkWebp from '@/assets/images/home/featured-bg-dk.webp';
-import FeaturedBgMbAvif from '@/assets/images/home/featured-bg-mb.avif';
-import FeaturedBgMbWebp from '@/assets/images/home/featured-bg-mb.webp';
-import FeaturedBgTbAvif from '@/assets/images/home/featured-bg-tb.avif';
-import FeaturedBgTbWebp from '@/assets/images/home/featured-bg-tb.webp';
-import FeaturedBgTiny from '@/assets/images/home/featured-bg-tiny.webp';
 import Projects from '@/components/user/sections/projects';
 import FluidImage from '@/components/user/ui/fluid-image';
 import PrimaryLink from '@/components/user/ui/primary-link';
@@ -12,7 +5,7 @@ import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import { useFetch } from '@/hooks/use-fetch';
 import AppSection from '@/layouts/user/app-section';
 import { ProjectType } from '@/lib/types/projects';
-import { effectiveTheme } from '@/signals/appearance';
+import { getTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, useEffect, useState } from 'preact/compat';
 import { featuredBgSrcSet } from './data';
@@ -48,7 +41,7 @@ const FeaturedSection: FC<{ className?: string }> = ({ className }) => {
                 <div
                     class="absolute inset-0 z-5"
                     style={
-                        effectiveTheme() === 'dark'
+                        getTheme() === 'dark'
                             ? {
                                   background: `linear-gradient(180deg, rgba(30, 32, 33, 0.83) 0%, #1E2021 90.87%)`,
                               }

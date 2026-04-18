@@ -35,8 +35,6 @@ const Project: FunctionalComponent<ProjectProps> = ({ slug }) => {
         });
     }, [slug]);
 
-    console.log(project);
-
     if (errors != null)
         return (
             <AppLayout variant="ghost" className="mt-40 px-5">

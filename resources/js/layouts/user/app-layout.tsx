@@ -14,9 +14,8 @@ import ModalLayout from './modal-layout';
 const AppLayout: FC<{
     children: ComponentChildren;
     className?: string;
-    hasFooter?: boolean;
     variant?: HeaderVariant;
-}> = ({ children, className, hasFooter = true, variant = 'primary' }) => {
+}> = ({ children, className, variant = 'primary' }) => {
     return (
         <ModalProvider>
             <main
@@ -32,7 +31,7 @@ const AppLayout: FC<{
 
                 {children}
 
-                {hasFooter && <AppFooter />}
+                <AppFooter />
 
                 <ModalLayout className="max-w-100 px-10 py-14 lg:max-w-160">
                     <EmailForm />

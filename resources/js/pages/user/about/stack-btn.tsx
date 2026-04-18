@@ -1,5 +1,5 @@
 import { StackType } from '@/lib/types/stacks';
-import { effectiveTheme } from '@/signals/appearance';
+import { getTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
@@ -17,7 +17,7 @@ const StackBtn: FC<{
                 class={cn(
                     'flex size-16 flex-wrap rounded-md',
                     {
-                        'invert-100': effectiveTheme() === 'dark',
+                        'invert-100': getTheme() === 'dark',
                         'cursor-default shadow-sm ring ring-black': active,
                         'transition-all duration-150 hover:scale-105 hover:shadow-md hover:ring hover:ring-black/70':
                             !active,

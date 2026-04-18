@@ -1,6 +1,6 @@
 import FluidImage from '@/components/user/ui/fluid-image';
 import { ProjectType } from '@/lib/types/projects';
-import { effectiveTheme } from '@/signals/appearance';
+import { getTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
@@ -12,7 +12,7 @@ const ProjectCard: FC<{ project: ProjectType }> = ({ project }) => {
         <li
             class={cn(
                 'shadow-project relative isolate justify-self-center overflow-clip rounded-md transition-transform duration-300 ease-in-out select-none focus-within:scale-103 focus-within:ring-2 focus-within:ring-blue-500 hover:scale-103',
-                effectiveTheme() === 'dark' && 'bg-muted',
+                getTheme() === 'dark' && 'bg-muted',
             )}
         >
             {project.image && (

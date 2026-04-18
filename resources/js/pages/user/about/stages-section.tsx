@@ -3,7 +3,7 @@ import SecondaryHeading from '@/components/user/ui/secondary-heading';
 import AppSection from '@/layouts/user/app-section';
 import { stages, StageType } from '@/lib/data/about/stages';
 import { useModal } from '@/providers/modal-context';
-import { effectiveTheme } from '@/signals/appearance';
+import { getTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 import { cn } from '@/utils/cn';
 import { FC, useState } from 'preact/compat';
@@ -107,11 +107,11 @@ const Stage: FC<{
             <div
                 class={cn('mb-8 size-18 rounded-sm p-5', {
                     'bg-foreground text-white':
-                        active && effectiveTheme() === 'light',
+                        active && getTheme() === 'light',
                     'text-background bg-gray-300':
-                        active && effectiveTheme() === 'dark',
-                    'bg-gray-300/50': !active && effectiveTheme() === 'light',
-                    'bg-footer-bg': !active && effectiveTheme() === 'dark',
+                        active && getTheme() === 'dark',
+                    'bg-gray-300/50': !active && getTheme() === 'light',
+                    'bg-footer-bg': !active && getTheme() === 'dark',
                 })}
             >
                 <stage.icon class="size-8" />

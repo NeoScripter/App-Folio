@@ -16,11 +16,11 @@ import FluidImage from '@/components/user/ui/fluid-image';
 import BgMedia from '@/components/user/ui/bg-media';
 import HeroLayout from '@/layouts/user/hero-layout';
 import { useModal } from '@/providers/modal-context';
-import { effectiveTheme } from '@/signals/appearance';
+import { getTheme } from '@/signals/appearance';
 import { locale } from '@/signals/locale';
 
 const HeroSection = () => {
-    const isLight = effectiveTheme() === 'light';
+    const isLight = getTheme() === 'light';
 
     return (
         <HeroLayout>

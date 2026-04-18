@@ -16,7 +16,7 @@ export const systemTheme = signal<'light' | 'dark'>(
 );
 
 // Get the effective theme (considering system preference)
-export const effectiveTheme = () => {
+export const getTheme = () => {
     const mode = appearance.value;
     if (mode === 'system') {
         return systemTheme.value;

@@ -1,5 +1,5 @@
 import { useHeaderVariant } from '@/providers/app-header-context';
-import { appearance, effectiveTheme } from '@/signals/appearance';
+import { appearance, getTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC, JSX } from 'preact/compat';
 
@@ -14,7 +14,7 @@ const ThemeToggle: FC<{ className?: string }> = ({ className }) => {
         }
     };
 
-    const isDark = effectiveTheme() === 'dark';
+    const isDark = getTheme() === 'dark';
 
     return (
         <div

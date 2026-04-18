@@ -1,5 +1,6 @@
 import Quote from '@/components/user/svgs/quote';
 import AppSection from '@/layouts/user/app-section';
+import { NodeProps } from '@/lib/types/nodeProps';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 
@@ -19,21 +20,25 @@ const QuoteSection: FC<{ className?: string }> = ({ className }) => {
                     интернет-магазинов.
                 </p>
 
-                <span
-                    aria-hidden="true"
-                    class="absolute -right-10 -bottom-20 block size-15 select-none xl:-right-20 xl:size-19 2xl:-right-5 2xl:size-22"
-                >
-                    <Quote className="size-full" />
-                </span>
-                <span
-                    aria-hidden="true"
-                    class="absolute -top-15 -left-10 block size-15 rotate-180 xl:-left-20 xl:size-19 2xl:-left-5 2xl:size-22"
-                >
-                    <Quote className="size-full" />
-                </span>
+                <QuoteGlyph className='-right-10 -bottom-20 xl:-right-20 2xl:-right-5' />
+                <QuoteGlyph className='-top-15 -left-10 rotate-180 xl:-left-20 2xl:-left-5' />
             </blockquote>
         </AppSection>
     );
 };
 
 export default QuoteSection;
+
+const QuoteGlyph: FC<NodeProps> = ({ className }) => {
+    return (
+        <span
+            aria-hidden="true"
+            class={cn(
+                'absolute block size-15 select-none xl:size-19 2xl:size-22',
+                className,
+            )}
+        >
+            <Quote className="size-full" />
+        </span>
+    );
+};

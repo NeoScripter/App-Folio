@@ -2,7 +2,7 @@ import BgDark from '@/assets/images/shared/menu-bg-dark.webp';
 import BgLight from '@/assets/images/shared/menu-bg.webp';
 import { navLinks } from '@/lib/constants/nav-links';
 import { useHeaderVariant } from '@/providers/app-header-context';
-import { appearance, effectiveTheme } from '@/signals/appearance';
+import { getTheme } from '@/signals/appearance';
 import { cn } from '@/utils/cn';
 import { FC } from 'preact/compat';
 import LangToggle from '../ui/lang-toggle';
@@ -24,7 +24,7 @@ export default function NavDrawer({ show }: NavDrawerProps) {
                 !show && 'translate-x-full',
             )}
             style={{
-                backgroundImage: `url(${effectiveTheme() === 'dark' ? BgDark : BgLight})`,
+                backgroundImage: `url(${getTheme() === 'dark' ? BgDark : BgLight})`,
             }}
         >
             <Header show={show} />
@@ -71,8 +71,7 @@ export const Nav: FC<{ show?: boolean; className?: string }> = ({
                 class={cn(
                     'my-17 space-y-13 lg:my-0 lg:flex lg:items-center lg:gap-12 lg:space-y-0 xl:gap-14',
                     {
-                        'lg:text-white':
-                            variant === 'primary'
+                        'lg:text-white': variant === 'primary',
                     },
                 )}
             >

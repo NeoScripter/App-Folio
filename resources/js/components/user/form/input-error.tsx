@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
-import { JSX } from 'preact/jsx-runtime';
+import { HTMLAttributes } from 'preact';
 
-interface InputErrorProps extends JSX.HTMLAttributes<HTMLParagraphElement> {
+interface InputErrorProps extends HTMLAttributes<HTMLParagraphElement> {
     message?: string;
 }
 

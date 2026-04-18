@@ -16,6 +16,8 @@ const NavLink: FC<{
     const { path } = useLocation();
     const active = path === link.path;
 
+    const Icon = link.icon;
+
     return (
         <li class='select-none'>
             <a
@@ -39,7 +41,7 @@ const NavLink: FC<{
                         class="border-foreground/30 bg-background pointer-events-none absolute -inset-x-6 -inset-y-2 -z-4 rounded-md border lg:hidden"
                     />
                 )}
-                <link.icon
+                <Icon
                     class="size-5 shrink-0 lg:hidden"
                     aria-hidden="true"
                     strokeWidth={2.5}
